@@ -4,7 +4,8 @@
   "description": "Mail app for inbox-zero freaks",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R nyan -w --check-leaks"
+    "test": "mocha -R nyan -w --check-leaks",
+    "browserify": "browserify app/entry.js > build/app.js"
   },
   "repository": {
     "type": "git",
