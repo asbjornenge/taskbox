@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/asbjornenge/mailpipe/issues"
   },
-  "homepage": "https://github.com/asbjornenge/mailpipe"
+  "homepage": "https://github.com/asbjornenge/mailpipe",
+  "dependencies": {
+    "react": "^0.12.2"
+  }
 }
