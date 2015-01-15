@@ -1,0 +1,24 @@
+{
+  "name": "mailpipe",
+  "version": "1.0.0",
+  "description": "Mail app for inbox-zero freaks",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R nyan -w --check-leaks"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asbjornenge/mailpipe.git"
+  },
+  "keywords": [
+    "mail",
+    "app",
+    "react"
+  ],
+  "author": "Asbjorn Enge <asbjorn@hanafjedle.net>",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/asbjornenge/mailpipe/issues"
+  },
+  "homepage": "https://github.com/asbjornenge/mailpipe"
+}
