@@ -10,3 +10,8 @@ Not yet.
 
 Def. not yet.
 
+## Name ideas
+
+* Mailpipe
+* Mailflow
+* Mailflower
