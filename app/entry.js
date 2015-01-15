@@ -3,7 +3,15 @@ var $     = React.DOM
 
 var Mailpipe = React.createClass({
     render : function() {
-        $.div({},'This will be the mailapp')
+        return $.div({},[
+            ActionButtons()
+        ])
+    }
+})
+
+var ActionButtons = React.createClass({
+    render : function() {
+        return $.div({}, 'Action buttons here')
     }
 })
 
