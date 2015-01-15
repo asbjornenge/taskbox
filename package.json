@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha -R nyan -w --check-leaks",
-    "browserify": "browserify app/entry.js > build/app.js"
+    "browserify": "browserify app/entry.js > build/app.js",
+    "copy": "cp app/index.html build/index.html"
   },
   "repository": {
     "type": "git",
