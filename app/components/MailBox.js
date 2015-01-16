@@ -3,7 +3,7 @@ var $     = React.DOM
 var EmailStore = require('../stores/EmailStore')
 var MailBoxItem = React.createFactory(require('./MailBoxItem'))
 
-var getStateFromStores = () => {
+var getStateFromStores = function() {
     return {
         email : EmailStore.email
     }
@@ -11,9 +11,10 @@ var getStateFromStores = () => {
 
 var MailBox = React.createClass({
     render : function() {
-        var email = this.state.email.map((email,index) => 
-            MailBoxItem({email : email, key : 'MailBoxItem'+index})
-        )
+        var email = this.state.email.map(function(email,index) { 
+            return MailBoxItem({email : email, key : 'MailBoxItem'+index})
+        })
+        console.log(this.state)
         return $.ul({
             key       : 'MailBox',
             className : 'MailBox'

@@ -4,7 +4,7 @@ var ActionBox = React.createFactory(require('./components/ActionBox'))
 var MailBox   = React.createFactory(require('./components/MailBox'))
 
 var Mailpipe = React.createClass({
-    render : () => {
+    render : function() {
         return $.div({},[
             ActionBox({ key : 'ActionBox' }),
             MailBox({ key : 'MailBox' })
