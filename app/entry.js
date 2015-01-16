@@ -1,15 +1,15 @@
 var React     = require('react')
 var $         = React.DOM
-var ActionBox = require('./components/ActionBox')
-var MailBox   = require('./components/MailBox')
+var ActionBox = React.createFactory(require('./components/ActionBox'))
+var MailBox   = React.createFactory(require('./components/MailBox'))
 
 var Mailpipe = React.createClass({
     render : () => {
         return $.div({},[
-            ActionBox(),
-            MailBox()
+            ActionBox({ key : 'ActionBox' }),
+            MailBox({ key : 'MailBox' })
         ])
     }
 })
 
-React.renderComponent(Mailpipe(), document.body)
+React.render(React.createFactory(Mailpipe)(), document.body)

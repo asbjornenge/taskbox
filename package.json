@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/asbjornenge/mailpipe",
   "dependencies": {
+    "fluxify": "^0.2.1",
     "react": "^0.12.2"
   },
   "devDependencies": {
