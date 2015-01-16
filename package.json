@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run watch & npm run copy & npm run livereload & npm run server",
     "test": "mocha -R nyan -w --check-leaks",
-    "watch": "watchify app/entry.js -t 6to5ify -o build/app.js",
+    "watch": "watchify app/entry.js -t 6to5ify -o build/app.js & stylus -w app/styles/mailpipe.styl -o build",
     "copy": "cp app/index.html build/index.html",
     "server": "static build",
     "livereload": "livereloadify build"

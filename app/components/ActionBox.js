@@ -2,8 +2,10 @@ var React = require('react')
 var $     = React.DOM
 
 var ActionBox = React.createClass({
-    render : () => { 
-        return $.div({}, 'Action buttons here')
+    render : function() { 
+        return $.div({
+            className : 'ActionBox'
+        }, 'Action buttons here')
     }
 })
 
