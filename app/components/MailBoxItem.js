@@ -7,16 +7,19 @@ var MailBoxItem = React.createClass({
             className : 'MailBoxItem'
         },[
             $.div({
-                key : 'Meta'
+                key : 'Meta',
+                className : 'Meta'
             },[
-                $.span({ key : 'From' }, this.props.email.from),
-                $.span({ key : 'Time' }, '3:12 PM')
+                $.span({ key : 'From', className : 'From' }, this.props.email.from),
+                $.span({ key : 'Time', className : 'Time' }, '3:12 PM')
             ]),
-            $.h3({
+            $.div({
                 key : 'Subject',
+                className : 'Subject'
             }, this.props.email.subject),
             $.div({
-                key : 'Summary'
+                key : 'BodySummary',
+                className : 'BodySummary'
             }, this.props.email.body.slice(0,50))
         ])
     }
