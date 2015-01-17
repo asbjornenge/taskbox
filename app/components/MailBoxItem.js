@@ -1,5 +1,6 @@
-var React = require('react')
-var $     = React.DOM
+var React  = require('react')
+var $      = React.DOM
+var moment = require('moment')
 
 var MailBoxItem = React.createClass({
     render : function() {
@@ -11,7 +12,7 @@ var MailBoxItem = React.createClass({
                 className : 'Meta'
             },[
                 $.span({ key : 'From', className : 'From' }, this.props.email.from),
-                $.span({ key : 'Time', className : 'Time' }, '3:12 PM')
+                $.span({ key : 'Time', className : 'Time' }, this.formatDateTime(this.props.email.date))
             ]),
             $.div({
                 key : 'Subject',
@@ -22,6 +23,9 @@ var MailBoxItem = React.createClass({
                 className : 'BodySummary'
             }, this.props.email.body.slice(0,50))
         ])
+    },
+    formatDateTime : function(date) {
+        return moment(date).format('h:mm')
     }
 })
 
