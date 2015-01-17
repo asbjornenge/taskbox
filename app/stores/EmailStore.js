@@ -1,6 +1,10 @@
 var flux = require('fluxify')
+var emailapi = require('../apis/email')
 var secrets = require('../../secrets.json')
 
+console.log(emailapi)
+
+/*
 var ContextIO = require('contextio')
 var ctxioClient = new ContextIO.Client({
     key: secrets.contextio.key,
@@ -21,10 +25,10 @@ ctxioClient.accounts(secrets.contextio.account).messages().get({folder:'INBOX'},
     })
     flux.doAction('updateEmail',email) 
 });
+*/
 
-// Create a store
 var EmailStore = flux.createStore({
-    id: 'emailStore',
+    id: 'EmailStore',
     initialState: {
         email: [] 
     },
