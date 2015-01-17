@@ -12,4 +12,6 @@ var Mailpipe = React.createClass({
     }
 })
 
+require('./dev')()
+
 React.render(React.createFactory(Mailpipe)(), document.body)
