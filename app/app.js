@@ -12,6 +12,7 @@ var Mailpipe = React.createClass({
     }
 })
 
+// Livereload for dev
 require('./dev')()
 
 React.render(React.createFactory(Mailpipe)(), document.body)
