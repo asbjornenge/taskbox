@@ -1,31 +1,6 @@
 var flux = require('fluxify')
-var emailapi = require('../apis/email')
+var EmailAPI = require('../apis/EmailAPI')
 var secrets = require('../../secrets.json')
-
-console.log(emailapi)
-
-/*
-var ContextIO = require('contextio')
-var ctxioClient = new ContextIO.Client({
-    key: secrets.contextio.key,
-    secret: secrets.contextio.secret
-})
-
-ctxioClient.accounts(secrets.contextio.account).messages().get({folder:'INBOX'}, function (err, response) {
-    if (err) throw err;
-    console.log(response.body)
-    var email = response.body.map(function(email) {
-        return {
-            to      : email.addresses.to,
-            from    : email.addresses.from.email,
-            subject : email.subject,
-            body    : '',
-            date    : email.date
-        }
-    })
-    flux.doAction('updateEmail',email) 
-});
-*/
 
 var EmailStore = flux.createStore({
     id: 'EmailStore',
@@ -39,6 +14,12 @@ var EmailStore = flux.createStore({
             updater.set({ email : email });
         }
     }
+})
+
+// TOOD: Have a ready state instead, cause we don't want to tie us to
+// contextio
+EmailAPI.on('change:client', function(client, old) {
+    console.log('GOT A CLIENT', client)
 })
 
 module.exports = EmailStore

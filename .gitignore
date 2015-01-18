@@ -1,5 +1,4 @@
 node_modules
 *.swp
 build
-secrets.json
 mailpipe.css

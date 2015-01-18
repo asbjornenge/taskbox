@@ -33,7 +33,6 @@ var FirebaseFields = t.struct({
 
 var SettingsBox = React.createClass({
     render : function() {
-        console.log(this.state)
         var ContextIOForm = t.form.create(ContextIOFields, {
             value : {
                 key : this.state.contextio.key,
