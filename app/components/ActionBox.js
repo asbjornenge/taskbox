@@ -4,8 +4,32 @@ var $     = React.DOM
 var SideMenuButton = React.createClass({
     render : function() {
         return $.div({
-            className : 'SideMenuButton'
+            className : 'SideMenuButton',
+            onClick : this.onClick
         }, 'SideMenu')
+    },
+    onClick : function() {
+        this.props.switchMainBox('settings')
+    }
+})
+
+var CenterButtons = React.createClass({
+    render : function() {
+        return $.div({
+            className : 'CenterButtons',
+            onClick   : this.onClick
+        }, 'Center')
+    },
+    onClick : function() {
+        this.props.switchMainBox('mail')
+    }
+})
+
+var NewEmailButton = React.createClass({
+    render : function() {
+        return $.div({
+            className : 'NewEmailButton'
+        }, 'New')
     }
 })
 
@@ -14,9 +38,15 @@ var ActionBox = React.createClass({
         return $.div({
             className : 'ActionBox'
         }, [
-            SideMenuButton({ key : 'SideMenuButton' }),
-            $.div({}, 'Center buttons'),
-            $.div({}, 'New')
+            SideMenuButton({ 
+                key           : 'SideMenuButton',
+                switchMainBox : this.props.switchMainBox
+            }),
+            CenterButtons({ 
+                key : 'CenterButton', 
+                switchMainBox : this.props.switchMainBox
+            }),
+            NewEmailButton({ key : 'NewEmailButto' })
         ])
     }
 })

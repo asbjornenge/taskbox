@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npm run livereload & npm run stylus",
     "test": "mocha -R nyan -w --check-leaks",
-    "livereload": "livereloadify app --glob '**/**/**'",
-    "stylus" : "stylus -w app/styles/mailpipe.styl -o app"
+    "livereload": "livereloadify app --glob '**/**'",
+    "stylus": "stylus -w app/styles/mailpipe.styl -o app"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,8 @@
     "contextio": "^0.4.0",
     "fluxify": "^0.2.1",
     "moment": "^2.9.0",
-    "react": "^0.12.2"
+    "react": "^0.12.2",
+    "tcomb-form": "^0.3.0-rc2"
   },
   "devDependencies": {
     "6to5ify": "^3.1.2"
