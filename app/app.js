@@ -16,7 +16,7 @@ var Mailpipe = React.createClass({
     },
     getInitialState : function() {
         return {
-            mainbox : SettingsBox 
+            mainbox : MailBox 
         }
     },
     switchMainBox : function(box) {
