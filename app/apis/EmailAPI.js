@@ -15,13 +15,10 @@ var EmailAPI = flux.createStore({
         return []
     },
     actionCallbacks : {
-
         updateEmailAPIClient : function(updater, secrets) {
-            console.log('settings email client',this.client)
             if (this.client != null) return
             if (!secrets.key) return
             if (!secrets.secret) return
-            console.log('CREATING CONTEXTIO CLIENT')
             updater.set({ client : new ContextIO.Client({
                 key: secrets.key,
                 secret: secrets.key
@@ -32,13 +29,9 @@ var EmailAPI = flux.createStore({
 })
 
 ConfigurationStore.on('change:contextio', function(curr, prev) {
-    console.log('config store updated')
     flux.doAction('updateEmailAPIClient', curr)
 })
-setTimeout(function() {
-    console.log('there', ConfigurationStore.contextio)
-    flux.doAction('updateEmailAPIClient', ConfigurationStore.contextio)
-},500)
+flux.doAction('updateEmailAPIClient', ConfigurationStore.contextio)
 
 /*
 ctxioClient.accounts(secrets.contextio.account).messages().get({folder:'INBOX'}, function (err, response) {

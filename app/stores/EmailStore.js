@@ -1,6 +1,5 @@
 var flux = require('fluxify')
 var EmailAPI = require('../apis/EmailAPI')
-var secrets = require('../../secrets.json')
 
 var EmailStore = flux.createStore({
     id: 'EmailStore',
