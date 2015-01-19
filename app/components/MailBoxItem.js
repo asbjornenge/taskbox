@@ -5,7 +5,8 @@ var moment = require('moment')
 var MailBoxItem = React.createClass({
     render : function() {
         return $.li({
-            className : 'MailBoxItem'
+            className : 'MailBoxItem',
+            onClick   : this.onClick
         },[
             $.div({
                 key : 'Meta',
@@ -23,6 +24,9 @@ var MailBoxItem = React.createClass({
                 className : 'BodySummary'
             }, this.props.email.body.slice(0,50))
         ])
+    },
+    onClick : function() {
+        this.props.openMail(this.props.email)
     },
     formatDateTime : function(date) {
         return moment(date).format('h:mm')

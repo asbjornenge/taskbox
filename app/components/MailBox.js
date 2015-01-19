@@ -12,8 +12,12 @@ var getStateFromStores = function() {
 var MailBox = React.createClass({
     render : function() {
         var email = this.state.email.map(function(email,index) { 
-            return MailBoxItem({email : email, key : 'MailBoxItem'+index})
-        })
+            return MailBoxItem({ 
+                key      : 'MailBoxItem'+index,
+                email    : email,
+                openMail : this.props.openMail
+            })
+        }.bind(this))
         console.log(this.state)
         return $.ul({
             key       : 'MailBox',

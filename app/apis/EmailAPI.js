@@ -27,6 +27,12 @@ EmailAPI.accounts = function(callback) {
     if (!this.client) return []
     this.client.accounts().get(callback)
 }
+EmailAPI.getMail = function(account_id, email_id) {
+    if (!this.client) return null
+    client.accounts(account_id).messages(email_id).get({}, function(err, response) {
+        console.log(response)
+    }) 
+}
 EmailAPI.inboxAll = function(callback) {
     if (!this.client) return []
     var client = this.client
@@ -53,7 +59,8 @@ EmailAPI.inboxAll = function(callback) {
                         from    : email.addresses.from.email,
                         subject : email.subject,
                         body    : '',
-                        date    : email.date
+                        date    : email.date,
+                        account : account.id
                     }
                 })
                 email = email.concat(_email)

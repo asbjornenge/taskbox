@@ -21,15 +21,19 @@ var CenterButtons = React.createClass({
         }, 'Center')
     },
     onClick : function() {
-        this.props.switchMainBox('mail')
+        this.props.switchMainBox('mailbox')
     }
 })
 
 var NewEmailButton = React.createClass({
     render : function() {
         return $.div({
-            className : 'NewEmailButton'
+            className : 'NewEmailButton',
+            onClick   : this.onClick
         }, 'New')
+    },
+    onClick : function() {
+        this.props.switchMainBox('mail')
     }
 })
 
