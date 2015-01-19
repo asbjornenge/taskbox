@@ -29,7 +29,7 @@ EmailAPI.accounts = function(callback) {
 }
 EmailAPI.getMail = function(account_id, email_id) {
     if (!this.client) return null
-    client.accounts(account_id).messages(email_id).get({}, function(err, response) {
+    this.client.accounts(account_id).messages(email_id).get({}, function(err, response) {
         console.log(response)
     }) 
 }
@@ -49,16 +49,16 @@ EmailAPI.inboxAll = function(callback) {
         }
 
         response.body.forEach(function(account) {
-            console.log(account)
-            client.accounts(account.id).messages().get({folder:'INBOX'}, function(err, response) {
+            client.accounts(account.id).messages().get({folder:'INBOX', include_body:1}, function(err, response) {
                 queried_accounts += 1
                 if (err) { error.push(err); return }
                 var _email = response.body.map(function(email) {
                     return {
+                        id      : email.message_id,
                         to      : email.addresses.to,
                         from    : email.addresses.from.email,
                         subject : email.subject,
-                        body    : '',
+                        body    : email.body,
                         date    : email.date,
                         account : account.id
                     }

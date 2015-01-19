@@ -22,7 +22,7 @@ var MailBoxItem = React.createClass({
             $.div({
                 key : 'BodySummary',
                 className : 'BodySummary'
-            }, this.props.email.body.slice(0,50))
+            }, this.props.email.body[0].content.slice(0,100))
         ])
     },
     onClick : function() {
