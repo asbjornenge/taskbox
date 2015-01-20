@@ -1,5 +1,7 @@
 var React          = require('react')
 var $              = React.DOM
+var flux           = require('fluxify')
+var keyboard       = require('./io/KeyboardIO')
 var ViewStore      = require('./stores/ViewStore')
 
 var getStateFromStores = function() {
@@ -39,6 +41,7 @@ var Mailpipe = React.createClass({
     },
     componentDidMount : function() {
         ViewStore.on('change', this.onStoreChange)
+        keyboard.bind('ctrl+r', function() { flux.doAction('reloadAllEmail')  })
     },
     componentWillUnmount : function() {
         ViewStore.off('change', this.onStoreChange)

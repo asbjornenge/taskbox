@@ -11,6 +11,10 @@ var EmailStore = flux.createStore({
         updateEmail: function( updater, email ){
             // Stores updates are only made inside store's action callbacks
             updater.set({ email : email });
+        },
+        reloadAllEmail : function() {
+            console.log('reloading')
+            updateCurrentMailBox()
         }
     }
 })
