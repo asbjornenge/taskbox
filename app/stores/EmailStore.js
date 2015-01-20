@@ -1,10 +1,11 @@
 var flux = require('fluxify')
 var EmailAPI = require('../apis/EmailAPI')
+var StorageAPI = require('../apis/StorageAPI')
 
 var EmailStore = flux.createStore({
     id: 'EmailStore',
     initialState: {
-        email : [] 
+        email : StorageAPI.email 
     },
     actionCallbacks: {
         updateEmail: function( updater, email ){
@@ -17,12 +18,15 @@ var EmailStore = flux.createStore({
 var updateCurrentMailBox = function() {
     EmailAPI.inboxAll(function(err, email) {
         if (err) throw err
+        StorageAPI.save('email', email)
         flux.doAction('updateEmail', email)
     })
 }
 
-EmailAPI.on('change:ready', function(ready) {
-    if (ready) updateCurrentMailBox()
-})
+if (StorageAPI.email.length == 0) {
+    EmailAPI.on('change:ready', function(ready) {
+        if (ready) updateCurrentMailBox()
+    })
+}
 
 module.exports = EmailStore

@@ -18,7 +18,6 @@ var MailBox = React.createClass({
                 openMail : this.props.openMail
             })
         }.bind(this))
-        console.log(this.state)
         return $.ul({
             key       : 'MailBox',
             className : 'MailBox'
