@@ -29,7 +29,8 @@
     "fluxify": "^0.2.1",
     "moment": "^2.9.0",
     "react": "^0.12.2",
-    "tcomb-form": "^0.3.0-rc2"
+    "tcomb-form": "^0.3.0-rc2",
+    "text_to_html": "^0.1.14"
   },
   "devDependencies": {
     "6to5ify": "^3.1.2"
