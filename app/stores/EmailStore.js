@@ -1,6 +1,6 @@
 var flux = require('fluxify')
-var EmailIO = require('../apis/EmailIO')
-var StorageIO = require('../apis/StorageIO')
+var EmailIO = require('../io/EmailIO')
+var StorageIO = require('../io/StorageIO')
 
 var EmailStore = flux.createStore({
     id: 'EmailStore',

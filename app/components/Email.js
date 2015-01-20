@@ -1,11 +1,13 @@
-var React = require('react')
-var $     = React.DOM
+var React  = require('react')
+var $      = React.DOM
 
 var Email = React.createClass({
     render : function() {
         var email = this.props.currentEmail
         var html  = email.body.length > 1
         var body  = html ? email.body[1] : email.body[0]
+        if (!html) body.content = body.content.replace('\n','<br>')
+
         return $.div({
             key       : 'Email',
             className : 'Email MailBox'
@@ -16,10 +18,7 @@ var Email = React.createClass({
                 $.span({ key : 'from' }, email.from),
                 $.span({ key : 'date' }, email.date)
             ]),
-            $.div({ 
-                key : 'Body',
-                dangerouslySetInnerHTML : { __html : body.content }
-            })
+            $.div({ key : 'body', dangerouslySetInnerHTML : { __html : body.content} })
         ])
     }
 })
