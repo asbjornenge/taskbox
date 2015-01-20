@@ -1,6 +1,7 @@
 var React       = require('react')
 var $           = React.DOM
-var merge       = require('react/lib/merge')
+var _           = require('lodash')
+var flux        = require('fluxify')
 var keyboard    = require('../io/KeyboardIO')
 var EmailStore  = require('../stores/EmailStore')
 var MailBoxItem = React.createFactory(require('./MailBoxItem'))
@@ -23,16 +24,15 @@ var MailBox = React.createClass({
         }.bind(this))
         return $.ul({
             key       : 'MailBox',
-            className : 'MailBox',
+            className : 'MailBox'
         },email)
     },
     getInitialState : function() {
-        return merge(getStateFromStores(), {
+        return _.assign(getStateFromStores(), {
             selectedIndex : -1 
         })
     },
     moveSelected : function(e) {
-        console.log(e.which, this.state.selectedIndex, this.state.email.length)
         switch(e.which) {
             case 38:
                 if (this.state.selectedIndex > -1) this.setState({ selectedIndex : this.state.selectedIndex-1 })
@@ -43,7 +43,7 @@ var MailBox = React.createClass({
         }
     },
     openMail : function() {
-        if (this.state.selectedIndex >= 0) this.props.openMail(this.state.email[this.state.selectedIndex])
+        if (this.state.selectedIndex >= 0) flux.doAction('viewEmail', this.state.email[this.state.selectedIndex])
     },
     onStoreChange : function() {
         this.setState(getStateFromStores())

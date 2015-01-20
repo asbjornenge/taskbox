@@ -4,10 +4,10 @@ var ViewStore      = require('./stores/ViewStore')
 
 var getStateFromStores = function() {
     return {
-        mainView   : ViewStore.main,
-        actionView : ViewStore.actions,
-        mailbox    : ViewStore.mailbox,
-        email      : ViewStore.email
+        mainView        : ViewStore.main,
+        actionView      : ViewStore.actions,
+        selectedMailbox : ViewStore.mailbox,
+        selectedEmail   : ViewStore.email
     }
 }
 
@@ -18,13 +18,16 @@ var Mailpipe = React.createClass({
                 key       : 'ActionBox',
                 className : 'ActionBox'
             }, [
-                this.state.actionView()
+//                this.state.actionView()
             ]),
             $.div({
                 key       : 'MainBox',
                 className : 'MailBox'
             },[
-                this.state.mainView()
+                this.state.mainView({
+                    key           : 'MainView',
+                    selectedEmail : this.state.selectedEmail
+                })
             ])
         ])
     },

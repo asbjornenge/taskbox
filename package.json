@@ -28,6 +28,7 @@
     "combokeys": "^2.3.0",
     "contextio": "^0.4.0",
     "fluxify": "^0.2.1",
+    "lodash": "^2.4.1",
     "moment": "^2.9.0",
     "react": "^0.12.2",
     "tcomb-form": "^0.3.0-rc2"
