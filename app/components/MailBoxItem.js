@@ -1,5 +1,6 @@
 var React  = require('react')
 var $      = React.DOM
+var flux   = require('fluxify')
 var moment = require('moment')
 
 var MailBoxItem = React.createClass({
@@ -28,7 +29,7 @@ var MailBoxItem = React.createClass({
         ])
     },
     onClick : function() {
-        this.props.openMail(this.props.email)
+        flux.doAction('viewEmail', this.props.email)
     },
     formatDateTime : function(date) {
         return moment(date).format('h:mm')
