@@ -2,14 +2,12 @@
   "name": "mailpipe",
   "version": "1.0.0",
   "description": "Mail app for inbox-zero freaks",
-  "main": "index.js",
+  "main": "app/index.html",
   "scripts": {
-    "start": "npm run watch & npm run copy & npm run livereload & npm run server",
+    "start": "npm run livereload & npm run stylus",
     "test": "mocha -R nyan -w --check-leaks",
-    "watch": "watchify app/entry.js -t 6to5ify -o build/app.js & stylus -w app/styles/mailpipe.styl -o build",
-    "copy": "cp app/index.html build/index.html",
-    "server": "static build",
-    "livereload": "livereloadify build"
+    "livereload": "livereloadify app --glob '**/**'",
+    "stylus": "stylus -w app/styles/mailpipe.styl -o app"
   },
   "repository": {
     "type": "git",
@@ -27,8 +25,12 @@
   },
   "homepage": "https://github.com/asbjornenge/mailpipe",
   "dependencies": {
+    "combokeys": "^2.3.0",
+    "contextio": "^0.4.0",
     "fluxify": "^0.2.1",
-    "react": "^0.12.2"
+    "moment": "^2.9.0",
+    "react": "^0.12.2",
+    "tcomb-form": "^0.3.0-rc2"
   },
   "devDependencies": {
     "6to5ify": "^3.1.2"

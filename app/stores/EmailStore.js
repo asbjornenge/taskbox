@@ -1,39 +1,32 @@
 var flux = require('fluxify')
+var EmailIO = require('../io/EmailIO')
+var StorageIO = require('../io/StorageIO')
 
-var emails = [
-    {
-        subject : 'This is an email',
-        from    : 'asbjorn@hanafjedle.net',
-        to      : 'asbjorn@hanafjedle.net',
-        body    : 'This is the content'
-    },
-    {
-        subject : 'This is another',
-        from    : 'asbjorn@hanafjedle.net',
-        to      : 'asbjorn@hanafjedle.net',
-        body    : 'This is the content'
-    },
-    {
-        subject : 'This is a third',
-        from    : 'asbjorn@hanafjedle.net',
-        to      : 'asbjorn@hanafjedle.net',
-        body    : 'This is the content'
-    }
-]
-
-// Create a store
 var EmailStore = flux.createStore({
-    id: 'emailStore',
+    id: 'EmailStore',
     initialState: {
-        email: emails 
+        email : StorageIO.email 
     },
     actionCallbacks: {
-        changeName: function( updater, name ){
-
+        updateEmail: function( updater, email ){
             // Stores updates are only made inside store's action callbacks
-            updater.set( {name: name} );
+            updater.set({ email : email });
         }
     }
 })
+
+var updateCurrentMailBox = function() {
+    EmailIO.inboxAll(function(err, email) {
+        if (err) throw err
+        StorageIO.save('email', email)
+        flux.doAction('updateEmail', email)
+    })
+}
+
+if (StorageIO.email.length == 0) {
+    EmailIO.on('change:ready', function(ready) {
+        if (ready) updateCurrentMailBox()
+    })
+}
 
 module.exports = EmailStore
