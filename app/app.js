@@ -1,61 +1,45 @@
 var React          = require('react')
 var $              = React.DOM
-var ActionBoxInbox = React.createFactory(require('./components/ActionBoxes/ActionBoxInbox'))
-var ActionBoxEmail = React.createFactory(require('./components/ActionBoxes/ActionBoxEmail'))
-var MailBox        = React.createFactory(require('./components/MailBox'))
-var SettingsBox    = React.createFactory(require('./components/SettingsBox'))
-var Email          = React.createFactory(require('./components/Email'))
+var ViewStore      = require('./stores/ViewStore')
+
+var getStateFromStores = function() {
+    return {
+        mainView   : ViewStore.main,
+        actionView : ViewStore.actions,
+        mailbox    : ViewStore.mailbox,
+        email      : ViewStore.email
+    }
+}
 
 var Mailpipe = React.createClass({
     render : function() {
         return $.div({},[
-            this.state.actionbox({ 
-                key           : 'ActionBox',
-                switchMainBox : this.switchMainBox 
-            }),
-            this.state.mainbox({ 
-                key          : 'MainBox',
-                openMail     : this.openMail,
-                currentEmail : this.state.currentEmail
-            })
+            $.div({
+                key       : 'ActionBox',
+                className : 'ActionBox'
+            }, [
+                this.state.actionView()
+            ]),
+            $.div({
+                key       : 'MainBox',
+                className : 'MailBox'
+            },[
+                this.state.mainView()
+            ])
         ])
     },
     getInitialState : function() {
-        return {
-            mainbox        : MailBox,
-            actionbox      : ActionBoxInbox,
-            currentMailBox : 'unified',
-            currentEmail   : null 
-        }
+        return getStateFromStores()
     },
-    switchMainBox : function(box) {
-        switch(box) {
-            case 'mailbox':
-                this.setState({ 
-                    mainbox   : MailBox,
-                    actionbox : ActionBoxInbox
-                })
-                return
-            case 'settings':
-                this.setState({ 
-                    mainbox   : SettingsBox,
-                    actionbox : ActionBoxInbox
-                })
-                return
-            case 'mail':
-                this.setState({ 
-                    mainbox   : Email,
-                    actionbox : ActionBoxEmail
-                })
-                return
-        }
+    onStoreChange : function() {
+        this.setState(getStateFromStores())
     },
-    openMail : function(email) {
-        this.setState({ currentEmail : email }, function() {
-            this.switchMainBox('mail')
-        }.bind(this))
+    componentDidMount : function() {
+        ViewStore.on('change', this.onStoreChange)
+    },
+    componentWillUnmount : function() {
+        ViewStore.off('change', this.onStoreChange)
     }
-
 })
 
 // Livereload for dev

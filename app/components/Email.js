@@ -1,5 +1,6 @@
-var React  = require('react')
-var $      = React.DOM
+var React    = require('react')
+var $        = React.DOM
+var keyboard = require('../io/KeyboardIO')
 
 var Email = React.createClass({
     render : function() {
@@ -20,6 +21,12 @@ var Email = React.createClass({
             ]),
             $.div({ key : 'body', dangerouslySetInnerHTML : { __html : body.content} })
         ])
+    },
+    componentDidMount : function() {
+        keyboard.bind('backspace', function() { console.log('going back') })
+    },
+    componentWillUnmount : function() {
+        keyboard.unbind('backspace')
     }
 })
 

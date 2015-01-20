@@ -4,8 +4,10 @@ var moment = require('moment')
 
 var MailBoxItem = React.createClass({
     render : function() {
+        var classes = 'MailBoxItem'
+        if (this.props.selected) classes += ' selected'
         return $.li({
-            className : 'MailBoxItem',
+            className : classes,
             onClick   : this.onClick
         },[
             $.div({
