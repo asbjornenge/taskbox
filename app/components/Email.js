@@ -2,11 +2,12 @@ var React    = require('react')
 var $        = React.DOM
 var flux     = require('fluxify')
 var moment   = require('moment')
+var jq       = require('jquery')
+var open     = require('open')
 var keyboard = require('../io/KeyboardIO')
 
 var Email = React.createClass({
     render : function() {
-        console.log('rendering mail')
         var email = this.props.selectedEmail
         if (email.body.length == 0) email.body.push({content : ''})
         var html  = email.body.length > 1
@@ -38,6 +39,12 @@ var Email = React.createClass({
     },
     componentDidMount : function() {
         keyboard.bind('backspace', function() { flux.doAction('backToCurrentMailBox') })
+        jq('.Email.MailBox a').on('click', function(e) {
+            e.preventDefault()
+            open(e.target.href, 'google-chrome-stable --no-sandbox', function(err, stdout, stderr) {
+                console.log('HERE',err)
+            })
+        })
     },
     componentWillUnmount : function() {
         keyboard.unbind('backspace')
