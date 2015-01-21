@@ -1,6 +1,7 @@
 var React    = require('react')
 var $        = React.DOM
 var flux     = require('fluxify')
+var moment   = require('moment')
 var keyboard = require('../io/KeyboardIO')
 
 var Email = React.createClass({
@@ -16,13 +17,23 @@ var Email = React.createClass({
             key       : 'Email',
             className : 'Email MailBox'
         },[
-            $.div({ key : 'Subject'}, email.subject),
-            $.div({ key : 'ToFromDate'}, [
-                $.span({ key : 'to' },   email.to[0].email),
-                $.span({ key : 'from' }, email.from),
-                $.span({ key : 'date' }, email.date)
+            $.div({ 
+                key       : 'Subject',
+                className : 'Subject'
+            }, email.subject),
+            $.div({ 
+                key       : 'ToFromDate',
+                className : 'ToFromDate'
+            }, [
+                $.span({ key : 'from', className : 'from' }, email.from),
+                $.span({ key : 'sep',  className : 'sep'  }, 'to'),
+                $.span({ key : 'to',   className : 'to'   }, email.to[0].email),
+                $.span({ key : 'date', className : 'date' }, moment(email.date).format('DD MMM'))
             ]),
-            $.div({ key : 'body', dangerouslySetInnerHTML : { __html : body.content} })
+            $.div({ 
+                key       : 'Body', 
+                className : 'Body',
+                dangerouslySetInnerHTML : { __html : body.content} })
         ])
     },
     componentDidMount : function() {
