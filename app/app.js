@@ -51,4 +51,10 @@ var Mailpipe = React.createClass({
 // Livereload for dev
 require('./dev')()
 
+// Reload interval
+setInterval(function() {
+    console.log('reload interval')
+    flux.doAction('reloadAllEmail')
+}, 300*1000)
+
 React.render(React.createFactory(Mailpipe)(), document.body)

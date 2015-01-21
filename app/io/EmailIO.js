@@ -27,6 +27,24 @@ EmailAPI.accounts = function(callback) {
     if (!this.client) return []
     this.client.accounts().get(callback)
 }
+EmailAPI.archive = function(account_id, email_id, callback) {
+    if (!this.client) return null
+    console.log('archiving',account_id, email_id)
+    this.client.accounts(account_id).messages(email_id).folders().post({ remove : 'INBOX' }, function(err, response) {
+        if (err) callback(err)
+        else if (response.statusCode != 200) callback('Got status '+response.statusCode)
+        else callback() // <- Success!
+    }) 
+}
+EmailAPI.delete = function(account_id, email_id, callback) {
+    if (!this.client) return null
+    console.log('deleting',account_id, email_id)
+    this.client.accounts(account_id).messages(email_id).delete({}, function(err, response) {
+        if (err) callback(err)
+        else if (response.statusCode != 200) callback('Got status '+response.statusCode)
+        else callback() // <- Success!
+    }) 
+}
 EmailAPI.getMail = function(account_id, email_id) {
     if (!this.client) return null
     this.client.accounts(account_id).messages(email_id).get({}, function(err, response) {
