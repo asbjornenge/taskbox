@@ -7,6 +7,7 @@ var Email = React.createClass({
     render : function() {
         console.log('rendering mail')
         var email = this.props.selectedEmail
+        if (email.body.length == 0) email.body.push({content : ''})
         var html  = email.body.length > 1
         var body  = html ? email.body[1] : email.body[0]
         if (!html) body.content = body.content.replace('\n','<br>')

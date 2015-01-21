@@ -35,6 +35,7 @@ EmailAPI.getMail = function(account_id, email_id) {
 }
 EmailAPI.inboxAll = function(callback) {
     if (!this.client) return []
+    console.log('loading new email')
     var client = this.client
     this.accounts(function(err, response) {
         if (err) { callback(err); return }
@@ -45,6 +46,7 @@ EmailAPI.inboxAll = function(callback) {
         var error = []
         var check_complete = function() {
             if (queried_accounts < response.body.length) return
+            console.log('finished loading mail',error)
             callback(error.lenght > 0 ? error : null, email)
         }
 
