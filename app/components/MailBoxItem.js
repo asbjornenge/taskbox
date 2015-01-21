@@ -9,8 +9,8 @@ var MailBoxItem = React.createClass({
         if (this.props.selected) classes += ' selected'
         var email = this.props.email
         return $.li({
-            className : classes,
-            onClick   : this.onClick
+            className : classes
+//            onClick   : this.onClick
         },[
             $.div({
                 key : 'Meta',
