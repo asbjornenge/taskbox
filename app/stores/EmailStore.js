@@ -17,23 +17,24 @@ var EmailStore = flux.createStore({
             updateCurrentMailBox()
         },
         archiveEmail : function(updater, email) {
+            var filteredEmail = this.email.filter(function(e) {
+                return e.id != email.id
+            })
+            StorageIO.save('email', filteredEmail)
+            updater.set({ email : filteredEmail })
+
             EmailIO.archive(email.account, email.id, function(err) {
-                if (err) { console.log(err); return }
-                var filteredEmail = this.email.filter(function(e) {
-                    return e.id != email.id
-                })
-                StorageIO.save('email', filteredEmail)
-                updater.set({ email : filteredEmail })
+                if (err) { console.log(err); }
             }.bind(this))
         },
         deleteEmail : function(updater, email) {
+            var filteredEmail = this.email.filter(function(e) {
+                return e.id != email.id
+            })
+            StorageIO.save('email', filteredEmail)
+            updater.set({ email : filteredEmail })
             EmailIO.delete(email.account, email.id, function(err) {
                 if (err) { console.log(err); return }
-                var filteredEmail = this.email.filter(function(e) {
-                    return e.id != email.id
-                })
-                StorageIO.save('email', filteredEmail)
-                updater.set({ email : filteredEmail })
             }.bind(this))
         }
     }

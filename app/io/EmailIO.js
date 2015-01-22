@@ -31,6 +31,7 @@ EmailAPI.archive = function(account_id, email_id, callback) {
     if (!this.client) return null
     console.log('archiving',account_id, email_id)
     this.client.accounts(account_id).messages(email_id).folders().post({ remove : 'INBOX' }, function(err, response) {
+        console.log(response.statusCode)
         if (err) callback(err)
         else if (response.statusCode != 200) callback('Got status '+response.statusCode)
         else callback() // <- Success!
@@ -40,6 +41,7 @@ EmailAPI.delete = function(account_id, email_id, callback) {
     if (!this.client) return null
     console.log('deleting',account_id, email_id)
     this.client.accounts(account_id).messages(email_id).delete({}, function(err, response) {
+        console.log(response.statusCode)
         if (err) callback(err)
         else if (response.statusCode != 200) callback('Got status '+response.statusCode)
         else callback() // <- Success!
