@@ -12,6 +12,7 @@ Def. not yet.
 
 ## Name ideas
 
+* MailBag
 * MailSnail
 * Mailpipe
 * Mailflow
