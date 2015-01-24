@@ -1,3 +1,4 @@
+var EmailIO = require('./io/EmailIO')
 
 module.exports = function() {
     var connection = new WebSocket('ws://localhost:35729');
@@ -7,7 +8,11 @@ module.exports = function() {
                 delete global.require.cache[module];
             }
         }
-        location.reload()
+        EmailIO.disconnect()
+        EmailIO.once('disconnected', function() {
+            EmailIO.removeAllListeners()
+            location.reload()
+        })
     }
 }
 

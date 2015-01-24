@@ -6,15 +6,17 @@ var keyboard    = require('../io/KeyboardIO')
 var EmailStore  = require('../stores/EmailStore')
 var MailBoxItem = React.createFactory(require('./MailBoxItem'))
 
-var getStateFromStores = function() {
+var getStateFromStores = function(mailbox) {
     return {
-        email : EmailStore.email
+        mailboxes : EmailStore.mailboxes()
     }
 }
 
 var MailBox = React.createClass({
     render : function() {
-        var email = this.state.email.map(function(email,index) { 
+        console.log(this.state.mailboxes)
+        console.log(this.props.selectedMailBox)
+        var email = this.state.mailboxes[this.props.selectedMailBox].map(function(email,index) { 
             return MailBoxItem({ 
                 key      : 'MailBoxItem'+index,
                 email    : email,

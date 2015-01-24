@@ -24,7 +24,8 @@ var ConfigurationStore = flux.createStore({
     },
     actionCallbacks: {
         updateSettings : function( updater, values ){
-            localStorage.setItem('contextio', JSON.stringify(values.contextio))
+            console.log(values.accounts)
+//            localStorage.setItem('contextio', JSON.stringify(values.contextio))
             localStorage.setItem('firebase',  JSON.stringify(values.firebase))
             updater.set(values)
         }

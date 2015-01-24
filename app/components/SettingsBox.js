@@ -22,9 +22,12 @@ var SaveButton = React.createClass({
     }
 })
 
-var ContextIOFields = t.struct({
-   key : t.maybe(t.Str),
-   secret : t.maybe(t.Str),
+var ImapFields = t.struct({
+    user : t.maybe(t.Str),
+    password : t.maybe(t.Password),
+    host : t.maybe(t.Str),
+    port : t.maybe(t.Number),
+    tls  : t.maybe(t.Boolean)
 })
 var FirebaseFields = t.struct({
    url : t.maybe(t.Str),
@@ -33,11 +36,7 @@ var FirebaseFields = t.struct({
 
 var SettingsBox = React.createClass({
     render : function() {
-        var ContextIOForm = t.form.create(ContextIOFields, {
-            value : {
-                key : this.state.contextio.key,
-                secret : this.state.contextio.secret
-            }
+        var ImapForm = t.form.create(ImapFields, {
         })
         var FirebaseForm = t.form.create(FirebaseFields, {
             value : {
@@ -49,8 +48,8 @@ var SettingsBox = React.createClass({
             key       : 'SettingsBox',
             className : 'SettingsBox'
         },[
-            $.div({ key : 'ContextIOFormTitle'},'ContextIO'),
-            ContextIOForm({ key : 'contextioform', ref : 'contextioform' }),
+            $.div({ key : 'ContextIOFormTitle'},'IMAP'),
+            ImapForm({ key : 'contextioform', ref : 'contextioform' }),
             $.div({ key : 'FirebaseFormTitle'},'Firebase'),
             FirebaseForm({ key : 'firebaseform', ref : 'firebaseform' }),
             SaveButton({ key : 'SaveButton', onSave : this.onSave })
@@ -61,7 +60,7 @@ var SettingsBox = React.createClass({
     },
     onSave : function() {
         flux.doAction('updateSettings', {
-            contextio : this.refs.contextioform.getValue(), 
+            accounts : this.refs.contextioform.getValue(), 
             firebase : this.refs.firebaseform.getValue()
         })
     },

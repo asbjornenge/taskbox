@@ -1,5 +1,6 @@
 var React = require('react')
 var $     = React.DOM
+var flux  = require('fluxify')
 
 var SideMenuButton = React.createClass({
     render : function() {
@@ -9,7 +10,7 @@ var SideMenuButton = React.createClass({
         }, 'SideMenu')
     },
     onClick : function() {
-        this.props.switchMainBox('settings')
+        flux.doAction('switchView', 'settings') 
     }
 })
 
@@ -21,7 +22,7 @@ var CenterButtons = React.createClass({
         }, 'Center')
     },
     onClick : function() {
-        this.props.switchMainBox('mailbox')
+        flux.doAction('switchView', 'mailbox') 
     }
 })
 

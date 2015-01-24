@@ -8,9 +8,12 @@ var emitter        = new EventEmitter()
 
 var getStateFromStores = function() {
     return {
+        views : ViewStore.state()
+    }
+    return {
         mainView        : ViewStore.main,
         actionView      : ViewStore.actions,
-        selectedMailbox : ViewStore.mailbox,
+        selectedMailBox : ViewStore.mailbox,
         selectedEmail   : ViewStore.email
     }
 }
@@ -22,16 +25,17 @@ var TaskBox = React.createClass({
                 key       : 'ActionBox',
                 className : 'ActionBox'
             }, [
-//                this.state.actionView()
+                this.state.views.actionView()
             ]),
             $.div({
                 key       : 'MainBox',
                 className : 'MailBox'
             },[
-                this.state.mainView({
-                    key           : 'MainView',
-                    emitter       : emitter,
-                    selectedEmail : this.state.selectedEmail
+                this.state.views.mainView({
+                    key             : 'MainView',
+                    emitter         : emitter,
+                    selectedMailBox : this.state.views.selectedMailBox,
+                    selectedEmail   : this.state.views.selectedEmail
                 })
             ])
         ])
