@@ -15,7 +15,7 @@ var getStateFromStores = function() {
     }
 }
 
-var Mailpipe = React.createClass({
+var TaskBox = React.createClass({
     render : function() {
         return $.div({},[
             $.div({
@@ -60,4 +60,4 @@ setInterval(function() {
 //    flux.doAction('reloadAllEmail')
 }, 300*1000)
 
-React.render(React.createFactory(Mailpipe)(), document.body)
+React.render(React.createFactory(TaskBox)(), document.body)
