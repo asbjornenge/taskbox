@@ -1,8 +1,10 @@
 var React          = require('react')
 var $              = React.DOM
 var flux           = require('fluxify')
+var EventEmitter   = require('events').EventEmitter
 var keyboard       = require('./io/KeyboardIO')
 var ViewStore      = require('./stores/ViewStore')
+var emitter        = new EventEmitter()
 
 var getStateFromStores = function() {
     return {
@@ -28,6 +30,7 @@ var Mailpipe = React.createClass({
             },[
                 this.state.mainView({
                     key           : 'MainView',
+                    emitter       : emitter,
                     selectedEmail : this.state.selectedEmail
                 })
             ])
@@ -41,7 +44,7 @@ var Mailpipe = React.createClass({
     },
     componentDidMount : function() {
         ViewStore.on('change', this.onStoreChange)
-        keyboard.bind('ctrl+r', function() { flux.doAction('reloadAllEmail')  })
+        keyboard.bind('ctrl+r', function() { emitter.emit('reload') })
     },
     componentWillUnmount : function() {
         ViewStore.off('change', this.onStoreChange)
@@ -54,7 +57,7 @@ require('./dev')()
 // Reload interval
 setInterval(function() {
     console.log('reload interval')
-    flux.doAction('reloadAllEmail')
+//    flux.doAction('reloadAllEmail')
 }, 300*1000)
 
 React.render(React.createFactory(Mailpipe)(), document.body)

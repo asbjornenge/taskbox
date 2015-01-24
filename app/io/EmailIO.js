@@ -30,7 +30,7 @@ EmailAPI.accounts = function(callback) {
 EmailAPI.archive = function(account_id, email_id, callback) {
     if (!this.client) return null
     console.log('archiving',account_id, email_id)
-    this.client.accounts(account_id).messages(email_id).folders().post({ remove : 'INBOX' }, function(err, response) {
+    this.client.accounts(account_id).messages(email_id).folders().post({ remove : 'Inbox' }, function(err, response) {
         console.log(response.statusCode)
         if (err) callback(err)
         else if (response.statusCode != 200) callback('Got status '+response.statusCode)
@@ -66,12 +66,12 @@ EmailAPI.inboxAll = function(callback) {
         var error = []
         var check_complete = function() {
             if (queried_accounts < response.body.length) return
-            console.log('finished loading mail',error)
+            console.log('finished loading mail',error, email.length)
             callback(error.lenght > 0 ? error : null, email)
         }
 
         response.body.forEach(function(account) {
-            client.accounts(account.id).messages().get({folder:'INBOX', include_body:1}, function(err, response) {
+            client.accounts(account.id).messages().get({folder:'Inbox', include_body:1}, function(err, response) {
                 queried_accounts += 1
                 if (err) { error.push(err); return }
                 var _email = response.body.map(function(email) {

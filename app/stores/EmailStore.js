@@ -12,11 +12,8 @@ var EmailStore = flux.createStore({
             // Stores updates are only made inside store's action callbacks
             updater.set({ email : email });
         },
-        reloadAllEmail : function() {
-            console.log('reloading')
-            updateCurrentMailBox()
-        },
         archiveEmail : function(updater, email) {
+            console.log('store archive')
             var filteredEmail = this.email.filter(function(e) {
                 return e.id != email.id
             })
@@ -28,6 +25,7 @@ var EmailStore = flux.createStore({
             }.bind(this))
         },
         deleteEmail : function(updater, email) {
+            console.log('store delete')
             var filteredEmail = this.email.filter(function(e) {
                 return e.id != email.id
             })
@@ -40,17 +38,19 @@ var EmailStore = flux.createStore({
     }
 })
 
-var updateCurrentMailBox = function() {
+
+//if (StorageIO.email.length == 0) {
+//    EmailIO.on('change:ready', function(ready) {
+//        if (ready) updateCurrentMailBox()
+//    })
+//}
+
+
+EmailStore.reload = function() {
     EmailIO.inboxAll(function(err, email) {
         if (err) throw err
         StorageIO.save('email', email)
         flux.doAction('updateEmail', email)
-    })
-}
-
-if (StorageIO.email.length == 0) {
-    EmailIO.on('change:ready', function(ready) {
-        if (ready) updateCurrentMailBox()
     })
 }
 

@@ -59,6 +59,9 @@ var MailBox = React.createClass({
     deleteMail : function() {
         if (this.isValidSelectedIndex()) flux.doAction('deleteEmail', this.getSelectedEmail())
     },
+    reloadMail : function() {
+        EmailStore.reload()
+    },
     onStoreChange : function() {
         this.setState(getStateFromStores())
     },
@@ -69,14 +72,15 @@ var MailBox = React.createClass({
         keyboard.bind('right',  this.archiveMail)
         keyboard.bind('enter',  this.openMail)
         keyboard.bind('ctrl+backspace',  this.deleteMail)
+        this.props.emitter.on('reload', this.reloadMail)
     },
     componentWillUnmount : function() {
-        console.log('unmounting')
         keyboard.unbind('down')
         keyboard.unbind('up')
         keyboard.unbind('right')
         keyboard.unbind('enter')
         keyboard.unbind('ctrl+backspace')
+        this.props.emitter.removeListener('reload', this.reloadMail)
     }
 })
 
