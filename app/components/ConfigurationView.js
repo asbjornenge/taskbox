@@ -1,32 +1,20 @@
-var React = require('react')
-var t     = require('tcomb-form')
-var $     = React.DOM
+var React                = require('react')
+var t                    = require('tcomb-form')
+var $                    = React.DOM
 var ConfigurationActions = require('../actions/ConfigurationActions')
 var ConfigurationStore   = require('../stores/ConfigurationStore')
+var SaveButton           = require('./ConfigurationView/SaveButton')
 
-var getStateFromStores = function() {
-    return {
-        firebase : ConfigurationStore.state().firebase
-    }
-}
-
-var SaveButton = React.createClass({
-    render : function() {
-        return $.button({
-            onClick : this.onClick
-        },'Save')
-    },
-    onClick : function() {
-        this.props.onSave()
-    }
-})
+// Form
 
 var FirebaseFields = t.struct({
    url    : t.maybe(t.Str),
    secret : t.maybe(t.Str) 
 })
 
-var SettingsBox = React.createClass({
+// View
+
+var ConfigurationView = React.createClass({
     render : function() {
         var FirebaseForm = t.form.create(FirebaseFields, {
             value : {
@@ -44,7 +32,9 @@ var SettingsBox = React.createClass({
         ])
     },
     getInitialState : function() {
-        return getStateFromStores()
+        return {
+            firebase : ConfigurationStore.state().firebase
+        } 
     },
     onSave : function() {
         ConfigurationActions.save({
@@ -53,11 +43,13 @@ var SettingsBox = React.createClass({
     },
     onStoreChange : function() {
         console.log('config changed')
-        this.setState(getStateFromStores())
+        this.setState({
+            firebase : ConfigurationStore.state().firebase
+        })
     },
     componentDidMount : function() {
         ConfigurationStore.on('change', this.onStoreChange)
     }
 })
 
-module.exports = SettingsBox 
+module.exports = ConfigurationView 

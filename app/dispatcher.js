@@ -1,8 +1,8 @@
 var Dispatcher     = require('flux').Dispatcher
-var copyProperties = require('react/lib/copyProperties')
+var _              = require('lodash')
 var PayloadSources = require('./constants').PayloadSources
 
-var TaskBoxDispatcher = copyProperties(new Dispatcher(), {
+var TaskBoxDispatcher = _.assign(new Dispatcher(), {
 
     handleViewAction : function (action) {
         var payload = {

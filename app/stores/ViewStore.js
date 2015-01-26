@@ -4,16 +4,15 @@ var EventEmitter      = require('events').EventEmitter
 var Dispatcher        = require('../dispatcher')
 var ActionTypes       = require('../constants').ActionTypes
 var ConfigurationView = React.createFactory(require('../components/ConfigurationView'))
-var MailBox           = React.createFactory(require('../components/MailBox'))
-var Email             = React.createFactory(require('../components/Email'))
-var ActionBoxInbox    = React.createFactory(require('../components/ActionBoxes/ActionBoxInbox'))
-var ActionBoxEmail    = React.createFactory(require('../components/ActionBoxes/ActionBoxEmail'))
+var TaskBoxView       = React.createFactory(require('../components/TaskBoxView'))
+var TaskView          = React.createFactory(require('../components/TaskView'))
+var TaskBoxActions    = React.createFactory(require('../components/ActionBoxes/TaskBoxActions'))
+var TaskActions       = React.createFactory(require('../components/ActionBoxes/TaskActions'))
 
 var state = {
-    mainView           : MailBox,
-    actionView         : ActionBoxInbox,
-    selectedMailBox    : 'unified',
-    selectedEmailemail : null
+    mainView     : TaskBoxView,
+    actionView   : TaskBoxActions,
+    selectedTask : null
 }
 
 var ViewStore = _.assign({
@@ -24,25 +23,16 @@ var ViewStore = _.assign({
 
     switchView : function(view) {
         switch(view) {
-            case 'mailbox':
-               this.setState({ 
-                   main    : MailBox,
-                   actions : ActionBoxInbox,
-                   mailbox : 'unified'
-               })
-               break
+            case 'taskbox':
+                state.mainView   = TaskBoxView
+                state.actionView = TaskBoxActions
+                this.emit('change')
+                break
             case 'configuration':
                 state.mainView   = ConfigurationView,
-                state.actionView = ActionBoxInbox
+                state.actionView = TaskBoxActions
                 this.emit('change')    
                 break
-            case 'mail':
-               this.setState({ 
-                   main    : Email,
-                   actions : ActionBoxEmail,
-                   email   : value.email
-               })
-               break
         }
     }
 
