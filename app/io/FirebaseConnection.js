@@ -13,6 +13,22 @@ FirebaseConnection.prototype = _.assign({
         this.root.authWithCustomToken(this.secret, function(err, auth) {
             if (err) throw err
             this.emit('connected')
+            this.startListening()
+        }.bind(this))
+    },
+
+    init : function() {
+        this.root.once('value', function(snap) {
+            console.log(snap.val())
+        })
+    },
+
+    startListening : function() {
+        this.root.on('child_added', function(snap) {
+            this.emit('task-added', snap.val())
+        }.bind(this))
+        this.root.on('child_removed', function(snap) {
+            this.emit('task-removed', snap.val())
         }.bind(this))
     }
 
