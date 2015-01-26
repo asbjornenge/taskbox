@@ -3,7 +3,7 @@ var $           = React.DOM
 var _           = require('lodash')
 var flux        = require('fluxify')
 var keyboard    = require('../io/KeyboardIO')
-var EmailStore  = require('../stores/EmailStore')
+var TaskStore  = require('../stores/TaskStore')
 var TaskBoxItem = React.createFactory(require('./TaskBoxView/TaskBoxItem'))
 
 var getStateFromStores = function(mailbox) {
@@ -62,7 +62,7 @@ var TaskBoxView = React.createClass({
         this.setState(getStateFromStores())
     },
     componentDidMount : function() {
-        EmailStore.on('change', this.onStoreChange)
+        TaskStore.on('change', this.onStoreChange)
         keyboard.bind('down',   this.moveSelected)
         keyboard.bind('up',     this.moveSelected)
         keyboard.bind('right',  this.archiveMail)
@@ -71,6 +71,7 @@ var TaskBoxView = React.createClass({
         this.props.emitter.on('reload', this.reloadMail)
     },
     componentWillUnmount : function() {
+        TaskStore.removeListener('change', this.onStoreChange)
         keyboard.unbind('down')
         keyboard.unbind('up')
         keyboard.unbind('right')
