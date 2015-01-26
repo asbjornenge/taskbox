@@ -1,6 +1,5 @@
 var React          = require('react')
 var $              = React.DOM
-var flux           = require('fluxify')
 var EventEmitter   = require('events').EventEmitter
 var keyboard       = require('./io/KeyboardIO')
 var ViewStore      = require('./stores/ViewStore')
@@ -48,20 +47,10 @@ var TaskBox = React.createClass({
     },
     componentDidMount : function() {
         ViewStore.on('change', this.onStoreChange)
-        keyboard.bind('ctrl+r', function() { emitter.emit('reload') })
     },
     componentWillUnmount : function() {
         ViewStore.off('change', this.onStoreChange)
     }
 })
-
-// Livereload for dev
-require('./dev')()
-
-// Reload interval
-setInterval(function() {
-    console.log('reload interval')
-//    flux.doAction('reloadAllEmail')
-}, 300*1000)
 
 React.render(React.createFactory(TaskBox)(), document.body)

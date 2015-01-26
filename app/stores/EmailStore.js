@@ -1,7 +1,7 @@
-var _ = require('lodash')
+var _            = require('lodash')
 var EventEmitter = require('events').EventEmitter
-var EmailIO = require('../io/EmailIO')
-var StorageIO = require('../io/StorageIO')
+var Dispatcher   = require('../dispatcher')
+//var StorageIO = require('../io/StorageIO')
 
 var state = {
     mailboxes : {
@@ -19,9 +19,9 @@ var EmailStore = _.assign(EventEmitter.prototype, {
 
 console.log('loads this file')
 
-EmailIO.connect()
-EmailIO.on('ready', function() {
-    console.log('emailstore ready')
-})
+//EmailIO.connect()
+//EmailIO.on('ready', function() {
+//    console.log('emailstore ready')
+//})
 
 module.exports = EmailStore

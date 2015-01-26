@@ -4,10 +4,13 @@
   "description": "Mail app for inbox-zero freaks",
   "main": "app/index.html",
   "scripts": {
-    "start": "npm run livereload & npm run stylus",
+    "start": "npm run copy & npm run watch & npm run stylus & npm run static & npm run livereload",
     "test": "mocha -R nyan -w --check-leaks",
-    "livereload": "livereloadify app --glob '**/**'",
-    "stylus": "stylus -w app/styles/mailpipe.styl -o app"
+    "watch": "watchify app/app.js -t 6to5ify -o build/app.js",
+    "livereload": "livereloadify build --glob '**/**'",
+    "stylus": "stylus -w app/styles/mailpipe.styl -o build",
+    "static": "static build",
+    "copy": "cp app/index.html build/index.html"
   },
   "repository": {
     "type": "git",
