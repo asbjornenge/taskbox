@@ -1,34 +1,45 @@
-var flux      = require('fluxify');
-var contextio;
-var firebase  = { key : '', secret : ''}
-try {
-    contextio = JSON.parse(localStorage.getItem('contextio')) 
-}
-catch(e) {
-    console.log(e) 
-    contextio = {key : '', secret : ''}
-}
-var firebase  = localStorage.getItem('firebase')  || { url : '', secret : '' }
+var _            = require('lodash')
+var EventEmitter = require('events').EventEmitter
+var ActionTypes  = require('../constants').ActionTypes
+var Dispatcher   = require('../dispatcher')
+var StorageIO    = require('../io/StorageIO')
 
-var ConfigurationStore = flux.createStore({
-    id: 'ConfigurationStore',
-    initialState: {
-        contextio : {
-            key : contextio.key,
-            secret : contextio.secret
-        },
-        firebase : {
-            url : firebase.url,
-            secret : firebase.secret
-        }
+// State
+
+var state = {
+    firebase : {
+        url    : '',
+        secret : ''
+    }
+}
+if (StorageIO.get('config')) state = StorageIO.get('config')
+console.log(state)
+
+// Store
+
+var ConfigurationStore = _.assign({
+
+    state : function() {
+        return state
     },
-    actionCallbacks: {
-        updateSettings : function( updater, values ){
-            console.log(values.accounts)
-//            localStorage.setItem('contextio', JSON.stringify(values.contextio))
-            localStorage.setItem('firebase',  JSON.stringify(values.firebase))
-            updater.set(values)
-        }
+
+    save : function(config) {
+        StorageIO.set('config', config)
+        state = config
+        this.emit('change')
+    }
+
+}, EventEmitter.prototype)
+
+// Actions
+
+ConfigurationStore.dispatchToken = Dispatcher.register(function (payload) {
+
+    var action = payload.action;
+
+    switch(action.type) {
+        case ActionTypes.CONFIG_SAVE:
+            ConfigurationStore.save(action.config)
     }
 })
 

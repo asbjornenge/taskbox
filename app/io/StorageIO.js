@@ -1,16 +1,11 @@
 
 var storage = {
-
-    email : [],
-
-    loadAll : function() {
-        try { storage.email = JSON.parse(localStorage.getItem('email')) || [] } catch(e) { console.log(e) }
+    get : function(key) {
+        try { return JSON.parse(localStorage.getItem(key)) } catch(e) { console.log(e); return null } 
     },
-    save : function(key, data) {
+    set : function(key, data) {
         localStorage.setItem(key, JSON.stringify(data))
     }
-
 }
-storage.loadAll()
 
 module.exports = storage 

@@ -1,6 +1,7 @@
-var React = require('react')
-var $     = React.DOM
-var flux  = require('fluxify')
+var React      = require('react')
+var $          = React.DOM
+var flux       = require('fluxify')
+var ViewAction = require('../../actions/ViewActions')
 
 var SideMenuButton = React.createClass({
     render : function() {
@@ -10,7 +11,7 @@ var SideMenuButton = React.createClass({
         }, 'SideMenu')
     },
     onClick : function() {
-        flux.doAction('switchView', 'settings') 
+        ViewAction.switch('configuration') 
     }
 })
 
@@ -38,10 +39,10 @@ var NewEmailButton = React.createClass({
     }
 })
 
-var ActionBox = React.createClass({
+var ActionBoxTaskBox = React.createClass({
     render : function() { 
         return $.div({
-            className : 'ActionBox'
+            className : 'ActionBoxTaskBox'
         }, [
             SideMenuButton({ 
                 key           : 'SideMenuButton',
@@ -56,4 +57,4 @@ var ActionBox = React.createClass({
     }
 })
 
-module.exports = ActionBox
+module.exports = ActionBoxTaskBox

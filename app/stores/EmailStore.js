@@ -9,13 +9,13 @@ var state = {
     }
 }
 
-var EmailStore = _.assign(EventEmitter.prototype, {
+var EmailStore = _.assign({
 
     mailboxes : function() {
         return state.mailboxes
     }
 
-})
+}, EventEmitter.prototype)
 
 console.log('loads this file')
 
