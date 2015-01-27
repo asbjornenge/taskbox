@@ -23,8 +23,8 @@ var ConfigurationView = React.createClass({
             }
         })
         return $.ul({
-            key       : 'SettingsBox',
-            className : 'SettingsBox'
+            key       : 'ConfigurationView',
+            className : 'ConfigurationView'
         },[
             $.div({ key : 'FirebaseFormTitle'},'Firebase'),
             FirebaseForm({ key : 'firebaseform', ref : 'firebaseform' }),

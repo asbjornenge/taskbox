@@ -5,7 +5,7 @@ var moment = require('moment')
 
 var MailBoxItem = React.createClass({
     render : function() {
-        var classes = 'MailBoxItem'
+        var classes = 'TaskBoxItem'
         if (this.props.selected) classes += ' selected'
         var email = this.props.task
         var from  = email.from.length > 0 ? email.from[0] : { address : '' }
@@ -27,7 +27,7 @@ var MailBoxItem = React.createClass({
             $.div({
                 key : 'BodySummary',
                 className : 'BodySummary'
-            }, email.text.slice(0,100))
+            }, email.text ? email.text.slice(0,100) : '')
         ])
     },
     onClick : function() {

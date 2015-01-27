@@ -13,8 +13,8 @@ var Email = React.createClass({
         if (!email.html) body = body.replace('\n','<br>')
 
         return $.div({
-            key       : 'Email',
-            className : 'Email TaskView'
+            key       : 'TaskView',
+            className : 'TaskView'
         },[
             $.div({ 
                 key       : 'Subject',

@@ -8,7 +8,7 @@
     "test": "mocha -R nyan -w --check-leaks",
     "watch": "watchify app/app.js -t 6to5ify -o build/app.js",
     "livereload": "livereloadify build --glob '**/**'",
-    "stylus": "stylus -w app/styles/mailpipe.styl -o build",
+    "stylus": "stylus -w app/styles/app.styl -o build",
     "static": "static build",
     "copy": "cp app/index.html build/index.html"
   },

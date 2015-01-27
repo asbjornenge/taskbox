@@ -1,0 +1,39 @@
+
+.TaskBoxView
+    margin 0
+    padding 0
+    position fixed
+    top 51px
+    bottom 0
+    left 0
+    right 0
+    overflow scroll
+
+    .TaskBoxItem
+        padding 0
+        margin 0
+        list-style none
+        height 100px
+        padding 10px
+        border-bottom 1px solid #ccc
+    
+        &.selected
+            border 1px solid blue
+    
+        .Meta
+            font-size 0.9em
+            color #ccc 
+    
+            .Time
+                float right
+    
+        .Subject
+            padding 0
+            margin 0
+            font-size 1.2em
+            padding-top 2px
+            padding-bottom 2px
+    
+        .BodySummary
+            font-size 0.9em
+            color #ccc
