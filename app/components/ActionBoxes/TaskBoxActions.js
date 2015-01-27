@@ -3,12 +3,12 @@ var $          = React.DOM
 var flux       = require('fluxify')
 var ViewAction = require('../../actions/ViewActions')
 
-var SideMenuButton = React.createClass({
+var Logo = React.createClass({
     render : function() {
         return $.div({
-            className : 'SideMenuButton',
-            onClick : this.onClick
-        }, 'SideMenu')
+            className : 'Logo',
+            onClick   : this.onClick
+        })
     },
     onClick : function() {
         ViewAction.switch('configuration') 
@@ -44,15 +44,15 @@ var ActionBoxTaskBox = React.createClass({
         return $.div({
             className : 'ActionBoxTaskBox'
         }, [
-            SideMenuButton({ 
-                key           : 'SideMenuButton',
-                switchMainBox : this.props.switchMainBox
+            Logo({
+                key : 'Logo'
             }),
             CenterButtons({ 
-                key : 'CenterButton', 
-                switchMainBox : this.props.switchMainBox
+                key : 'CenterButton'
             }),
-            NewEmailButton({ key : 'NewEmailButto' })
+            NewEmailButton({ 
+                key : 'NewEmailButto' 
+            })
         ])
     }
 })
