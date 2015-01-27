@@ -1,6 +1,7 @@
+@import "variables"
 
 .TaskBoxView
-    margin 0
+    margin auto
     padding 0
     position fixed
     top 51px
@@ -8,6 +9,7 @@
     left 0
     right 0
     overflow scroll
+    max-width 500px
 
     .TaskBoxItem
         padding 0
@@ -15,19 +17,19 @@
         list-style none
         height 100px
         padding 10px
-        border-bottom 1px solid #ccc
+        border-bottom 1px solid $border-color 
     
         &.selected
-            border 1px solid blue
+            border-bottom 1px solid blue
     
         .Meta
             font-size 0.9em
-            color #ccc 
     
             .Time
                 float right
     
         .Subject
+            color $text-color-important
             padding 0
             margin 0
             font-size 1.2em
@@ -35,5 +37,5 @@
             padding-bottom 2px
     
         .BodySummary
+            margin-top 4px
             font-size 0.9em
-            color #ccc
