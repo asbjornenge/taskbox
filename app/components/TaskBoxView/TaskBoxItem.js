@@ -18,7 +18,7 @@ var MailBoxItem = React.createClass({
                 className : 'Meta'
             },[
                 $.span({ key : 'From', className : 'From' }, from.address),
-                $.span({ key : 'Time', className : 'Time' }, this.formatDateTime(email.date))
+                $.span({ key : 'Time', className : 'Time' }, email.date.format('h:mm'))
             ]),
             $.div({
                 key : 'Subject',
@@ -32,9 +32,6 @@ var MailBoxItem = React.createClass({
     },
     onClick : function() {
         flux.doAction('viewEmail', this.props.email)
-    },
-    formatDateTime : function(date) {
-        return moment(date).format('h:mm')
     }
 })
 

@@ -16,7 +16,7 @@ var TaskStore = _.assign({
 
     startListening : function() {
         this.connection.on('task-added',  (task) => {
-            task.date = moment(task.date)
+            task.date = moment(task.headers.date)
             state.tasks.push(task)
             this.emit('change')
         })
