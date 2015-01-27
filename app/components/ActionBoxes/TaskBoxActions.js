@@ -1,19 +1,7 @@
 var React      = require('react')
 var $          = React.DOM
-var flux       = require('fluxify')
 var ViewAction = require('../../actions/ViewActions')
-
-var Logo = React.createClass({
-    render : function() {
-        return $.div({
-            className : 'Logo',
-            onClick   : this.onClick
-        })
-    },
-    onClick : function() {
-        ViewAction.switch('configuration') 
-    }
-})
+var Logo       = React.createFactory(require('./Logo'))
 
 var CenterButtons = React.createClass({
     render : function() {

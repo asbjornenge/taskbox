@@ -1,11 +1,16 @@
 var React = require('react')
 var $     = React.DOM
+var Logo  = React.createFactory(require('./Logo'))
 
-var ActionBoxEmail = React.createClass({
+var TaskActions = React.createClass({
     render : function() {
         return $.div({
-            onClick : this.onClick
-        },'back')
+            className : 'TaskActions'
+        },[
+            Logo({
+                key : 'Logo'
+            })
+        ])
     },
     onClick : function() {
         console.log('click')
@@ -14,4 +19,4 @@ var ActionBoxEmail = React.createClass({
     }
 })
 
-module.exports = ActionBoxEmail
+module.exports = TaskActions

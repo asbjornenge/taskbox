@@ -11,7 +11,6 @@ var Email = React.createClass({
         var email = this.props.selectedTask
         var body  = email.html || email.text
         if (!email.html) body = body.replace('\n','<br>')
-
         return $.div({
             key       : 'TaskView',
             className : 'TaskView'
@@ -24,9 +23,9 @@ var Email = React.createClass({
                 key       : 'ToFromDate',
                 className : 'ToFromDate'
             }, [
-                $.span({ key : 'from', className : 'from' }, email.from),
+                $.span({ key : 'from', className : 'from' }, email.from[0].address),
                 $.span({ key : 'sep',  className : 'sep'  }, 'to'),
-                $.span({ key : 'to',   className : 'to'   }, email.to[0].email),
+                $.span({ key : 'to',   className : 'to'   }, email.to[0].address),
                 $.span({ key : 'date', className : 'date' }, moment(email.date).format('DD MMM'))
             ]),
             $.div({ 

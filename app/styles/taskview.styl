@@ -1,12 +1,13 @@
+@import "variables"
+
 .TaskView
 
     .Subject
         padding 10px
         font-weight bold
-        height 30px
         line-height 30px
         border-bottom 1px solid #ccc
-        overflow hidden
+        color $text-color-important
 
     .ToFromDate
         padding 10px
@@ -15,6 +16,7 @@
         border-bottom 1px solid #ccc
 
         .from
+            color $text-color-highlight
             float left
         
         .sep
@@ -22,6 +24,7 @@
             margin-left 5px
 
         .to
+            color $text-color-highlight
             float left
             margin-left 5px
 
