@@ -3,10 +3,11 @@ var ActionTypes      = require('../constants').ActionTypes
 
 module.exports = {
 
-    switch : function(view) {
+    switch : function(view, meta) {
         Dispatcher.handleViewAction({
             type : ActionTypes.VIEW_SWITCH,
-            view : view
+            view : view,
+            meta : meta
         })
     },
 

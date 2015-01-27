@@ -1,22 +1,20 @@
-var React    = require('react')
-var $        = React.DOM
-var flux     = require('fluxify')
-var moment   = require('moment')
-var jq       = require('jquery')
-var open     = require('open')
-var keyboard = require('../io/KeyboardIO')
+var React       = require('react')
+var $           = React.DOM
+var moment      = require('moment')
+var jq          = require('jquery')
+var open        = require('open')
+var keyboard    = require('../io/KeyboardIO')
+var ViewActions = require('../actions/ViewActions')
 
 var Email = React.createClass({
     render : function() {
-        var email = this.props.selectedEmail
-        if (email.body.length == 0) email.body.push({content : ''})
-        var html  = email.body.length > 1
-        var body  = html ? email.body[1] : email.body[0]
-        if (!html) body.content = body.content.replace('\n','<br>')
+        var email = this.props.selectedTask
+        var body  = email.html || email.text
+        if (!email.html) body = body.replace('\n','<br>')
 
         return $.div({
             key       : 'Email',
-            className : 'Email MailBox'
+            className : 'Email TaskView'
         },[
             $.div({ 
                 key       : 'Subject',
@@ -34,17 +32,12 @@ var Email = React.createClass({
             $.div({ 
                 key       : 'Body', 
                 className : 'Body',
-                dangerouslySetInnerHTML : { __html : body.content} })
+                dangerouslySetInnerHTML : { __html : body } })
         ])
     },
     componentDidMount : function() {
-        keyboard.bind('backspace', function() { flux.doAction('backToCurrentMailBox') })
-        jq('.Email.MailBox a').on('click', function(e) {
-            e.preventDefault()
-            open(e.target.href, 'google-chrome-stable --no-sandbox', function(err, stdout, stderr) {
-                console.log('HERE',err)
-            })
-        })
+        keyboard.bind('backspace', function() { ViewActions.switch('taskbox') })
+        jq('.Email.MailBox a').attr('target','_blank')
     },
     componentWillUnmount : function() {
         keyboard.unbind('backspace')

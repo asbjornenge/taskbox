@@ -9,12 +9,6 @@ var getStateFromStores = function() {
     return {
         views : ViewStore.state()
     }
-    return {
-        mainView        : ViewStore.main,
-        actionView      : ViewStore.actions,
-        selectedMailBox : ViewStore.mailbox,
-        selectedEmail   : ViewStore.email
-    }
 }
 
 var TaskBox = React.createClass({
@@ -33,8 +27,7 @@ var TaskBox = React.createClass({
                 this.state.views.mainView({
                     key             : 'MainView',
                     emitter         : emitter,
-                    selectedMailBox : this.state.views.selectedMailBox,
-                    selectedEmail   : this.state.views.selectedEmail
+                    selectedTask    : this.state.views.selectedTask
                 })
             ])
         ])

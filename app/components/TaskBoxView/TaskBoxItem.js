@@ -7,7 +7,8 @@ var MailBoxItem = React.createClass({
     render : function() {
         var classes = 'MailBoxItem'
         if (this.props.selected) classes += ' selected'
-        var email = this.props.email
+        var email = this.props.task
+        var from  = email.from.length > 0 ? email.from[0] : { address : '' }
         return $.li({
             className : classes
 //            onClick   : this.onClick
@@ -16,7 +17,7 @@ var MailBoxItem = React.createClass({
                 key : 'Meta',
                 className : 'Meta'
             },[
-                $.span({ key : 'From', className : 'From' }, email.from),
+                $.span({ key : 'From', className : 'From' }, from.address),
                 $.span({ key : 'Time', className : 'Time' }, this.formatDateTime(email.date))
             ]),
             $.div({
@@ -26,7 +27,7 @@ var MailBoxItem = React.createClass({
             $.div({
                 key : 'BodySummary',
                 className : 'BodySummary'
-            }, email.body.length > 0 ? email.body[0].content.slice(0,100) : '')
+            }, email.text.slice(0,100))
         ])
     },
     onClick : function() {

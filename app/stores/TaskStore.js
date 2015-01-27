@@ -1,21 +1,31 @@
 var _                  = require('lodash')
+var moment             = require('moment')
 var EventEmitter       = require('events').EventEmitter
 var Dispatcher         = require('../dispatcher')
 var ConnectionStore    = require('./ConnectionStore')
 
 var state = {
-    taskboxes : {}
+    tasks : []
 }
 
 var TaskStore = _.assign({
 
-    taskboxes : function() {
-        return state.taskboxes
+    state : function() {
+        return state
     },
 
     startListening : function() {
-        this.connection.on('task-added',  function(task) { console.log('task added',task)  })
-        this.connection.on('task-remove', function(task) { console.log('task removed',task)  })
+        this.connection.on('task-added',  (task) => {
+            task.date = moment(task.date)
+            state.tasks.push(task)
+            this.emit('change')
+        })
+        this.connection.on('task-removed', (task) => {
+            state.tasks = state.tasks.filter(function(t) {
+                return t.uid != task.uid
+            })
+            this.emit('change')
+        })
     },
 
     stopListening : function() {

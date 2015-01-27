@@ -24,10 +24,10 @@ FirebaseConnection.prototype = _.assign({
     },
 
     startListening : function() {
-        this.root.on('child_added', function(snap) {
+        this.root.child('taskbox').on('child_added', function(snap) {
             this.emit('task-added', snap.val())
         }.bind(this))
-        this.root.on('child_removed', function(snap) {
+        this.root.child('taskbox').on('child_removed', function(snap) {
             this.emit('task-removed', snap.val())
         }.bind(this))
     }

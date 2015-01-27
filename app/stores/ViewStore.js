@@ -21,7 +21,7 @@ var ViewStore = _.assign({
         return state
     },
 
-    switchView : function(view) {
+    switchView : function(view, meta) {
         switch(view) {
             case 'taskbox':
                 state.mainView   = TaskBoxView
@@ -32,6 +32,12 @@ var ViewStore = _.assign({
                 state.mainView   = ConfigurationView,
                 state.actionView = TaskBoxActions
                 this.emit('change')    
+                break
+            case 'task':
+                state.mainView     = TaskView
+                state.actionView   = TaskActions
+                state.selectedTask = meta.task
+                this.emit('change')
                 break
         }
     }
@@ -44,7 +50,7 @@ ViewStore.dispatchToken = Dispatcher.register(function (payload) {
 
     switch(action.type) {
         case ActionTypes.VIEW_SWITCH:
-            ViewStore.switchView(action.view)
+            ViewStore.switchView(action.view, action.meta)
     }
 })
 
