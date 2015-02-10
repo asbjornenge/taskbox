@@ -15,9 +15,7 @@ var getStateFromStores = function(mailbox) {
 
 var TaskBoxView = React.createClass({
     render : function() {
-        var tasks = this.sortedTasks()
-                .reduce(this.groupTasks.bind(this),[])
-                .map(function(task,index) { 
+        var tasks = this.sortedTasks().map(function(task,index) { 
             return TaskBoxItem({ 
                 key      : 'MailBoxItem'+index,
                 task     : task,
@@ -46,14 +44,13 @@ var TaskBoxView = React.createClass({
         }
     },
     sortedTasks : function() {
-        return _.sortBy(this.state.tasks, 'date').reverse() 
-    },
-    groupTasks : function(groups, task, index, tasks) {
-        groups = groups || {}
-        if (groups[task.subject]) groups[task.subject].conversation.push(task)
-        else { groups[task.subject] = task; task.conversation = [] }
-        if (index == tasks.length-1) return Object.keys(groups).map(function(group) { return groups[group] }) 
-        return groups
+        var tasks = _.sortBy(this.state.tasks, 'date').reverse().reduce(function(groups, task, index, tasks) {
+            if (groups[task.subject]) groups[task.subject].conversation.push(task)
+            else { groups[task.subject] = task; task.conversation = [] }
+            if (index == tasks.length-1) return Object.keys(groups).map(function(group) { return groups[group] }) 
+            return groups
+        },{})
+        return (tasks instanceof Array) ? tasks : []
     },
     isValidSelectedIndex : function() {
         var index = this.state.selectedIndex
