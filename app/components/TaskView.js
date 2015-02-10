@@ -6,11 +6,29 @@ var open        = require('open')
 var keyboard    = require('../io/KeyboardIO')
 var ViewActions = require('../actions/ViewActions')
 
+var Conversation = React.createFactory(React.createClass({
+    render : function() {
+        if (!this.props.task.conversation) return null
+        var dialogue = this.props.task.conversation.map(function(task, index) {
+            var body  = task.html || task.text
+            if (!task.html) body = body.replace('\n','<br>')
+            return $.div({
+                key : 'DialogueItem'+index,
+                dangerouslySetInnerHTML : { __html : body } 
+            })
+        })
+        return $.div({
+            className : 'Conversation'
+        }, dialogue)
+    }
+}))
+
 var Email = React.createClass({
     render : function() {
         var email = this.props.selectedTask
         var body  = email.html || email.text
         if (!email.html) body = body.replace('\n','<br>')
+        var conversation = Conversation({ task : email }) 
         return $.div({
             key       : 'TaskView',
             className : 'TaskView'
@@ -31,7 +49,8 @@ var Email = React.createClass({
             $.div({ 
                 key       : 'Body', 
                 className : 'Body',
-                dangerouslySetInnerHTML : { __html : body } })
+                dangerouslySetInnerHTML : { __html : body } }),
+            conversation
         ])
     },
     componentDidMount : function() {
