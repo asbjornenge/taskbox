@@ -1,17 +1,16 @@
 {
-  "name": "mailpipe",
+  "name": "taskbox",
   "version": "1.0.0",
-  "description": "Mail app for inbox-zero freaks",
+  "description": "Turn your mail and tweets into tasks",
   "main": "app/index.html",
   "scripts": {
-    "start": "npm run copy & npm run copyGraphics & npm run watch & npm run stylus & npm run static & npm run livereload",
+    "start": "npm run copy & npm run watch & npm run stylus & npm run static & npm run livereload",
     "test": "mocha -R nyan -w --check-leaks",
-    "watch": "watchify app/app.js -t 6to5ify -o build/app.js",
+    "watch": "watchify app/app.js -t babelify -t brfs -o build/app.js",
     "livereload": "livereloadify build --glob '**/**'",
-    "stylus": "stylus -w app/styles/app.styl -o build",
+    "stylus": "stylus -w app/app.styl -o build",
     "static": "static build",
-    "copy": "cp app/index.html build/index.html",
-    "copyGraphics": "cp -r app/graphics build/graphics"
+    "copy": "cp app/index.html build/index.html"
   },
   "repository": {
     "type": "git",
@@ -29,6 +28,8 @@
   },
   "homepage": "https://github.com/asbjornenge/mailpipe",
   "dependencies": {
+    "babelify": "^5.0.4",
+    "brfs": "^1.4.0",
     "combokeys": "^2.3.0",
     "contextio": "^0.4.0",
     "firebase": "^2.1.1",
@@ -42,8 +43,5 @@
     "open": "0.0.5",
     "react": "^0.13.0-rc2",
     "tcomb-form": "^0.3.0-rc2"
-  },
-  "devDependencies": {
-    "6to5ify": "^3.1.2"
   }
 }

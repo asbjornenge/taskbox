@@ -2,16 +2,8 @@ var React       = require('react')
 var $           = React.DOM
 var _           = require('lodash')
 var flux        = require('fluxify')
+var TaskBoxItem = require('./components/TaskBoxItem'))
 var keyboard    = require('../io/KeyboardIO')
-var TaskStore   = require('../stores/TaskStore')
-var TaskBoxItem = React.createFactory(require('./TaskBoxView/TaskBoxItem'))
-var ViewActions = require('../actions/ViewActions')
-
-var getStateFromStores = function(mailbox) {
-    return {
-        tasks : TaskStore.state().tasks
-    }
-}
 
 var TaskBoxView = React.createClass({
     render : function() {
