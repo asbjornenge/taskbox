@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run copy & npm run watch & npm run stylus & npm run static & npm run livereload",
     "test": "mocha -R nyan -w --check-leaks",
-    "watch": "watchify app/app.js -t babelify -t brfs -o build/app.js",
+    "watch": "watchify app/app.js -t babelify -t imgify -o build/app.js",
     "livereload": "livereloadify build --glob '**/**'",
     "stylus": "stylus -w app/app.styl -o build",
     "static": "static build",
