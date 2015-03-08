@@ -16,7 +16,7 @@ let routes = {
 }
 
 React.render(
-    <FluxComponent flux={flux}>
+    <FluxComponent flux={flux} connectToStores={['settings']}>
         <Router routes={routes} />
     </FluxComponent>, 
     document.body
