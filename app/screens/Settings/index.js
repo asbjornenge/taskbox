@@ -1,12 +1,12 @@
 import React  from 'react'
 import Header from '../shared/components/Header'
 
-export default class TaskBox extends React.Component {
+export default class Settings extends React.Component {
     render() {
         return (
-            <div>
+            <div className="Settings">
                 <Header />
-                Tasks
+                Settings
             </div>
         )
     }

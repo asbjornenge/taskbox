@@ -6,6 +6,7 @@ export default class MailBox extends React.Component {
         return (
             <div className="MailBox">
                 <Header />
+                Mail
             </div>
         )
     }

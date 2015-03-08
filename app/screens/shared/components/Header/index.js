@@ -18,7 +18,9 @@ export default class Header extends React.Component {
                         <TaskBoxLink />
                     </FluxComponent>
                 </div>
-                <Logo />
+                <FluxComponent>
+                    <Logo />
+                </FluxComponent>
             </div>
         )
     }
