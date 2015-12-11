@@ -1,12 +1,17 @@
-import React         from 'react'
-import ReactDOM      from 'react-dom'
-import Router        from 'tiny-react-router'
-import Style         from '@taghub/component-style'
-import TaskBox       from './screens/TaskBox'
-import MailBox       from './screens/MailBox'
-import TweetBox      from './screens/TweetBox'
-import Settings      from './screens/Settings'
-import taskboxStyle  from './app.styl'
+import React           from 'react'
+import ReactDOM        from 'react-dom'
+import { createStore } from 'redux'
+import { Provider }    from 'react-redux'
+import Router          from 'tiny-react-router'
+import Style           from '@taghub/component-style'
+import TaskBox         from './screens/TaskBox'
+import MailBox         from './screens/MailBox'
+import TweetBox        from './screens/TweetBox'
+import Settings        from './screens/Settings'
+import reducers        from './redux'
+import taskboxStyle    from './app.styl'
+
+let store = createStore(reducers)
 
 let routes = {
     '/'         : TaskBox,
@@ -20,7 +25,9 @@ class TaskBoxApp extends React.Component {
         return (
             <div className="TaskBoxApp">
                 <Style style={taskboxStyle} />
-                <Router routes={routes} />
+                <Provider store={store}>
+                    <Router routes={routes} />
+                </Provider>
             </div>
         )
     }

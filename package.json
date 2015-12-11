@@ -27,6 +27,7 @@
   "dependencies": {
     "@taghub/component-style": "^1.0.1",
     "@taghub/taghub-styling": "^2.0.11",
+    "object.assign": "^4.0.3",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-redux": "^4.0.0",

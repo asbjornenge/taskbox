@@ -1,31 +1,37 @@
-import React  from 'react'
-import t      from 'tcomb-form'
-import Header from '../shared/components/Header'
+import React       from 'react'
+import t           from 'tcomb-form'
+import { connect } from 'react-redux'
+import Header      from '../shared/components/Header'
 
-export default class Settings extends React.Component {
+let Form = t.form.Form
+let FirebaseForm = t.struct({
+    url    : t.Str,
+    secret : t.Str 
+})
+
+class Settings extends React.Component {
     render() {
-        let Form         = t.form.Form
-        let FirebaseForm = this.buildFirebaseForm()
         return (
             <div className="Settings">
                 <Header />
                 <div className="ContentView">
                     <div className="FormLabel">Firebase</div>
-                    <Form ref="firebase" type={FirebaseForm} />
+                    <Form ref="firebaseform" type={FirebaseForm} value={this.props.config} />
                     <button onClick={this.onSave.bind(this)}>Save</button>
                 </div>
             </div>
         )
     }
-    buildFirebaseForm() {
-        return t.struct({
-            url    : t.maybe(t.Str),
-            secret : t.maybe(t.Str) 
-        })
-    }
     onSave() {
-        this.props.flux.getActions('settings').save({
-            firebase : this.refs.firebase.getValue()
+        let value = this.refs.firebaseform.getValue()
+        if (!value) return
+        this.props.dispatch({
+            type   : 'SET_CONFIG',
+            config : value
         })
     }
 }
+
+export default connect((state) => {
+    return { config : state.config }    
+})(Settings)
