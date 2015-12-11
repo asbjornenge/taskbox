@@ -1,13 +1,11 @@
 import React         from 'react'
+import ReactDOM      from 'react-dom'
 import Router        from 'tiny-react-router'
-import FluxComponent from 'flummox/component'
-import Flux          from './flux'
 import TaskBox       from './screens/TaskBox'
 import MailBox       from './screens/MailBox'
 import TweetBox      from './screens/TweetBox'
 import Settings      from './screens/Settings'
 
-let flux = new Flux()
 let routes = {
     '/'         : TaskBox,
     '/mailbox'  : MailBox, 
@@ -15,10 +13,8 @@ let routes = {
     '/settings' : Settings 
 }
 
-React.render(
-    <FluxComponent flux={flux} connectToStores={['settings']}>
-        <Router routes={routes} />
-    </FluxComponent>, 
+ReactDOM.render(
+    <Router routes={routes} />,
     document.body
 )
 

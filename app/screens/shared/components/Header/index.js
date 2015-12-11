@@ -1,5 +1,4 @@
 import React         from 'react'
-import FluxComponent from 'flummox/component'
 import Logo          from './components/Logo'
 import MailBoxLink   from './components/MailBoxLink'
 import TaskBoxLink   from './components/TaskBoxLink'
@@ -12,15 +11,11 @@ export default class Header extends React.Component {
             <div className="Header">
                 <style>{style}</style>
                 <div className="screenLinks">
-                    <FluxComponent>
-                        <MailBoxLink />
-                        <TweetBoxLink />
-                        <TaskBoxLink />
-                    </FluxComponent>
+                    <MailBoxLink />
+                    <TweetBoxLink />
+                    <TaskBoxLink />
                 </div>
-                <FluxComponent>
-                    <Logo />
-                </FluxComponent>
+                <Logo />
             </div>
         )
     }
