@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/asbjornenge/mailpipe.git"
+    "url": "https://github.com/asbjornenge/taskbox.git"
   },
   "keywords": [
     "mail",
@@ -21,9 +21,9 @@
   "author": "Asbjorn Enge <asbjorn@hanafjedle.net>",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/asbjornenge/mailpipe/issues"
+    "url": "https://github.com/asbjornenge/taskbox/issues"
   },
-  "homepage": "https://github.com/asbjornenge/mailpipe",
+  "homepage": "https://github.com/asbjornenge/taskbox",
   "dependencies": {
     "@taghub/component-style": "^1.0.1",
     "@taghub/taghub-styling": "^2.0.11",
