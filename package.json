@@ -4,13 +4,10 @@
   "description": "Turn your emails and tweets into tasks",
   "main": "app/index.html",
   "scripts": {
-    "start": "npm run copy & npm run watch & npm run stylus & npm run static & npm run livereload",
-    "test": "mocha -R nyan -w --check-leaks",
-    "watch": "watchify -d app/app.js -t babelify -t imgurify -t stylusify -o build/app.js",
-    "livereload": "livereloadify build --glob '**/**'",
-    "stylus": "stylus -w app/app.styl -o build",
-    "static": "static build",
-    "copy": "cp app/index.html build/index.html"
+    "start": "taghub-build start --hot --stylus --images --proxy demo",
+    "build": "taghub-build build --stylus --images",
+    "bundle": "taghub-build bundle",
+    "test": "BABEL_ENV=test mocha --compilers js:babel-core/register,styl:mocha-stylus-compiler -R nyan -w --check-leaks"
   },
   "repository": {
     "type": "git",
