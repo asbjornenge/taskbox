@@ -11,7 +11,7 @@ export default class Settings extends React.Component {
                 <Header />
                 <div className="ContentView">
                     <div className="FormLabel">Firebase</div>
-                    <Form ref="firebase" type={FirebaseForm} value={this.props.firebase.toJS()} />
+                    <Form ref="firebase" type={FirebaseForm} />
                     <button onClick={this.onSave.bind(this)}>Save</button>
                 </div>
             </div>
