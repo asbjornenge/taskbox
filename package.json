@@ -4,7 +4,7 @@
   "description": "Turn your emails and tweets into tasks",
   "main": "app/index.html",
   "scripts": {
-    "start": "taghub-build start --hot --stylus --images --proxy demo",
+    "start": "taghub-build start --hot --stylus --images",
     "build": "taghub-build build --stylus --images",
     "bundle": "taghub-build bundle",
     "test": "BABEL_ENV=test mocha --compilers js:babel-core/register,styl:mocha-stylus-compiler -R nyan -w --check-leaks"
@@ -29,6 +29,8 @@
     "@taghub/taghub-styling": "^2.0.11",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4",
     "tcomb-form": "^0.7.10",
     "tiny-react-router": "^1.0.2"
   },
@@ -54,5 +56,35 @@
     "testdom": "^2.0.0",
     "uglifyjs": "^2.4.10",
     "watchify": "^3.4.0"
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "presets": [
+          "es2015"
+        ]
+      },
+      "development": {
+        "stage": 0,
+        "plugins": [
+          "react-transform"
+        ],
+        "extra": {
+          "react-transform": {
+            "transforms": [
+              {
+                "transform": "react-transform-hmr",
+                "imports": [
+                  "react"
+                ],
+                "locals": [
+                  "module"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
   }
 }

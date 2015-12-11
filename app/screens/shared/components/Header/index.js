@@ -1,9 +1,10 @@
 import React         from 'react'
-import Logo          from './components/Logo'
-import MailBoxLink   from './components/MailBoxLink'
-import TaskBoxLink   from './components/TaskBoxLink'
-import TweetBoxLink  from './components/TweetBoxLink'
-import style         from './styles/index.styl'
+import style         from './header.styl'
+import mailIcon      from './graphics/mail.png'
+import tweetIcon     from './graphics/twitter.png'
+import listIcon      from './graphics/list.png'
+import ponyIcon      from './graphics/pony.png'
+import nav           from '../../utils/nav'
 
 export default class Header extends React.Component {
     render() {
@@ -11,11 +12,19 @@ export default class Header extends React.Component {
             <div className="Header">
                 <style>{style}</style>
                 <div className="screenLinks">
-                    <MailBoxLink />
-                    <TweetBoxLink />
-                    <TaskBoxLink />
+                    <div className="MailBoxLink screenLink" onClick={nav.navigate.bind(this, '/mailbox')}>
+                        <img src={mailIcon} />
+                    </div>
+                    <div className="TweetBoxLink screenLink" onClick={nav.navigate.bind(this, '/tweetbox')}>
+                        <img src={tweetIcon} />
+                    </div>
+                    <div className="TaskBoxLink screenLink" onClick={nav.navigate.bind(this, '/')}>
+                        <img src={listIcon} />
+                    </div>
                 </div>
-                <Logo />
+                <div className="Logo" onClick={nav.navigate.bind(this, '/settings')}>
+                    <img src={ponyIcon} />
+                </div>
             </div>
         )
     }
