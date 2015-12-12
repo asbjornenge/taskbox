@@ -12,13 +12,13 @@ class TaskBox extends React.Component {
     render() {
         let tasks = this.props.tasks.map(task => {
             return (
-                <div className="TaskBoxListItem">
+                <div className="TaskBoxListItem" key={task.id}>
                     {task.name}
                 </div>
             )
         })
         if (tasks.length == 0) tasks.push((
-            <div className="TaskBoxListItem empty">
+            <div className="TaskBoxListItem empty" key="empty">
                 No tasks
             </div>
         ))
@@ -32,8 +32,7 @@ class TaskBox extends React.Component {
             )
         }
         return (
-            <div>
-                <Header />
+            <div className="TaskBox">
                 <div className="taskActions">
                     <button onClick={this.onAddClick.bind(this)}>+</button>
                     {addInput}

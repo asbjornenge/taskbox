@@ -5,7 +5,6 @@ export default class MailBox extends React.Component {
     render() {
         return (
             <div className="TweetBox">
-                <Header />
                 Tweets
             </div>
         )

@@ -8,6 +8,7 @@ import TaskBox         from './screens/TaskBox'
 import MailBox         from './screens/MailBox'
 import TweetBox        from './screens/TweetBox'
 import Settings        from './screens/Settings'
+import Header          from './screens/shared/components/Header'
 import reducers        from './redux'
 import taskboxStyle    from './app.styl'
 
@@ -25,6 +26,7 @@ class TaskBoxApp extends React.Component {
         return (
             <div className="TaskBoxApp">
                 <Style style={taskboxStyle} />
+                <Header />
                 <Provider store={store}>
                     <Router routes={routes} />
                 </Provider>
