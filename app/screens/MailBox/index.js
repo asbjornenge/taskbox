@@ -5,7 +5,6 @@ import mailBoxStyle from './mailbox.styl'
 
 class MailBox extends React.Component {
     render() {
-        console.log(this.props)
         let email = this.props.email.map(email => {
             return (
                 <MailBoxItem key={email.id} email={email} />
