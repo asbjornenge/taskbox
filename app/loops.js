@@ -8,7 +8,10 @@ let emailIntervalFunc = (store) => {
     if (!state.config || !state.config.nylasToken) return
 
     nanoxhr(nylasBaseUrl+'/threads')
-        .query({ limit : 10 })
+        .query({ 
+            in    : 'inbox',
+            limit : 10 
+        })
         .set('Authorization', `Basic ${token(state.config.nylasToken,'')}`)
         .call(res => {
             if (res.status != 200) return
