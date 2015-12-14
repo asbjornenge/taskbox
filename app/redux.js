@@ -15,6 +15,10 @@ let reducers = (state = initialState, action) => {
             return assign({}, state, { 
                 config        : action.config
             })
+        case 'SET_EMAIL':
+            return assign({}, state, { 
+                email : action.email
+            })
         default:
             return state
     } 

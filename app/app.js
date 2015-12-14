@@ -10,6 +10,7 @@ import TweetBox        from './screens/TweetBox'
 import Settings        from './screens/Settings'
 import Header          from './screens/shared/components/Header'
 import reducers        from './redux'
+import loops           from './loops'
 import taskboxStyle    from './app.styl'
 
 let store = createStore(reducers)
@@ -36,3 +37,5 @@ class TaskBoxApp extends React.Component {
 }
 
 ReactDOM.render(<TaskBoxApp />, document.querySelector('#app'))
+
+loops(store)
