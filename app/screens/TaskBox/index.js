@@ -1,6 +1,6 @@
-import React       from 'react'
-import { connect } from 'react-redux'
-import Header      from '../shared/components/Header'
+import React        from 'react'
+import { connect }  from 'react-redux'
+import { firebase } from '../../loops'
 
 class TaskBox extends React.Component {
     constructor(props) {
@@ -48,7 +48,11 @@ class TaskBox extends React.Component {
         this.setState({ adding : !this.state.adding })
     }
     onSaveClick() {
-        console.log('saving')
+        let name = this.refs.addInput.value
+        if (!name) return
+        firebase.child('/taskbox').push({
+            name : name
+        })
     }
 }
 

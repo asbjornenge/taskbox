@@ -19,6 +19,10 @@ let reducers = (state = initialState, action) => {
             return assign({}, state, { 
                 email : action.email
             })
+        case 'ADD_TASK':
+            return assign({}, state, {
+                tasks : [action.task].concat(state.tasks)
+            })
         default:
             return state
     } 
