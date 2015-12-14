@@ -8,6 +8,7 @@ import TaskBox         from './screens/TaskBox'
 import MailBox         from './screens/MailBox'
 import TweetBox        from './screens/TweetBox'
 import Settings        from './screens/Settings'
+import Task            from './screens/Task'
 import Header          from './screens/shared/components/Header'
 import reducers        from './redux'
 import loops           from './loops'
@@ -16,10 +17,12 @@ import taskboxStyle    from './app.styl'
 let store = createStore(reducers)
 
 let routes = {
-    '/'         : TaskBox,
-    '/mailbox'  : MailBox, 
-    '/tweetbox' : TweetBox,
-    '/settings' : Settings 
+    '/'            : TaskBox,
+    '/taskbox'     : TaskBox,
+    '/taskbox/:id' : Task,
+    '/mailbox'     : MailBox, 
+    '/tweetbox'    : TweetBox,
+    '/settings'    : Settings 
 }
 
 class TaskBoxApp extends React.Component {

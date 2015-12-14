@@ -1,6 +1,9 @@
 import React        from 'react'
 import { connect }  from 'react-redux'
 import { firebase } from '../../loops'
+import TaskBoxItem  from './components/TaskBoxItem'
+import TaskForm     from './components/TaskForm'
+import taskBoxStyle from './taskbox.styl'
 
 class TaskBox extends React.Component {
     constructor(props) {
@@ -11,34 +14,19 @@ class TaskBox extends React.Component {
     }
     render() {
         let tasks = this.props.tasks.map(task => {
-            return (
-                <div className="TaskBoxListItem" key={task.id}>
-                    {task.name}
-                </div>
-            )
+            return <TaskBoxItem key={task.id} task={task} />
         })
-        if (tasks.length == 0) tasks.push((
-            <div className="TaskBoxListItem empty" key="empty">
-                No tasks
-            </div>
-        ))
-        let addInput, addSave
-        if (this.state.adding) {
-            addInput = (
-                <input ref="addInput" type="text" />
-            )
-            addSave = (
-                <button onClick={this.onSaveClick.bind(this)}>Save</button>
-            )
-        }
+
         return (
             <div className="TaskBox">
-                <div className="taskActions">
+                <style>{taskBoxStyle}</style>
+                <div className="actions">
                     <button onClick={this.onAddClick.bind(this)}>+</button>
-                    {addInput}
-                    {addSave}
                 </div>
-                <div className="taskList">
+                <div className="form">
+                    <TaskForm adding={this.state.adding} firebase={firebase} />
+                </div>
+                <div className="list">
                     {tasks}
                 </div>
             </div>
@@ -46,13 +34,6 @@ class TaskBox extends React.Component {
     }
     onAddClick() {
         this.setState({ adding : !this.state.adding })
-    }
-    onSaveClick() {
-        let name = this.refs.addInput.value
-        if (!name) return
-        firebase.child('/taskbox').push({
-            name : name
-        })
     }
 }
 

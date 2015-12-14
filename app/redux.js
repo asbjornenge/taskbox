@@ -23,6 +23,10 @@ let reducers = (state = initialState, action) => {
             return assign({}, state, {
                 tasks : [action.task].concat(state.tasks)
             })
+        case 'REMOVE_TASK':
+            return assign({}, state, {
+                tasks : state.tasks.filter(task => task.id != action.task.id) 
+            })
         default:
             return state
     } 

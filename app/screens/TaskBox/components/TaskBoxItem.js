@@ -1,38 +1,18 @@
-var React  = require('react')
-var $      = React.DOM
-var flux   = require('fluxify')
-var moment = require('moment')
+import React  from 'react'
+import moment from 'moment'
+import nav    from '../../shared/utils/nav'
 
-var MailBoxItem = React.createClass({
-    render : function() {
+export default class MailBoxItem extends React.Component {
+    render() {
         var classes = 'TaskBoxItem'
         if (this.props.selected) classes += ' selected'
-        var email = this.props.task
-        var from  = email.from.length > 0 ? email.from[0] : { address : '' }
-        return $.li({
-            className : classes
-//            onClick   : this.onClick
-        },[
-            $.div({
-                key : 'Meta',
-                className : 'Meta'
-            },[
-                $.span({ key : 'From', className : 'From' }, from.address),
-                $.span({ key : 'Time', className : 'Time' }, email.date.format('h:mm'))
-            ]),
-            $.div({
-                key : 'Subject',
-                className : 'Subject'
-            }, email.subject),
-            $.div({
-                key : 'BodySummary',
-                className : 'BodySummary'
-            }, email.text ? email.text.slice(0,100) : '')
-        ])
-    },
-    onClick : function() {
-        flux.doAction('viewEmail', this.props.email)
+        let date = moment(this.props.task.date).format('MMM Do')
+        return (
+            <div className={classes} onClick={nav.navigate.bind(undefined, `/taskbox/${this.props.task.id}`)}>
+                <div className="date">{date}</div>
+                <div className="name">{this.props.task.name}</div>
+                <div className="summary">{this.props.task.summary}</div>
+            </div>
+        )
     }
-})
-
-module.exports = MailBoxItem
+}
