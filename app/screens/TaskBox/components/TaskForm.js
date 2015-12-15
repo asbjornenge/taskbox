@@ -4,13 +4,14 @@ import assign from 'object.assign'
 
 let Form = t.form.Form
 let TaskFormForm = t.struct({
-    name    : t.Str,
-    summary : t.maybe(t.Str)
+    name    : t.Str
 })
 let options = {
     fields : {
-        summary : {
-            type : 'textarea'
+        name : {
+            attrs : {
+                className : 'focusMe'
+            }
         }
     }
 }
@@ -32,6 +33,12 @@ export default class TaskForm extends React.Component {
             type : 'task',
             date : new Date().getTime()
         })
-        this.props.firebase.child('/taskbox').push(task)
+        this.props.addTask(task)
+    }
+    componentDidUpdate(prevprops, prevstate) {
+        if (!prevprops.adding && this.props.adding) {
+            console.log('her')
+            setTimeout(() => { document.querySelector('.focusMe').focus() })
+        }
     }
 }

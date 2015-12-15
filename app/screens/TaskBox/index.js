@@ -1,5 +1,6 @@
 import React        from 'react'
 import { connect }  from 'react-redux'
+import assign       from 'object.assign'
 import { firebase } from '../../loops'
 import nav          from '../shared/utils/nav'
 import TaskBoxItem  from './components/TaskBoxItem'
@@ -26,7 +27,7 @@ class TaskBox extends React.Component {
                     <button onClick={this.onAddClick.bind(this)}>+</button>
                 </div>
                 <div className="form">
-                    <TaskForm adding={this.state.adding} firebase={firebase} />
+                    <TaskForm ref="form" adding={this.state.adding} addTask={this.addTask.bind(this)} />
                 </div>
                 <div className="list">
                     {tasks}
@@ -36,6 +37,10 @@ class TaskBox extends React.Component {
     }
     onAddClick() {
         this.setState({ adding : !this.state.adding })
+    }
+    addTask(task) {
+        firebase.child('/taskbox').push(task)
+        this.setState({ adding : false })
     }
     keyDown(e) {
         let selectedIndex, showSelectedTaskIndex 
@@ -54,17 +59,27 @@ class TaskBox extends React.Component {
                 break
             case 27:
                 // ESC
+                if (this.state.adding) return this.setState({ adding : false })
                 showSelectedTaskIndex = false
                 break
             case 13:
                 // ENTER
-                if (this.state.showSelectedTaskIndex && this.props.selectedTaskIndex >= 0) {
+                if (this.state.adding) {
+                    let value = this.refs.form.refs.form.getValue()
+                    if (!value) return
+                    let task = assign({}, value, {
+                        type : 'task',
+                        date : new Date().getTime()
+                    })
+                    this.addTask(task)
+                }
+                else if (this.state.showSelectedTaskIndex && this.props.selectedTaskIndex >= 0) {
                    nav.navigate(`/taskbox/${this.props.tasks[this.props.selectedTaskIndex].id}`)
                 }
                 break
             case 187:
                 // +
-                this.onAddClick()
+                this.setState({ adding : true })
                 break
         }
         if (selectedIndex != undefined) {
@@ -75,7 +90,7 @@ class TaskBox extends React.Component {
         }
         let state = {}
         if (showSelectedTaskIndex != undefined) state.showSelectedTaskIndex = showSelectedTaskIndex
-        this.setState(state)
+        if (Object.keys(state).length > 0) this.setState(state)
     }
     componentDidMount() {
         window.addEventListener('keydown', this.keyDownHandler)
