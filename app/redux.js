@@ -5,7 +5,8 @@ let initialState = {
     tasks  : [],
     tweets : [],
     email  : [],
-    firebase : null
+    firebase : null,
+    selectedEmailIndex : -1
 }
 
 let reducers = (state = initialState, action) => {
@@ -26,6 +27,10 @@ let reducers = (state = initialState, action) => {
         case 'REMOVE_TASK':
             return assign({}, state, {
                 tasks : state.tasks.filter(task => task.id != action.task.id) 
+            })
+        case 'SET_SELECTED_EMAIL_INDEX':
+            return assign({}, state, {
+                selectedEmailIndex : action.index 
             })
         default:
             return state

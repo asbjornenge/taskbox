@@ -7,8 +7,8 @@ export default class MailBoxItem extends React.Component {
         if (this.props.selected) classes += ' selected'
         let participants = this.props.email.participants
             .filter((participant, index) => index < 2)
-            .map(participant => {
-                return <span key={participant.email}>{participant.email}</span>
+            .map((participant, index) => {
+                return <span key={participant.email+index}>{participant.email}</span>
             })
         if (this.props.email.participants.length > 2) participants.push((
             <span key="more">{'('+(this.props.email.participants.length-2)+' more)'}</span>

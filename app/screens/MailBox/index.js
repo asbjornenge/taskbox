@@ -1,13 +1,21 @@
 import React        from 'react'
 import { connect }  from 'react-redux'
+import nav          from '../shared/utils/nav'
 import MailBoxItem  from './components/MailBoxItem'
 import mailBoxStyle from './mailbox.styl'
 
 class MailBox extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            showSelectedEmailIndex : false
+        }
+        this.keyDownHandler = this.handleKey.bind(this)
+    }
     render() {
-        let email = this.props.email.map(email => {
+        let email = this.props.email.map((email, index) => {
             return (
-                <MailBoxItem key={email.id} email={email} />
+                <MailBoxItem key={email.id} email={email} selected={this.state.showSelectedEmailIndex && (index == this.props.selectedEmailIndex)} />
             )
         })
         return (
@@ -17,10 +25,52 @@ class MailBox extends React.Component {
             </div>
         )
     }
+    handleKey(e) {
+        let selectedIndex, showSelectedEmailIndex
+        switch(e.which) {
+            case 40:
+                // DOWN
+                if (this.state.showSelectedEmailIndex)
+                    selectedIndex = this.props.selectedEmailIndex < this.props.email.length-1 ? this.props.selectedEmailIndex+1 : this.props.email.length-1
+                showSelectedEmailIndex = true
+                break
+            case 38:
+                // UP 
+                if (this.state.showSelectedEmailIndex)
+                    selectedIndex = this.props.selectedEmailIndex > -1 ? this.props.selectedEmailIndex-1 : -1
+                showSelectedEmailIndex = true
+                break
+            case 27:
+                // ESC
+                showSelectedEmailIndex = false
+                break
+            case 13:
+                // ENTER
+                if (this.state.showSelectedEmailIndex && this.props.selectedEmailIndex >= 0) {
+                   nav.navigate(`/mailbox/${this.props.email[this.props.selectedEmailIndex].id}`)
+                }
+        }
+        if (selectedIndex != undefined) {
+            this.props.dispatch({
+                type  : 'SET_SELECTED_EMAIL_INDEX',
+                index : selectedIndex
+            })
+        }
+        let state = {}
+        if (showSelectedEmailIndex != undefined) state.showSelectedEmailIndex = showSelectedEmailIndex
+        this.setState(state)
+    }
+    componentDidMount() {
+        window.addEventListener('keydown', this.keyDownHandler)
+    }
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.keyDownHandler)
+    }
 }
 
 export default connect(state => {
     return {
-        email : state.email
+        email : state.email,
+        selectedEmailIndex : state.selectedEmailIndex
     }
 })(MailBox)
