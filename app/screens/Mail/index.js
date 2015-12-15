@@ -1,18 +1,33 @@
 import React       from 'react'
 import { connect } from 'react-redux'
 import nanoxhr     from 'nanoxhr'
+import token       from 'basic-auth-token'
+
+class Message extends React.Component {
+    render() {
+        return (
+            <div className="Message">
+                <div className="body"i dangerouslySetInnerHTML={{ __html : this.props.message.body}}></div>
+            </div>
+        )
+    }
+}
 
 class Mail extends React.Component {
     render() {
         let email = this.pickEmail()
         if (!email) return <div>Email not found</div>
         let participants = email.participants.map((par, index) => <span key={par.email+index}>{par.email}</span>)
-        console.log(email)
+        let messages
+        if (!email.fullThread) this.getFullThread(email)
+        else messages = email.fullThread.map(msg => <Message key={msg.id} message={msg} />)
         return (
             <div className="Mail">
                 <h1>{email.subject}</h1>
                 <p>{participants}</p>
-                <p>{email.snippet}</p>
+                <div className="messages">
+                    {messages}
+                </div>
             </div>
         )
     }
@@ -23,12 +38,27 @@ class Mail extends React.Component {
             return found
         }, null)
     }
-    getFullThread() {
+    getFullThread(email) {
+        if (this.querying) return
+        this.querying = true
+        console.log('getting full thread')
+        nanoxhr(`${this.props.config.nylasUrl}/messages`)
+            .query({
+                thread_id : email.id
+            })
+            .set('Authorization', `Basic ${token(this.props.config.nylasToken,'')}`)
+            .call(res => {
+                if (res.status != 200) return
+                let fullThread = JSON.parse(res.response)
+                email.fullThread = fullThread
+                this.forceUpdate()
+            })
     }
 }
 
 export default connect(state => {
     return {
-        email : state.email
+        email  : state.email,
+        config : state.config
     }
 })(Mail)
