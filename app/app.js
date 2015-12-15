@@ -9,6 +9,7 @@ import MailBox         from './screens/MailBox'
 import TweetBox        from './screens/TweetBox'
 import Settings        from './screens/Settings'
 import Task            from './screens/Task'
+import Mail            from './screens/Mail'
 import Header          from './screens/shared/components/Header'
 import reducers        from './redux'
 import loops           from './loops'
@@ -21,6 +22,7 @@ let routes = {
     '/taskbox'     : TaskBox,
     '/taskbox/:id' : Task,
     '/mailbox'     : MailBox, 
+    '/mailbox/:id' : Mail,
     '/tweetbox'    : TweetBox,
     '/settings'    : Settings 
 }
