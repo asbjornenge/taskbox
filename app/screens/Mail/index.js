@@ -2,6 +2,7 @@ import React       from 'react'
 import { connect } from 'react-redux'
 import nanoxhr     from 'nanoxhr'
 import token       from 'basic-auth-token'
+import mailStyle   from './mail.styl'
 
 class Message extends React.Component {
     render() {
@@ -23,6 +24,7 @@ class Mail extends React.Component {
         else messages = email.fullThread.map(msg => <Message key={msg.id} message={msg} />)
         return (
             <div className="Mail">
+                <style>{mailStyle}</style>
                 <h1>{email.subject}</h1>
                 <p>{participants}</p>
                 <div className="messages">
