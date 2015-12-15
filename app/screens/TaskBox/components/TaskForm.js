@@ -29,6 +29,7 @@ export default class TaskForm extends React.Component {
         let value = this.refs.form.getValue()
         if (!value) return
         let task = assign({}, value, {
+            type : 'task',
             date : new Date().getTime()
         })
         this.props.firebase.child('/taskbox').push(task)

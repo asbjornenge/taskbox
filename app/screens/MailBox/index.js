@@ -2,6 +2,7 @@ import React        from 'react'
 import { connect }  from 'react-redux'
 import nanoxhr      from 'nanoxhr'
 import token        from 'basic-auth-token'
+import { firebase } from '../../loops'
 import nav          from '../shared/utils/nav'
 import MailBoxItem  from './components/MailBoxItem'
 import mailBoxStyle from './mailbox.styl'
@@ -29,7 +30,6 @@ class MailBox extends React.Component {
     }
     handleKey(e) {
         let selectedIndex, showSelectedEmailIndex
-        console.log(e.which)
         switch(e.which) {
             case 40:
                 // DOWN
@@ -93,10 +93,18 @@ class MailBox extends React.Component {
                     email : email
                 })
             })
-        console.log(new_labels)
     }
     taskifyEmail(email) {
-
+        let task = {
+            type    : 'email',
+            name    : email.subject,
+            summary : email.snippet,
+            email   : email,
+            date    : new Date().getTime()
+        }
+        firebase.child('/taskbox').push(task, () => {
+            this.archiveEmail(email)
+        })
     }
     componentDidMount() {
         window.addEventListener('keydown', this.keyDownHandler)
