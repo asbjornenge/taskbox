@@ -2,6 +2,7 @@ import React        from 'react'
 import { connect }  from 'react-redux'
 import { firebase } from '../../loops'
 import nav          from '../shared/utils/nav'
+import taskStyle    from './task.styl'
 
 class TaskNotFound extends React.Component {
     render() {
@@ -15,7 +16,8 @@ class Task extends React.Component {
         if (!task) return <TaskNotFound /> 
         return (
             <div className="Task">
-                <div className="name">{task.name}</div>
+                <style>{taskStyle}</style>
+                <h1>{task.name}</h1>
                 <div className="summary">{task.summary}</div>
                 <div className="buttons">
                     <button onClick={this.removeTask.bind(this)}>Remove</button>
