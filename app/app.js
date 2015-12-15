@@ -1,63 +1,44 @@
-var React          = require('react')
-var $              = React.DOM
-var flux           = require('fluxify')
-var EventEmitter   = require('events').EventEmitter
-var keyboard       = require('./io/KeyboardIO')
-var ViewStore      = require('./stores/ViewStore')
-var emitter        = new EventEmitter()
+import React           from 'react'
+import ReactDOM        from 'react-dom'
+import { createStore } from 'redux'
+import { Provider }    from 'react-redux'
+import Router          from 'tiny-react-router'
+import Style           from '@taghub/component-style'
+import TaskBox         from './screens/TaskBox'
+import MailBox         from './screens/MailBox'
+import TweetBox        from './screens/TweetBox'
+import Settings        from './screens/Settings'
+import Task            from './screens/Task'
+import Header          from './screens/shared/components/Header'
+import reducers        from './redux'
+import loops           from './loops'
+import taskboxStyle    from './app.styl'
 
-var getStateFromStores = function() {
-    return {
-        mainView        : ViewStore.main,
-        actionView      : ViewStore.actions,
-        selectedMailbox : ViewStore.mailbox,
-        selectedEmail   : ViewStore.email
+let store = createStore(reducers)
+
+let routes = {
+    '/'            : TaskBox,
+    '/taskbox'     : TaskBox,
+    '/taskbox/:id' : Task,
+    '/mailbox'     : MailBox, 
+    '/tweetbox'    : TweetBox,
+    '/settings'    : Settings 
+}
+
+class TaskBoxApp extends React.Component {
+    render() {
+        return (
+            <div className="TaskBoxApp">
+                <Style style={taskboxStyle} />
+                <Header />
+                <Provider store={store}>
+                    <Router routes={routes} />
+                </Provider>
+            </div>
+        )
     }
 }
 
-var Mailpipe = React.createClass({
-    render : function() {
-        return $.div({},[
-            $.div({
-                key       : 'ActionBox',
-                className : 'ActionBox'
-            }, [
-//                this.state.actionView()
-            ]),
-            $.div({
-                key       : 'MainBox',
-                className : 'MailBox'
-            },[
-                this.state.mainView({
-                    key           : 'MainView',
-                    emitter       : emitter,
-                    selectedEmail : this.state.selectedEmail
-                })
-            ])
-        ])
-    },
-    getInitialState : function() {
-        return getStateFromStores()
-    },
-    onStoreChange : function() {
-        this.setState(getStateFromStores())
-    },
-    componentDidMount : function() {
-        ViewStore.on('change', this.onStoreChange)
-        keyboard.bind('ctrl+r', function() { emitter.emit('reload') })
-    },
-    componentWillUnmount : function() {
-        ViewStore.off('change', this.onStoreChange)
-    }
-})
+ReactDOM.render(<TaskBoxApp />, document.querySelector('#app'))
 
-// Livereload for dev
-require('./dev')()
-
-// Reload interval
-setInterval(function() {
-    console.log('reload interval')
-//    flux.doAction('reloadAllEmail')
-}, 300*1000)
-
-React.render(React.createFactory(Mailpipe)(), document.body)
+loops(store)

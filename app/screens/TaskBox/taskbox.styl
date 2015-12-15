@@ -1,0 +1,42 @@
+.TaskBox
+    flex auto
+    overflow auto
+
+    .actions
+        display flex
+        justify-content flex-end
+        button
+            background none
+            border none
+            color white
+            font-size 2em
+            &:focus
+                outline 0
+
+    .form
+        label
+            display block
+
+    .list
+        .TaskBoxItem
+            display block
+            padding 10px
+            border-bottom 1px solid #ccc
+            height 86px
+            overflow hidden
+
+            .date
+                float right
+
+            .participants
+                span
+                    margin-right 10px
+
+            .name
+                color white
+                font-weight bold
+                margin-top 5px
+                margin-bottom 5px
+
+            .summary
+                opacity 0.5

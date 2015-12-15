@@ -1,17 +1,17 @@
 {
-  "name": "mailpipe",
+  "name": "taskbox",
   "version": "1.0.0",
-  "description": "Mail app for inbox-zero freaks",
+  "description": "Turn your emails and tweets into tasks",
   "main": "app/index.html",
   "scripts": {
-    "start": "npm run livereload & npm run stylus",
-    "test": "mocha -R nyan -w --check-leaks",
-    "livereload": "livereloadify app --glob '**/**'",
-    "stylus": "stylus -w app/styles/mailpipe.styl -o app"
+    "start": "taghub-build start --hot --stylus --images",
+    "build": "taghub-build build --stylus --images",
+    "bundle": "taghub-build bundle",
+    "test": "BABEL_ENV=test mocha --compilers js:babel-core/register,styl:mocha-stylus-compiler -R nyan -w --check-leaks"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/asbjornenge/mailpipe.git"
+    "url": "https://github.com/asbjornenge/taskbox.git"
   },
   "keywords": [
     "mail",
@@ -21,21 +21,75 @@
   "author": "Asbjorn Enge <asbjorn@hanafjedle.net>",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/asbjornenge/mailpipe/issues"
+    "url": "https://github.com/asbjornenge/taskbox/issues"
   },
-  "homepage": "https://github.com/asbjornenge/mailpipe",
+  "homepage": "https://github.com/asbjornenge/taskbox",
   "dependencies": {
-    "combokeys": "^2.3.0",
-    "contextio": "^0.4.0",
-    "fluxify": "^0.2.1",
-    "jquery": "^2.1.3",
-    "lodash": "^2.4.1",
-    "moment": "^2.9.0",
-    "open": "0.0.5",
-    "react": "^0.12.2",
-    "tcomb-form": "^0.3.0-rc2"
+    "@taghub/component-style": "^1.0.1",
+    "@taghub/taghub-styling": "^2.0.11",
+    "basic-auth-token": "^0.4.2",
+    "firebase": "^2.3.2",
+    "moment": "^2.10.6",
+    "nanoxhr": "^1.0.2",
+    "object.assign": "^4.0.3",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4",
+    "tcomb-form": "^0.7.10",
+    "tiny-react-router": "^1.0.2"
   },
   "devDependencies": {
-    "6to5ify": "^3.1.2"
+    "@taghub/taghub-build": "^1.1.0",
+    "babel-core": "^6.1.21",
+    "babel-plugin-react-transform": "^1.1.1",
+    "babel-preset-es2015": "^6.1.18",
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "browserify-hmr": "^0.3.1",
+    "concurrently": "^0.1.0",
+    "cssnano": "^3.3.1",
+    "imgurify": "^1.2.0",
+    "livereloadify": "^2.0.0",
+    "mocha": "^2.3.4",
+    "mocha-imguri-compiler": "^1.1.1",
+    "mocha-stylus-compiler": "^1.0.1",
+    "react-transform-hmr": "^1.0.1",
+    "resolvify": "^1.0.2",
+    "stylus": "^0.51.1",
+    "stylusify": "^2.1.0",
+    "testdom": "^2.0.0",
+    "uglifyjs": "^2.4.10",
+    "watchify": "^3.4.0"
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "presets": [
+          "es2015"
+        ]
+      },
+      "development": {
+        "stage": 0,
+        "plugins": [
+          "react-transform"
+        ],
+        "extra": {
+          "react-transform": {
+            "transforms": [
+              {
+                "transform": "react-transform-hmr",
+                "imports": [
+                  "react"
+                ],
+                "locals": [
+                  "module"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
   }
 }

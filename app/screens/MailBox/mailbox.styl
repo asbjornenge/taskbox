@@ -1,0 +1,30 @@
+.MailBox
+    flex auto
+    overflow auto
+
+    .MailBoxItem
+        display block
+        padding 10px
+        border 1px solid transparent
+        border-bottom 1px solid #ccc
+        height 86px
+        overflow hidden
+
+        &.selected
+            border 1px solid red
+
+        .date
+            float right
+
+        .participants
+            span
+                margin-right 10px
+
+        .subject
+            color white
+            font-weight bold
+            margin-top 5px
+            margin-bottom 5px
+
+        .summary
+            opacity 0.5
