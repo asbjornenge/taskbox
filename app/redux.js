@@ -20,6 +20,10 @@ let reducers = (state = initialState, action) => {
             return assign({}, state, { 
                 email : action.email
             })
+        case 'REMOVE_EMAIL':
+            return assign({}, state, {
+                email : state.email.filter(email => email.id != action.email.id) 
+            })
         case 'ADD_TASK':
             return assign({}, state, {
                 tasks : [action.task].concat(state.tasks)

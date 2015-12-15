@@ -1,5 +1,7 @@
 import React        from 'react'
 import { connect }  from 'react-redux'
+import nanoxhr      from 'nanoxhr'
+import token        from 'basic-auth-token'
 import nav          from '../shared/utils/nav'
 import MailBoxItem  from './components/MailBoxItem'
 import mailBoxStyle from './mailbox.styl'
@@ -27,6 +29,7 @@ class MailBox extends React.Component {
     }
     handleKey(e) {
         let selectedIndex, showSelectedEmailIndex
+        console.log(e.which)
         switch(e.which) {
             case 40:
                 // DOWN
@@ -49,6 +52,19 @@ class MailBox extends React.Component {
                 if (this.state.showSelectedEmailIndex && this.props.selectedEmailIndex >= 0) {
                    nav.navigate(`/mailbox/${this.props.email[this.props.selectedEmailIndex].id}`)
                 }
+                break
+            case 39:
+                // RIGHT
+                if (this.state.showSelectedEmailIndex && this.props.selectedEmailIndex >= 0) {
+                    this.archiveEmail(this.props.email[this.props.selectedEmailIndex])
+                }
+                break
+            case 37:
+                // LEFT
+                if (this.state.showSelectedEmailIndex && this.props.selectedEmailIndex >= 0) {
+                    this.taskifyEmail(this.props.email[this.props.selectedEmailIndex])
+                }
+                break
         }
         if (selectedIndex != undefined) {
             this.props.dispatch({
@@ -59,6 +75,28 @@ class MailBox extends React.Component {
         let state = {}
         if (showSelectedEmailIndex != undefined) state.showSelectedEmailIndex = showSelectedEmailIndex
         this.setState(state)
+    }
+    archiveEmail(email) {
+        let new_labels = email.labels
+            .filter(label => label.display_name.toLowerCase() != 'inbox')
+            .map(label => label.id)
+        nanoxhr(`${this.props.config.nylasUrl}/threads/${email.id}`)
+            .method('PUT')
+            .set('Authorization', `Basic ${token(this.props.config.nylasToken,'')}`)
+            .data(JSON.stringify({
+                label_ids : new_labels
+            }))
+            .call(res => {
+                if (res.status != 200) return
+                this.props.dispatch({
+                    type  : 'REMOVE_EMAIL',
+                    email : email
+                })
+            })
+        console.log(new_labels)
+    }
+    taskifyEmail(email) {
+
     }
     componentDidMount() {
         window.addEventListener('keydown', this.keyDownHandler)
@@ -71,6 +109,7 @@ class MailBox extends React.Component {
 export default connect(state => {
     return {
         email : state.email,
+        config : state.config,
         selectedEmailIndex : state.selectedEmailIndex
     }
 })(MailBox)
