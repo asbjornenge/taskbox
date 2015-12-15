@@ -2,13 +2,11 @@ import nanoxhr  from 'nanoxhr'
 import token    from 'basic-auth-token'
 import Firebase from 'firebase/lib/firebase-web'
 
-let nylasBaseUrl = 'https://api.nylas.com'
-
 let emailIntervalFunc = (store) => {
     let state = store.getState()
-    if (!state.config || !state.config.nylasToken) return
+    if (!state.config || !state.config.nylasToken || !state.config.nylasUrl) return
 
-    nanoxhr(nylasBaseUrl+'/threads')
+    nanoxhr(state.config.nylasUrl+'/threads')
         .query({ 
             in    : 'inbox',
             limit : 10 
@@ -28,11 +26,11 @@ let firebase;
 let taskListener = (store) => {
     // Bind and unbind to the firebase depending on if settings exist
     let state = store.getState()
-    if (!state.config || !state.config.url || !state.config.secret) return
+    if (!state.config || !state.config.firebaseUrl || !state.config.firebaseSecret) return
     // TODO: Check if firebase is online ??
     if (firebase != undefined) return
-    firebase = new Firebase(state.config.url)
-    firebase.authWithCustomToken(state.config.secret, () => {})
+    firebase = new Firebase(state.config.firebaseUrl)
+    firebase.authWithCustomToken(state.config.firebaseSecret, () => {})
     firebase.child('/taskbox').on('child_added', (snap) => {
         let task = snap.val()
         task.id  = snap.name()

@@ -1,15 +1,16 @@
-import React       from 'react'
-import t           from 'tcomb-form'
-import { connect } from 'react-redux'
-import assign      from 'object.assign'
-import Header      from '../shared/components/Header'
+import React        from 'react'
+import t            from 'tcomb-form'
+import { connect }  from 'react-redux'
+import assign       from 'object.assign'
+import settingStyle from './settings.styl'
 
 let Form = t.form.Form
 let FirebaseForm = t.struct({
-    url    : t.Str,
-    secret : t.Str 
+    firebaseUrl    : t.Str,
+    firebaseSecret : t.Str 
 })
 let NylasForm = t.struct({
+    nylasUrl   : t.Str,
     nylasToken : t.Str
 })
 
@@ -17,8 +18,8 @@ class Settings extends React.Component {
     render() {
         return (
             <div className="Settings">
+                <style>{settingStyle}</style>
                 <div className="ContentView">
-                    <div className="FormLabel">Firebase</div>
                     <Form ref="firebaseform" type={FirebaseForm} value={this.props.config} />
                     <Form ref="nylasform" type={NylasForm} value={this.props.config} />
                     <button onClick={this.onSave.bind(this)}>Save</button>
