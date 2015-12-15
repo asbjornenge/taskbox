@@ -9,12 +9,21 @@ let emailIntervalFunc = (store) => {
     nanoxhr(state.config.nylasUrl+'/threads')
         .query({ 
             in    : 'inbox',
-            limit : 10 
+            limit : 100 
         })
         .set('Authorization', `Basic ${token(state.config.nylasToken,'')}`)
         .call(res => {
             if (res.status != 200) return
-            let email = JSON.parse(res.response)
+            let freshEmail = JSON.parse(res.response)
+            let freshEmailIds = freshEmail.map(email => email.id)
+            let currentEmailIds = state.email.map(email => email.id)
+
+            let newEmail = freshEmail.filter(email => currentEmailIds.indexOf(email.id) < 0)
+
+            let email = state.email
+                .filter(email => freshEmailIds.indexOf(email.id) >= 0) // Remove what is no longer in inbox
+                .concat(newEmail) // Add new
+
             store.dispatch({
                 type  : 'SET_EMAIL',
                 email : email 
