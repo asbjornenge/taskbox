@@ -5,6 +5,7 @@ import { firebase } from '../../loops'
 import nav          from '../shared/utils/nav'
 import TaskBoxItem  from './components/TaskBoxItem'
 import TaskForm     from './components/TaskForm'
+import Postponer    from './components/Postponer'
 import taskBoxStyle from './taskbox.styl'
 
 class TaskBox extends React.Component {
@@ -12,6 +13,7 @@ class TaskBox extends React.Component {
         super(props)
         this.state = {
             adding : false,
+            showPostponer :  false,
             showSelectedTaskIndex : false
         }
         this.keyDownHandler = this.keyDown.bind(this)
@@ -20,9 +22,12 @@ class TaskBox extends React.Component {
         let tasks = this.props.tasks.map((task, index) => {
             return <TaskBoxItem key={task.id} task={task} selected={this.state.showSelectedTaskIndex && index == this.props.selectedTaskIndex} />
         })
+        let postponer
+        if (this.state.showPostponer) postponer = <Postponer task={this.getSeletectedTask()} /> 
         return (
             <div className="TaskBox">
                 <style>{taskBoxStyle}</style>
+                {postponer}
                 <div className="actions">
                     <button onClick={this.onAddClick.bind(this)}>+</button>
                 </div>
@@ -42,8 +47,12 @@ class TaskBox extends React.Component {
         firebase.child('/taskbox').push(task)
         this.setState({ adding : false })
     }
+    getSeletectedTask() {
+        return this.props.tasks[this.props.selectedTaskIndex]
+    }
     keyDown(e) {
         let selectedIndex, showSelectedTaskIndex 
+        console.log(e.which)
         switch(e.which) {
             case 40:
                 // DOWN
@@ -57,8 +66,15 @@ class TaskBox extends React.Component {
                     selectedIndex = this.props.selectedTaskIndex > -1 ? this.props.selectedTaskIndex-1 : -1
                 showSelectedTaskIndex = true
                 break
+            case 37:
+                // LEFT
+                if (this.state.showSelectedTaskIndex)
+                    this.setState({ showPostponer : true })
+                showSelectedTaskIndex = true
+                break
             case 27:
                 // ESC
+                if (this.state.showPostponer) return this.setState({ showPostponer : false })
                 if (this.state.adding) return this.setState({ adding : false })
                 showSelectedTaskIndex = false
                 break
