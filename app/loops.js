@@ -5,7 +5,8 @@ import Firebase from 'firebase/lib/firebase-web'
 
 let firebase;
 
-let emailIntervalFunc = (store) => {
+let emailSyncTimeout;
+let emailSync = (store) => {
     let state = store.getState()
     if (!state.config || !state.config.nylasToken || !state.config.nylasUrl) return
 
@@ -35,7 +36,8 @@ let emailIntervalFunc = (store) => {
 }
 
 
-let taskLaterLoop = (store) => {
+let laterSyncTimeout
+let laterSync = (store) => {
     if (firebase == undefined) return
     firebase.child('/later').once('value', snap => {
         let lateObj = snap.val()
@@ -54,6 +56,7 @@ let taskLaterLoop = (store) => {
     })
 }
 
+let taskListenerTimeout
 let taskListener = (store) => {
     // Bind and unbind to the firebase depending on if settings exist
     let state = store.getState()
@@ -81,12 +84,12 @@ let taskListener = (store) => {
 }
 
 let init = (store) => {
-    setInterval(emailIntervalFunc.bind(undefined, store), 10000)
-    setInterval(taskLaterLoop.bind(undefined, store), 10000)
-    setInterval(taskListener.bind(undefined, store), 10000)
-    emailIntervalFunc(store)
-    taskLaterLoop(store)
+    emailSync(store)
+    setInterval(emailSync.bind(undefined, store), 10000)
+    laterSync(store)
+    setInterval(laterSync.bind(undefined, store), 10000)
     taskListener(store)
+    setInterval(taskListener.bind(undefined, store), 10000)
 }
 
 export { 
