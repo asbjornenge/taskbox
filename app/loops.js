@@ -67,7 +67,7 @@ let taskListener = (store) => {
     firebase.authWithCustomToken(state.config.firebaseSecret, () => {})
     firebase.child('/taskbox').on('child_added', (snap) => {
         let task = snap.val()
-        task.id  = snap.name()
+        task.id  = snap.key()
         store.dispatch({
             type : 'ADD_TASK',
             task : task 
@@ -75,7 +75,7 @@ let taskListener = (store) => {
     })
     firebase.child('/taskbox').on('child_removed', (snap) => {
         let task = snap.val()
-        task.id  = snap.name()
+        task.id  = snap.key()
         store.dispatch({
             type : 'REMOVE_TASK',
             task : task 
