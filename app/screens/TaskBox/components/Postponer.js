@@ -1,8 +1,16 @@
 import React from 'react'
+import moment from 'moment'
+import { firebase } from '../../../loops'
 
 let options = {
     daytime : [
-        { label : 'Later Today',  id : 'later_today'  },
+        { label : 'Later Today',  id : 'later_today', handler : (task) => {
+            task.postpone = parseInt(moment().add(2, 'minute').format('x'))
+            firebase.child('later').child(task.id).set(task, (err) => {
+                if (err) return console.error(err)
+                firebase.child('taskbox').child(task.id).remove()
+            })
+        }},
         { label : 'This Evening', id : 'this_evening' },
         { label : 'Tomorrow',     id : 'tomorrow'     },
         { label : 'This Weekend', id : 'this_weekend' },
@@ -75,7 +83,7 @@ export default class Postponer extends React.Component {
     }
     postpone() {
         let postponeAction = options.daytime[this.state.selectedIndex]
-        console.log(postponeAction)
+        postponeAction.handler(this.props.task)
     }
     componentDidMount() {
         document.body.addEventListener('keydown', this.onKeyDown)

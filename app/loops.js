@@ -1,6 +1,9 @@
 import nanoxhr  from 'nanoxhr'
+import moment   from 'moment'
 import token    from 'basic-auth-token'
 import Firebase from 'firebase/lib/firebase-web'
+
+let firebase;
 
 let emailIntervalFunc = (store) => {
     let state = store.getState()
@@ -31,7 +34,26 @@ let emailIntervalFunc = (store) => {
         }) 
 }
 
-let firebase;
+
+let taskLaterLoop = (store) => {
+    if (firebase == undefined) return
+    firebase.child('/later').once('value', snap => {
+        let lateObj = snap.val()
+        if (!lateObj) return
+        let tasks = Object.keys(lateObj).map(id => {
+            return lateObj[id]
+        })
+        tasks.forEach(task => {
+            if (moment(task.postpone).isAfter(moment())) return
+            delete task.postpone
+            firebase.child('/taskbox').child(task.id).set(task, (err) => {
+                if (err) return console.error(err)
+                firebase.child('/later').child(task.id).remove()
+            })
+        })
+    })
+}
+
 let taskListener = (store) => {
     // Bind and unbind to the firebase depending on if settings exist
     let state = store.getState()
@@ -60,8 +82,10 @@ let taskListener = (store) => {
 
 let init = (store) => {
     setInterval(emailIntervalFunc.bind(undefined, store), 10000)
+    setInterval(taskLaterLoop.bind(undefined, store), 10000)
     setInterval(taskListener.bind(undefined, store), 10000)
     emailIntervalFunc(store)
+    taskLaterLoop(store)
     taskListener(store)
 }
 
