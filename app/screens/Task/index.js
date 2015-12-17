@@ -1,10 +1,11 @@
-import React        from 'react'
-import { connect }  from 'react-redux'
-import t            from 'tcomb-form'
-import assign       from 'object.assign'
-import { firebase } from '../../loops'
-import nav          from '../shared/utils/nav'
-import taskStyle    from './task.styl'
+import React         from 'react'
+import { connect }   from 'react-redux'
+import t             from 'tcomb-form'
+import assign        from 'object.assign'
+import ReactMarkdown from 'react-markdown'
+import { firebase }  from '../../loops'
+import nav           from '../shared/utils/nav'
+import taskStyle     from './task.styl'
 
 class TaskNotFound extends React.Component {
     render() {
@@ -40,7 +41,7 @@ class TaskView extends React.Component {
         return (
             <div className="TaskView">
                 <h1>{this.props.task.name}</h1>
-                <div className="summary">{this.props.task.summary}</div>
+                <ReactMarkdown source={this.props.task.summary} />
             </div>
         )
     }
