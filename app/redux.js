@@ -33,6 +33,13 @@ let reducers = (state = initialState, action) => {
             return assign({}, state, {
                 tasks : state.tasks.filter(task => task.id != action.task.id) 
             })
+        case 'UPDATE_TASK':
+            return assign({}, state, {
+                tasks : state.tasks.map(task => {
+                    if (task.id != action.task.id) return task
+                    return action.task
+                }) 
+            })
         case 'SET_SELECTED_EMAIL_INDEX':
             return assign({}, state, {
                 selectedEmailIndex : action.index 

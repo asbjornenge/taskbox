@@ -7,9 +7,11 @@ let TaskFormForm = t.struct({
     name    : t.Str
 })
 let options = {
+    auto : 'placeholders',
     fields : {
         name : {
             attrs : {
+                placeholder : 'Add a task',
                 className : 'focusMe'
             }
         }
@@ -18,7 +20,6 @@ let options = {
 
 export default class TaskForm extends React.Component {
     render() {
-        if (!this.props.adding) return <span></span>
         return (
             <div className="TaskForm">
                 <Form ref="form" type={TaskFormForm} options={options} />
@@ -35,10 +36,7 @@ export default class TaskForm extends React.Component {
         })
         this.props.addTask(task)
     }
-    componentDidUpdate(prevprops, prevstate) {
-        if (!prevprops.adding && this.props.adding) {
-            console.log('her')
-            setTimeout(() => { document.querySelector('.focusMe').focus() })
-        }
+    componentDidMount() {
+        setTimeout(() => { document.querySelector('.focusMe').focus() })
     }
 }

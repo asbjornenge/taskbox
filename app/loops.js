@@ -81,6 +81,14 @@ let taskListener = (store) => {
             task : task 
         }) 
     })
+    firebase.child('/taskbox').on('child_changed', (snap) => {
+        let task = snap.val()
+        task.id  = snap.key()
+        store.dispatch({
+            type : 'UPDATE_TASK',
+            task : task 
+        }) 
+    })
 }
 
 let init = (store) => {

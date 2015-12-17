@@ -24,6 +24,8 @@ class TaskBox extends React.Component {
         })
         let postponer
         if (this.state.showPostponer) postponer = <Postponer task={this.getSeletectedTask()} /> 
+        let form
+        if (this.state.adding) form = <TaskForm ref="form" addTask={this.addTask.bind(this)} />
         return (
             <div className="TaskBox">
                 <style>{taskBoxStyle}</style>
@@ -32,7 +34,7 @@ class TaskBox extends React.Component {
                     <button onClick={this.onAddClick.bind(this)}>+</button>
                 </div>
                 <div className="form">
-                    <TaskForm ref="form" adding={this.state.adding} addTask={this.addTask.bind(this)} />
+                   {form} 
                 </div>
                 <div className="list">
                     {tasks}
