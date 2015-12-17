@@ -17,7 +17,7 @@ let emailSync = (store) => {
         })
         .set('Authorization', `Basic ${token(state.config.nylasToken,'')}`)
         .call(res => {
-            if (res.status != 200) return
+            if (res.status != 200) return console.error(res) 
             let freshEmail = JSON.parse(res.response)
             let freshEmailIds = freshEmail.map(email => email.id)
             let currentEmailIds = state.email.map(email => email.id)

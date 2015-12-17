@@ -6,7 +6,7 @@
   "scripts": {
     "start": "taghub-build start --hot --stylus --images",
     "build": "taghub-build build --stylus --images",
-    "bundle": "taghub-build bundle",
+    "bundle": "NODE_ENV=production taghub-build bundle",
     "deploy": "gh-pages -d dist",
     "test": "BABEL_ENV=test mocha --compilers js:babel-core/register,styl:mocha-stylus-compiler -R nyan -w --check-leaks"
   },
