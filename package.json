@@ -7,6 +7,7 @@
     "start": "taghub-build start --hot --stylus --images",
     "build": "taghub-build build --stylus --images",
     "bundle": "taghub-build bundle",
+    "deploy": "gh-pages -d dist",
     "test": "BABEL_ENV=test mocha --compilers js:babel-core/register,styl:mocha-stylus-compiler -R nyan -w --check-leaks"
   },
   "repository": {
@@ -50,6 +51,7 @@
     "browserify-hmr": "^0.3.1",
     "concurrently": "^0.1.0",
     "cssnano": "^3.3.1",
+    "gh-pages": "^0.8.0",
     "imgurify": "^1.2.0",
     "livereloadify": "^2.0.0",
     "mocha": "^2.3.4",

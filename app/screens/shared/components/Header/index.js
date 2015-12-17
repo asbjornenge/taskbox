@@ -3,7 +3,7 @@ import style         from './header.styl'
 import mailIcon      from './graphics/mail.png'
 import tweetIcon     from './graphics/twitter.png'
 import listIcon      from './graphics/list.png'
-import ponyIcon      from './graphics/unicorn.png'
+import ponyIcon      from '../../graphics/taskbox.png'
 import nav           from '../../utils/nav'
 
 export default class Header extends React.Component {
