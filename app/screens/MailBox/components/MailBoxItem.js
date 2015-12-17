@@ -15,7 +15,7 @@ export default class MailBoxItem extends React.Component {
         ))
         let date = moment(this.props.email.last_message_timestamp*1000).format('MMM Do')
         return (
-            <div className={classes}>
+            <div className={classes} onClick={this.props.onClick}>
                 <div className="date">{date}</div>
                 <div className="participants">{participants}</div>
                 <div className="subject">{this.props.email.subject}</div>

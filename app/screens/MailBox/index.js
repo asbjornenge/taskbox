@@ -18,7 +18,11 @@ class MailBox extends React.Component {
     render() {
         let email = this.props.email.map((email, index) => {
             return (
-                <MailBoxItem key={email.id} email={email} selected={this.state.showSelectedEmailIndex && (index == this.props.selectedEmailIndex)} />
+                <MailBoxItem 
+                    key={email.id} 
+                    email={email}
+                    onClick={nav.navigate.bind(undefined,`/mailbox/${email.id}`)}
+                    selected={this.state.showSelectedEmailIndex && (index == this.props.selectedEmailIndex)} />
             )
         })
         return (
