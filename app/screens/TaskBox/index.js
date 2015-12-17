@@ -52,7 +52,6 @@ class TaskBox extends React.Component {
     }
     keyDown(e) {
         let selectedIndex, showSelectedTaskIndex 
-        console.log(e.which)
         switch(e.which) {
             case 40:
                 // DOWN
@@ -70,6 +69,12 @@ class TaskBox extends React.Component {
                 // LEFT
                 if (this.state.showSelectedTaskIndex)
                     this.setState({ showPostponer : true })
+                showSelectedTaskIndex = true
+                break
+            case 39:
+                // RIGHT
+                if (this.state.showSelectedTaskIndex)
+                    this.completeTask(this.getSeletectedTask())
                 showSelectedTaskIndex = true
                 break
             case 27:
@@ -107,6 +112,15 @@ class TaskBox extends React.Component {
         let state = {}
         if (showSelectedTaskIndex != undefined) state.showSelectedTaskIndex = showSelectedTaskIndex
         if (Object.keys(state).length > 0) this.setState(state)
+    }
+    getSelectedTask() {
+        return this.props.tasks[this.props.selectedTaskIndex]
+    }
+    completeTask(task) {
+        firebase.child('done').child(task.id).set(task, (err) => {
+            if (err) return console.error(err)
+            firebase.child('taskbox').child(task.id).remove()
+        })
     }
     componentDidMount() {
         window.addEventListener('keydown', this.keyDownHandler)
