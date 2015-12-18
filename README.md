@@ -6,7 +6,7 @@ TaskBox is an email client. TaskBox is inspired by [Mailbox](http://www.mailboxa
 
 I am an [Inbox Zero](http://www.43folders.com/izero) freak.  
 
-It just means that I treat my email as tasks, and my inbox as a tasklist. I also do it with tweets. Things I should read, watch, look into. They all make their way to my inbox and are turned into tasks. 
+It just means I treat my email as tasks, and my inbox as a tasklist. I also do it with tweets. Things I should read, watch, look into. They all make their way to my inbox and are turned into tasks. 
 
 I have been using [Mailbox](http://www.mailboxapp.com/) on my phone since it launched and have been really really happy with it. I was also using the desktop version before switching to Linux a while back (because docker). Naturally, I was pretty bummed when they announced they were [saying goodbye](https://blogs.dropbox.com/mailbox/2015/12/saying-goodbye/).  
 
