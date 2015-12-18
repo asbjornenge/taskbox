@@ -2,8 +2,8 @@
 
 TaskBox is an email client inspired by [Mailbox](http://www.mailboxapp.com/). 
 
-![mobile-screenshot](https://raw.githubusercontent.com/asbjornenge/taskbox/master/readme-images/iphone.png)
-![desktop-postpone-screenshot](https://raw.githubusercontent.com/asbjornenge/taskbox/master/readme-images/postpone.png)
+![mobile-screenshot](https://raw.githubusercontent.com/asbjornenge/taskbox/master/readme-images/iphone.png =250x)
+![desktop-postpone-screenshot](https://raw.githubusercontent.com/asbjornenge/taskbox/master/readme-images/postpone.png =250x)
 
 ## Story
 
