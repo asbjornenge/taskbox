@@ -25,6 +25,7 @@ Shitloads! Anything I put here is **HELP WANTED** :wink:
 * Gesture support
 * Documentation - Getting started
 * Documentation - Helping out
+* Documentation - Usage 
 * Documentation - Hosting a nylas-sync-engine
 
 **To help out, please spark a discussion by opening an [issue](issues).** :grin:
@@ -50,5 +51,10 @@ I do like and use a lot of terminal apps. I considered using [react-blessed](htt
 
 ## Getting Started 
 
-Not yet.
+This part is on purpose a little sparse atm.
 
+* Set up a firebase. 
+* Set up a nylas account.
+* Take your urls and secrets and head over to [taskbox.email](http://taskbox.email/#/settings)
+
+enjoy.
