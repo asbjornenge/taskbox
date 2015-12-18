@@ -14,22 +14,6 @@ This inflamed an itch I've been having for a while; services suck!! Unless they 
 
 [TaskBox](http://taskbox.email) is an email (& twitter) client. It provides a convenient interface for turning things onto tasks. It also support postponing tasks i the same easy way as Mailbox. It is neither [Tweetdeck](https://tweetdeck.twitter.com) nor [Google Inbox](https://www.google.com/inbox/) nor will it. TaskBox is focused around tasks. 
 
-## TODO (help wanted)
-
-Shitloads! Anything I put here is **HELP WANTED** :wink:
-
-* VISUAL DESIGN (please help)
-* UNDO !!
-* Twitter support
-* Move away from firebase (IndexDB + sync?)
-* Gesture support
-* Documentation - Getting started
-* Documentation - Helping out
-* Documentation - Usage 
-* Documentation - Hosting a nylas-sync-engine
-
-**To help out, please spark a discussion by opening an [issue](issues).** :grin:
-
 ## Design (technical)
 
 TaskBox is a webapp. It works on both mobile phones (add-to-homescreen) and desktops. I want it to be offline-first. It's not right now (keep reading), but it could and will eventually.
@@ -48,6 +32,22 @@ I know it looks like :poop: right now.
 Please HALP!  
 
 I do like and use a lot of terminal apps. I considered using [react-blessed](https://github.com/Yomguithereal/react-blessed), but I also like images and mobile phones... I still want it to look like a terminal app. At least that should be the default, to scare away muggles. But it should definately support themes. Need to hatch a good solution for that.
+
+## TODO
+
+Shitloads! Anything I put here is **HELP WANTED** :wink:
+
+* VISUAL DESIGN (please)
+* UNDO
+* Twitter support
+* Move away from firebase
+* Gesture support
+* Documentation - Getting started
+* Documentation - Helping out
+* Documentation - Usage 
+* Documentation - Hosting a nylas-sync-engine
+
+**To help out, please spark a discussion by opening an [issue](https://github.com/asbjornenge/taskbox/issues).** :grin:
 
 ## Getting Started 
 
