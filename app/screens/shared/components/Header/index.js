@@ -1,9 +1,10 @@
 import React         from 'react'
+import Svg           from '@taghub/component-svg'
 import style         from './header.styl'
 import mailIcon      from './graphics/mail.png'
 import tweetIcon     from './graphics/twitter.png'
-import listIcon      from './graphics/list.png'
-import ponyIcon      from '../../graphics/taskbox.png'
+import settingsIcon  from './graphics/settings.svg'
+import taskboxIcon   from '../../graphics/taskbox.png'
 import nav           from '../../utils/nav'
 
 export default class Header extends React.Component {
@@ -18,12 +19,12 @@ export default class Header extends React.Component {
                     <div className="TweetBoxLink screenLink" onClick={nav.navigate.bind(this, '/tweetbox')}>
                         <img src={tweetIcon} />
                     </div>
-                    <div className="TaskBoxLink screenLink" onClick={nav.navigate.bind(this, '/')}>
-                        <img src={listIcon} />
+                    <div className="SettingsLink screenLink" onClick={nav.navigate.bind(this, '/settings')}>
+                        <Svg svg={settingsIcon} />
                     </div>
                 </div>
-                <div className="Logo" onClick={nav.navigate.bind(this, '/settings')}>
-                    <img src={ponyIcon} />
+                <div className="Logo" onClick={nav.navigate.bind(this, '/')}>
+                    <img src={taskboxIcon} />
                 </div>
             </div>
         )

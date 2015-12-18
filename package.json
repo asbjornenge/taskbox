@@ -27,6 +27,7 @@
   "homepage": "https://github.com/asbjornenge/taskbox",
   "dependencies": {
     "@taghub/component-style": "^1.0.1",
+    "@taghub/component-svg": "^2.0.0",
     "@taghub/taghub-styling": "^2.0.11",
     "basic-auth-token": "^0.4.2",
     "firebase": "^2.3.2",
