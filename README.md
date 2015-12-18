@@ -23,9 +23,9 @@ Shitloads! Anything I put here is **HELP WANTED** :wink:
 * Twitter support
 * Move away from firebase (IndexDB + sync?)
 * Gesture support
-* Documentation
-** Getting started
-** Hosting a nylas-sync-engine
+* Documentation - Getting started
+* Documentation - Helping out
+* Documentation - Hosting a nylas-sync-engine
 
 **To help out, please spark a discussion by opening an [issue](issues).** :grin:
 
@@ -37,9 +37,16 @@ It uses the [nylas-sync-engine](https://github.com/nylas/sync-engine) as the ema
 
 Instead of using *labels* or *folders* in imap, TaskBox stores tasks separately. For various reasons; offline-first, adding metadata, markdown support. For now, TaskBox is using [Firebase](https://www.firebase.com/) for storing tasks. Mostly because I knew it and it's really easy to get started with. But it breaks my rule of depending on a service (ironically enough), so we are looking to replace it with IndexDB with an options sync engine maybe...? Ideas are welcome. 
 
+It's a single page app built using [React](https://facebook.github.io/react/) and bundled with [browserify](http://browserify.org/).
+
 ## Design (visual)
 
-I am REALLY NOT a visual designer. I can barely use Gimp. I do like terminal apps. I also like images and mobile phones...
+I am REALLY NOT a visual designer.  
+I can barely use Gimp.  
+I know it looks like :poop: right now.  
+Please HALP!  
+
+I do like and use a lot of terminal apps. I considered using [react-blessed](https://github.com/Yomguithereal/react-blessed), but I also like images and mobile phones... I still want it to look like a terminal app. At least that should be the default, to scare away muggles. But it should definately support themes. Need to hatch a good solution for that.
 
 ## Getting Started 
 
