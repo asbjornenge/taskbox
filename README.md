@@ -1,6 +1,6 @@
 # TaskBox 
 
-TaskBox is an email client. TaskBox is inspired by [Mailbox](http://www.mailboxapp.com/). 
+TaskBox is an email client inspired by [Mailbox](http://www.mailboxapp.com/). 
 
 ## Story
 
