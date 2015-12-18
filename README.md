@@ -8,7 +8,7 @@ I am an [Inbox Zero](http://www.43folders.com/izero) freak.
 
 It just means I treat my email as tasks, and my inbox as a tasklist. I also do it with tweets. Things I should read, watch, look into. They all make their way to my inbox and are turned into tasks. 
 
-I have been using [Mailbox](http://www.mailboxapp.com/) on my phone since it launched and have been really really happy with it. I was also using the desktop version before switching to Linux a while back (because docker). Naturally, I was pretty bummed when they announced they were [saying goodbye](https://blogs.dropbox.com/mailbox/2015/12/saying-goodbye/).  
+I have been using [Mailbox](http://www.mailboxapp.com/) on my phone since it launched and have been really really happy with it. I was also using the desktop version before switching to Linux a while back. Naturally, I was pretty bummed when they announced they were [saying goodbye](https://blogs.dropbox.com/mailbox/2015/12/saying-goodbye/).  
 
 This inflamed an itch I've been having for a while; services suck!! Unless they are [F/OSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) and I can host them myself I'm moving away. Same goes for apps. Moving to Linux and loosing the Mailbox desktop app was a pain. So, I decided to scratch back and [TaskBox](http://taskbox.email) was born.
 
