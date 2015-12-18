@@ -14,15 +14,34 @@ This inflamed an itch I've been having for a while; services suck!! Unless they 
 
 [TaskBox](http://taskbox.email) is an email (& twitter) client. It provides a convenient interface for turning things onto tasks. It also support postponing tasks i the same easy way as Mailbox. It is neither [Tweetdeck](https://tweetdeck.twitter.com) nor [Google Inbox](https://www.google.com/inbox/) nor will it. TaskBox is focused around tasks. 
 
-## TODO
+## TODO (help wanted)
 
-Shitloads!
+Shitloads! Anything I put here is **HELP WANTED** :wink:
 
-I also like terminal apps.
+* VISUAL DESIGN (please help)
+* UNDO !!
+* Twitter support
+* Move away from firebase (IndexDB + sync?)
+* Gesture support
+* Documentation
+** Getting started
+** Hosting a nylas-sync-engine
 
-Ironically I use firebase. I would prefer a indexdb sync thing.
+**To help out, please spark a discussion by opening an [issue](issues).** :grin:
 
-## Use
+## Design (technical)
+
+TaskBox is a webapp. It works on both mobile phones (add-to-homescreen) and desktops. I want it to be offline-first. It's not right now (keep reading), but it could and will eventually.
+
+It uses the [nylas-sync-engine](https://github.com/nylas/sync-engine) as the email API. It's an open source imap sync engine. I actually tried making something similar to TaskBox once before, but writing the imap sync engine was just too much work. So I was super happy when [nylas](https://www.nylas.com/) came along. To get started you can just sign up to their hosted version, but you can also host your own if you want to. 
+
+Instead of using *labels* or *folders* in imap, TaskBox stores tasks separately. For various reasons; offline-first, adding metadata, markdown support. For now, TaskBox is using [Firebase](https://www.firebase.com/) for storing tasks. Mostly because I knew it and it's really easy to get started with. But it breaks my rule of depending on a service (ironically enough), so we are looking to replace it with IndexDB with an options sync engine maybe...? Ideas are welcome. 
+
+## Design (visual)
+
+I am REALLY NOT a visual designer. I can barely use Gimp. I do like terminal apps. I also like images and mobile phones...
+
+## Getting Started 
 
 Not yet.
 
