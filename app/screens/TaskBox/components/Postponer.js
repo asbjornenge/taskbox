@@ -56,7 +56,16 @@ let options = {
                 firebase.child('taskbox').child(task.id).remove()
             })
         }},
-        { label : 'Someday',      id : 'someday'      },
+        { label : 'Someday',      id : 'someday', handler : (task) => {
+            let days = Math.floor(Math.random() * 60) + 10
+            task.postpone = parseInt(moment().add(days, 'days').startOf('day').add(9, 'hours').format('x'))
+//            let test = moment(task.postpone).format('YYYY-MM-DD HH:mm')
+//            return console.log(test)
+            firebase.child('later').child(task.id).set(task, (err) => {
+                if (err) return console.error(err)
+                firebase.child('taskbox').child(task.id).remove()
+            })
+        }},
         { label : 'Pick date',    id : 'date'         },
         { label : 'Group',        id : 'group', handler : (task, props) => {
             props.stateSetter({ showPostponer : false, showGrouper : true })
