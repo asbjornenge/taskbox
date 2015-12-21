@@ -1,5 +1,5 @@
 import React         from 'react'
-import Svg           from '@taghub/component-svg'
+import Svg           from '@asbjornenge/react-svg'
 import style         from './header.styl'
 import mailIcon      from './graphics/mail.png'
 import tweetIcon     from './graphics/twitter.png'
