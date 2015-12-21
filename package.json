@@ -4,9 +4,9 @@
   "description": "Turn your emails and tweets into tasks",
   "main": "app/index.html",
   "scripts": {
-    "start": "taghub-build start --hot --stylus --images",
-    "build": "taghub-build build --stylus --images",
-    "bundle": "NODE_ENV=production taghub-build bundle",
+    "start": "raistlin start --hot --stylus --images",
+    "build": "raistlin build --stylus --images",
+    "bundle": "NODE_ENV=production raistlin bundle",
     "deploy": "gh-pages -d dist",
     "test": "BABEL_ENV=test mocha --compilers js:babel-core/register,styl:mocha-stylus-compiler -R nyan -w --check-leaks"
   },
@@ -28,7 +28,6 @@
   "dependencies": {
     "@taghub/component-style": "^1.0.1",
     "@taghub/component-svg": "^2.0.0",
-    "@taghub/taghub-styling": "^2.0.11",
     "basic-auth-token": "^0.4.2",
     "firebase": "^2.3.2",
     "moment": "^2.10.6",
@@ -43,7 +42,7 @@
     "tiny-react-router": "^1.0.2"
   },
   "devDependencies": {
-    "@taghub/taghub-build": "^1.1.0",
+    "@asbjornenge/raistlin": "^1.1.0",
     "babel-core": "^6.1.21",
     "babel-plugin-react-transform": "^1.1.1",
     "babel-preset-es2015": "^6.1.18",
