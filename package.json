@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/asbjornenge/taskbox",
   "dependencies": {
-    "@asbjornenge/react-style": "^1.0.0",
+    "@asbjornenge/react-style": "^1.0.1",
     "@asbjornenge/react-svg": "^1.0.0",
     "basic-auth-token": "^0.4.2",
     "firebase": "^2.3.2",
