@@ -58,7 +58,9 @@ let options = {
         }},
         { label : 'Someday',      id : 'someday'      },
         { label : 'Pick date',    id : 'date'         },
-        { label : 'Group',        id : 'group'        }
+        { label : 'Group',        id : 'group', handler : (task, props) => {
+            props.stateSetter({ showPostponer : false, showGrouper : true })
+        }}
     ]
 }
 
@@ -123,7 +125,7 @@ export default class Postponer extends React.Component {
     }
     postpone() {
         let postponeAction = options.daytime[this.state.selectedIndex]
-        postponeAction.handler(this.props.task)
+        postponeAction.handler(this.props.task, this.props)
     }
     componentDidMount() {
         document.body.addEventListener('keydown', this.onKeyDown)
