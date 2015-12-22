@@ -85,11 +85,11 @@ export default class Postponer extends React.Component {
         let selections = options.daytime.map((opt, index) => {
             let classes = 'selection'
             if (this.state.selectedIndex == index) classes += ' selected'
-            return <div className={classes} key={opt.id}>{opt.label}</div>
+            return <div onClick={this.setIndexAndPostpone.bind(this,index)} className={classes} key={opt.id}>{opt.label}</div>
         })
         return (
             <div className="Postponer">
-                <div className="shader"></div>
+                <div onClick={this.closePostponer.bind(this)} className="shader"></div>
                 <div className="PostponerInner">
                     <div className="centerbox">
                         <div className="info">Postpone {this.props.task.name}</div>
@@ -131,6 +131,14 @@ export default class Postponer extends React.Component {
                 break
         }
 
+    }
+    closePostponer() {
+        this.props.stateSetter({ showPostponer : false })
+    }
+    setIndexAndPostpone(index) {
+        this.setState({ selectedIndex : index }, () => {
+            this.postpone()
+        })
     }
     postpone() {
         let postponeAction = options.daytime[this.state.selectedIndex]

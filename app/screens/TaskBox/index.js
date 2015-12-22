@@ -24,8 +24,16 @@ class TaskBox extends React.Component {
     render() {
         let tasks = this.getVisibleTasks()
             .map((task, index) => {
-                return <TaskBoxItem key={task.id} task={task} selected={this.state.showSelectedTaskIndex && index == this.props.selectedTaskIndex} />
+                return <TaskBoxItem 
+                            key={task.id} 
+                            task={task} 
+                            index={index}
+                            handleSwipeLeft={this.handleSwipeLeft.bind(this)}
+                            selected={this.state.showSelectedTaskIndex && index == this.props.selectedTaskIndex} />
             })
+//        tasks.push(
+//            <TaskBoxItem key="test" task={{id:1,name:'test'}} /> 
+//        )
         let groups = this.props.tasks.reduce((groups, task) => { // TODO: Move to some utils or class function? 
             let taskgroup = task.group ? [task.group] : []
             if (taskgroup.length == 0) return groups
@@ -90,6 +98,16 @@ class TaskBox extends React.Component {
     }
     setGroupFilter(filter) {
         this.setState({ groupFilter : filter })
+    }
+    handleSwipeLeft(task, index) {
+        this.props.dispatch({
+            type  : 'SET_SELECTED_TASK_INDEX',
+            index : index
+        })
+        // TODO: fix! does not redux offer a callback for this?
+        setTimeout(() => {
+            this.setState({ showPostponer : true })
+        },10)
     }
     keyDown(e) {
         let selectedIndex, showSelectedTaskIndex 
