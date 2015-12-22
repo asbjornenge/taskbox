@@ -29,6 +29,7 @@
     "@asbjornenge/react-style": "^1.0.1",
     "@asbjornenge/react-svg": "^1.0.0",
     "basic-auth-token": "^0.4.2",
+    "fastclick": "^1.0.6",
     "firebase": "^2.3.2",
     "moment": "^2.10.6",
     "nanoxhr": "^1.0.2",
