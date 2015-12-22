@@ -41,7 +41,7 @@ class TaskView extends React.Component {
         return (
             <div className="TaskView">
                 <h1>{this.props.task.name}</h1>
-                <ReactMarkdown source={this.props.task.summary} />
+                <ReactMarkdown source={this.props.task.summary || ''} />
             </div>
         )
     }

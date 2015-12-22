@@ -3,6 +3,7 @@ import ReactDOM        from 'react-dom'
 import { createStore } from 'redux'
 import { Provider }    from 'react-redux'
 import Router          from 'tiny-react-router'
+import injectTap       from 'react-tap-event-plugin'
 import Style           from '@asbjornenge/react-style'
 import TaskBox         from './screens/TaskBox'
 import MailBox         from './screens/MailBox'
@@ -15,6 +16,7 @@ import reducers        from './redux'
 import loops           from './loops'
 import taskboxStyle    from './app.styl'
 
+injectTap()
 let store = createStore(reducers)
 
 let routes = {

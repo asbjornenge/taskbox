@@ -8,7 +8,9 @@ export default class MailBoxItem extends React.Component {
         if (this.props.selected) classes += ' selected'
         let date = moment(this.props.task.date).format('MMM Do')
         return (
-            <div className={classes} onClick={nav.navigate.bind(undefined, `/taskbox/${this.props.task.id}`)}>
+            <div className={classes} 
+                onTouchTap={nav.navigate.bind(undefined, `/taskbox/${this.props.task.id}`)}
+                onClick={nav.navigate.bind(undefined, `/taskbox/${this.props.task.id}`)}>
                 <div className="date">{date}</div>
                 <div className="name">{this.props.task.name}</div>
                 <div className="summary">{this.props.task.summary}</div>
