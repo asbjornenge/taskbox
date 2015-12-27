@@ -3,6 +3,7 @@ import ReactDOM        from 'react-dom'
 import { createStore } from 'redux'
 import { Provider }    from 'react-redux'
 import Router          from 'tiny-react-router'
+import FastClick       from 'fastclick'
 import Style           from '@asbjornenge/react-style'
 import TaskBox         from './screens/TaskBox'
 import MailBox         from './screens/MailBox'
@@ -44,3 +45,7 @@ class TaskBoxApp extends React.Component {
 ReactDOM.render(<TaskBoxApp />, document.querySelector('#app'))
 
 loops(store)
+
+window.addEventListener('load', () => {
+  FastClick(document.body);
+})
