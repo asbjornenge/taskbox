@@ -84,10 +84,19 @@ class Task extends React.Component {
     saveTask() {
         let value = this.refs.form.refs.form.getValue()
         if (!value) return
-        firebase.child(`/taskbox/${this.props.id}`).update(value)
+        this.props.dispatch_db({
+            type  : 'DB_UPDATE_TASK',
+            task  : this.pickTask(),
+            value : assign({}, value)
+        })
+//        firebase.child(`/taskbox/${this.props.id}`).update(value)
     }
     removeTask() {
-        firebase.child(`/taskbox/${this.props.id}`).remove()
+//        firebase.child(`/taskbox/${this.props.id}`).remove()
+        this.props.dispatch_db({
+            type : 'DB_REMOVE_TASK',
+            task : this.pickTask()
+        })
         nav.navigate('/')
     }
     pickTask() {
@@ -101,6 +110,7 @@ class Task extends React.Component {
 
 export default connect(state => {
     return {
-        tasks : state.tasks
+        tasks : state.tasks,
+        dispatch_db : state.dispatch_db
     }
 })(Task)

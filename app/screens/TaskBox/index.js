@@ -93,7 +93,10 @@ class TaskBox extends React.Component {
         this.setState({ adding : !this.state.adding })
     }
     addTask(task) {
-        firebase.child('/taskbox').push(task)
+        this.props.dispatch_db({
+            type : 'DB_ADD_TASK',
+            task : task
+        })
         this.setState({ adding : false })
     }
     setGroupFilter(filter) {
@@ -197,6 +200,7 @@ class TaskBox extends React.Component {
 export default connect(state => {
     return {
         tasks : state.tasks,
+        dispatch_db : state.dispatch_db,
         selectedTaskIndex : state.selectedTaskIndex
     }
 })(TaskBox)

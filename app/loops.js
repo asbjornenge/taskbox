@@ -94,10 +94,10 @@ let taskListener = (store) => {
 let init = (store) => {
     emailSync(store)
     setInterval(emailSync.bind(undefined, store), 10000)
-    laterSync(store)
-    setInterval(laterSync.bind(undefined, store), 10000)
-    taskListener(store)
-    setInterval(taskListener.bind(undefined, store), 10000)
+//    laterSync(store)
+//    setInterval(laterSync.bind(undefined, store), 10000)
+//    taskListener(store)
+//    setInterval(taskListener.bind(undefined, store), 10000)
 }
 
 export { 

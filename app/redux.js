@@ -1,14 +1,37 @@
-import assign from 'object.assign'
+import uid             from 'uid'
+import assign          from 'object.assign'
+import PouchDB         from 'pouchdb'
+import { createStore } from 'redux'
+
+let db = new PouchDB('taskbox')
+
+// DB action handlers
+
+let db_handlers = (action) => {
+    switch(action.type) {
+        case 'DB_ADD_TASK':
+            let task = action.task
+            task.id  = uid(10)
+            task._id = task.id 
+            return db.put(action.task)
+        case 'DB_REMOVE_TASK':
+            return db.remove(action.task)
+    }
+}
+
+// Initial state
 
 let initialState = {
     config : JSON.parse(localStorage.getItem('taskbox-config')),
     tasks  : [],
     tweets : [],
     email  : [],
-    firebase : null,
     selectedEmailIndex : -1,
-    selectedTaskIndex : -1
+    selectedTaskIndex : -1,
+    dispatch_db : db_handlers
 }
+
+// State reducers
 
 let reducers = (state = initialState, action) => {
     switch(action.type) {
@@ -53,4 +76,36 @@ let reducers = (state = initialState, action) => {
     } 
 }
 
-export { reducers as default }
+// Store
+
+let store = createStore(reducers)
+
+// DB listeners
+
+var changes = db.changes({
+//  since: 'now',
+    live: true,
+    include_docs: true
+}).on('change', function(change) {
+    console.log('change', change)
+    if (change.deleted) {
+        let task = { id : change.doc._id }
+        return store.dispatch({
+            type : 'REMOVE_TASK',
+            task : task 
+        })
+    }
+    store.dispatch({
+        type : 'ADD_TASK', 
+        task : change.doc
+    })
+}).on('complete', function(info) {
+    // changes() was canceled
+    console.log('complete', info)
+}).on('error', function (err) {
+    console.log(err);
+});
+
+// Exports
+
+export { store as default }
