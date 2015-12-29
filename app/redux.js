@@ -16,6 +16,9 @@ let db_handlers = (action) => {
             return db.put(action.task)
         case 'DB_REMOVE_TASK':
             return db.remove(action.task)
+        case 'DB_UPDATE_TASK':
+            let updatedTask = assign(action.task, action.value)
+            return db.put(updatedTask)
     }
 }
 
@@ -93,6 +96,13 @@ var changes = db.changes({
         return store.dispatch({
             type : 'REMOVE_TASK',
             task : task 
+        })
+    }
+    let taskIds = store.getState().tasks.map(task => task.id)
+    if (taskIds.indexOf(change.id) >= 0) {
+        return store.dispatch({
+            type : 'UPDATE_TASK', 
+            task : change.doc
         })
     }
     store.dispatch({
