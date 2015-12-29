@@ -51,6 +51,10 @@ let reducers = (state = initialState, action) => {
             return assign({}, state, {
                 email : state.email.filter(email => email.id != action.email.id) 
             })
+        case 'SET_TASKS':
+            return assign({}, state, {
+                tasks : action.tasks
+            })
         case 'ADD_TASK':
             return assign({}, state, {
                 tasks : [action.task].concat(state.tasks)
@@ -85,36 +89,53 @@ let store = createStore(reducers)
 
 // DB listeners
 
-var changes = db.changes({
-//  since: 'now',
-    live: true,
-    include_docs: true
-}).on('change', function(change) {
-    console.log('change', change)
-    if (change.deleted) {
-        let task = { id : change.doc._id }
-        return store.dispatch({
-            type : 'REMOVE_TASK',
-            task : task 
-        })
-    }
-    let taskIds = store.getState().tasks.map(task => task.id)
-    if (taskIds.indexOf(change.id) >= 0) {
-        return store.dispatch({
-            type : 'UPDATE_TASK', 
-            task : change.doc
-        })
-    }
+db.allDocs({
+  include_docs: true
+}).then(function (result) {
+    // handle result
+    let tasks = result.rows.map(r => r.doc)
     store.dispatch({
-        type : 'ADD_TASK', 
-        task : change.doc
+        type  : 'SET_TASKS',
+        tasks : tasks
     })
-}).on('complete', function(info) {
-    // changes() was canceled
-    console.log('complete', info)
-}).on('error', function (err) {
+    bindChanges()
+    // TODO - replication
+}).catch(function (err) {
     console.log(err);
 });
+
+let bindChanges = () => {
+    var changes = db.changes({
+        since: 'now',
+        live: true,
+        include_docs: true
+    }).on('change', function(change) {
+        console.log('change', change)
+        if (change.deleted) {
+            let task = { id : change.doc._id }
+            return store.dispatch({
+                type : 'REMOVE_TASK',
+                task : task 
+            })
+        }
+        let taskIds = store.getState().tasks.map(task => task.id)
+        if (taskIds.indexOf(change.id) >= 0) {
+            return store.dispatch({
+                type : 'UPDATE_TASK', 
+                task : change.doc
+            })
+        }
+        store.dispatch({
+            type : 'ADD_TASK', 
+            task : change.doc
+        })
+    }).on('complete', function(info) {
+        // changes() was canceled
+        console.log('complete', info)
+    }).on('error', function (err) {
+        console.log(err);
+    });
+}
 
 // Exports
 
