@@ -105,7 +105,8 @@ db.allDocs({
 })
 
 let bindChanges = () => {
-    var changes = db.changes({
+    let state = store.getState()
+    db.changes({
         since: 'now',
         live: true,
         include_docs: true
@@ -118,7 +119,7 @@ let bindChanges = () => {
                 task : task 
             })
         }
-        let taskIds = store.getState().tasks.map(task => task.id)
+        let taskIds = state.tasks.map(task => task.id)
         if (taskIds.indexOf(change.id) >= 0) {
             return store.dispatch({
                 type : 'UPDATE_TASK', 
@@ -135,6 +136,13 @@ let bindChanges = () => {
     }).on('error', function (err) {
         console.log(err);
     });
+    if (state.config && state.config.replicationUrl) {
+        let opts = {
+          continuous: true
+        }
+        db.replicate.to(state.config.replicationUrl, opts)
+        db.replicate.from(state.config.replicationUrl, opts)
+    }
 }
 
 // Exports

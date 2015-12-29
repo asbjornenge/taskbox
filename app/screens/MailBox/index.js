@@ -106,9 +106,10 @@ class MailBox extends React.Component {
             email   : email,
             date    : new Date().getTime()
         }
-        firebase.child('/taskbox').push(task, () => {
-            this.archiveEmail(email)
-        })
+        console.log('taskify', task)
+//        firebase.child('/taskbox').push(task, () => {
+//            this.archiveEmail(email)
+//        })
     }
     componentDidMount() {
         window.addEventListener('keydown', this.keyDownHandler)
@@ -122,6 +123,7 @@ export default connect(state => {
     return {
         email : state.email,
         config : state.config,
+        dispatch_db :  state.dispatch_db,
         selectedEmailIndex : state.selectedEmailIndex
     }
 })(MailBox)

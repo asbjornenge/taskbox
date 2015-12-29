@@ -6,8 +6,7 @@ import settingStyle from './settings.styl'
 
 let Form = t.form.Form
 let FirebaseForm = t.struct({
-    firebaseUrl    : t.Str,
-    firebaseSecret : t.Str 
+    replicationUrl    : t.Str,
 })
 let NylasForm = t.struct({
     nylasUrl   : t.Str,
