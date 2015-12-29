@@ -102,7 +102,7 @@ db.allDocs({
     // TODO - replication
 }).catch(function (err) {
     console.log(err);
-});
+})
 
 let bindChanges = () => {
     var changes = db.changes({
