@@ -11,6 +11,7 @@ import Settings        from './screens/Settings'
 import Task            from './screens/Task'
 import Mail            from './screens/Mail'
 import Header          from './screens/shared/components/Header'
+import Footer          from './screens/shared/components/Footer'
 import store           from './redux'
 import loops           from './loops'
 import taskboxStyle    from './app.styl'
@@ -34,6 +35,7 @@ class TaskBoxApp extends React.Component {
                 <Provider store={store}>
                     <Router routes={routes} />
                 </Provider>
+                <Footer />
             </div>
         )
     }
