@@ -1,9 +1,7 @@
 import React         from 'react'
 import Svg           from '@asbjornenge/react-svg'
 import style         from './header.styl'
-import mailIcon      from './graphics/mail.png'
-import tweetIcon     from './graphics/twitter.png'
-import settingsIcon  from './graphics/settings.svg'
+import addIcon       from '../../graphics/svg/tool1067.svg'
 import taskboxIcon   from '../../graphics/taskbox.png'
 import nav           from '../../utils/nav'
 
@@ -13,8 +11,8 @@ export default class Header extends React.Component {
             <div className="Header">
                 <style>{style}</style>
                 <div className="screenLinks">
-                    <div className="SettingsLink screenLink" onClick={nav.navigate.bind(this, '/settings')}>
-                        <Svg svg={settingsIcon} />
+                    <div className="adder screenLink">
+                        <Svg svg={addIcon} />
                     </div>
                 </div>
                 <div className="Logo" onClick={nav.navigate.bind(this, '/')}>
