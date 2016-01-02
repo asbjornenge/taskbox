@@ -5,13 +5,13 @@ import { presets }          from 'react-motion'
 import Style                from '@asbjornenge/react-style'
 import flyoutStyle          from './index.styl'
 
-export default class TagHubFlyoutSidebar extends React.Component {
+export default class FlyoutSidebar extends React.Component {
     render() {
         let sidebar = this.props.animate ? 
-            <TagHubFlyoutSidebarAnimated {...this.props} /> :
-            <TagHubFlyoutSidebarBasic {...this.props} />
+            <FlyoutSidebarAnimated {...this.props} /> :
+            <FlyoutSidebarBasic {...this.props} />
         return (
-            <div className="TagHubFlyoutSidebar">
+            <div className="FlyoutSidebar">
                 <Style style={flyoutStyle} />
                 {sidebar} 
             </div>
@@ -19,7 +19,7 @@ export default class TagHubFlyoutSidebar extends React.Component {
     }
 }
 
-class TagHubFlyoutSidebarBasic extends React.Component {
+class FlyoutSidebarBasic extends React.Component {
     render() {
         if (!this.props.show) return <div></div>
         return (
@@ -33,7 +33,7 @@ class TagHubFlyoutSidebarBasic extends React.Component {
     }
 }
 
-class TagHubFlyoutSidebarAnimated extends React.Component {
+class FlyoutSidebarAnimated extends React.Component {
     render() {
         return (
             <TransitionMotion 
