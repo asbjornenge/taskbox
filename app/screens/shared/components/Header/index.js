@@ -13,12 +13,6 @@ export default class Header extends React.Component {
             <div className="Header">
                 <style>{style}</style>
                 <div className="screenLinks">
-                    <div className="MailBoxLink screenLink" onClick={nav.navigate.bind(this, '/mailbox')}>
-                        <img src={mailIcon} />
-                    </div>
-                    <div className="TweetBoxLink screenLink" onClick={nav.navigate.bind(this, '/tweetbox')}>
-                        <img src={tweetIcon} />
-                    </div>
                     <div className="SettingsLink screenLink" onClick={nav.navigate.bind(this, '/settings')}>
                         <Svg svg={settingsIcon} />
                     </div>
