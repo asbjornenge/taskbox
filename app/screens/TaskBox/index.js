@@ -3,6 +3,7 @@ import { connect }  from 'react-redux'
 import assign       from 'object.assign'
 import { firebase } from '../../loops'
 import nav          from '../shared/utils/nav'
+import Sidebar      from '../shared/components/FlyoutSidebar'
 import TaskBoxItem  from './components/TaskBoxItem'
 import TaskForm     from './components/TaskForm'
 import Postponer    from './components/Postponer'
@@ -14,12 +15,14 @@ class TaskBox extends React.Component {
         super(props)
         this.state = {
             adding : false,
+            showSidebar : false,
             showGrouper : false,
             showPostponer : false,
             showSelectedTaskIndex : false,
             groupFilter : undefined
         }
         this.keyDownHandler = this.keyDown.bind(this)
+        this.onLogoClickHandler = this.onLogoClick.bind(this)
     }
     render() {
         let tasks = this.getVisibleTasks()
@@ -76,10 +79,9 @@ class TaskBox extends React.Component {
                 <style>{taskBoxStyle}</style>
                 {postponer}
                 {grouper}
-                <div className="actions">
-                    {groupTabs}
-                    <button onClick={this.onAddClick.bind(this)}>+</button>
-                </div>
+                <Sidebar show={this.state.showSidebar} animate={true}>
+                    <div>Sidebar!!</div>
+                </Sidebar>
                 <div className="form">
                    {form} 
                 </div>
@@ -189,10 +191,15 @@ class TaskBox extends React.Component {
             firebase.child('taskbox').child(task.id).remove()
         })
     }
+    onLogoClick() {
+        this.setState({ showSidebar : !this.state.showSidebar })
+    }
     componentDidMount() {
+        this.props.emitter.on('logoclick', this.onLogoClickHandler)
         window.addEventListener('keydown', this.keyDownHandler)
     }
     componentWillUnmount() {
+        this.props.emitter.off('logoclick', this.onLogoClickHandler)
         window.removeEventListener('keydown', this.keyDownHandler)
     }
 }
@@ -200,6 +207,7 @@ class TaskBox extends React.Component {
 export default connect(state => {
     return {
         tasks : state.tasks,
+        emitter : state.emitter,
         dispatch_db : state.dispatch_db,
         selectedTaskIndex : state.selectedTaskIndex
     }

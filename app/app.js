@@ -13,6 +13,7 @@ import Mail            from './screens/Mail'
 import Header          from './screens/shared/components/Header'
 import Footer          from './screens/shared/components/Footer'
 import store           from './redux'
+import { emitter }     from './redux'
 import loops           from './loops'
 import taskboxStyle    from './app.styl'
 
@@ -31,7 +32,7 @@ class TaskBoxApp extends React.Component {
         return (
             <div className="TaskBoxApp">
                 <Style style={taskboxStyle} />
-                <Header />
+                <Header emitter={emitter} />
                 <Provider store={store}>
                     <Router routes={routes} />
                 </Provider>

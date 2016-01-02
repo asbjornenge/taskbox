@@ -1,9 +1,11 @@
 import uid             from 'uid'
+import nanoemitter     from 'nanoemitter'
 import assign          from 'object.assign'
 import PouchDB         from 'pouchdb'
 import { createStore } from 'redux'
 
 let db = new PouchDB('taskbox')
+let emitter = nanoemitter()
 
 // DB action handlers
 
@@ -31,7 +33,8 @@ let initialState = {
     email  : [],
     selectedEmailIndex : -1,
     selectedTaskIndex : -1,
-    dispatch_db : db_handlers
+    dispatch_db : db_handlers,
+    emitter : emitter
 }
 
 // State reducers
@@ -147,4 +150,4 @@ let bindChanges = () => {
 
 // Exports
 
-export { store as default }
+export { store as default, emitter }

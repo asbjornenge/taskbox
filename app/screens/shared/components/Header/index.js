@@ -15,10 +15,13 @@ export default class Header extends React.Component {
                         <Svg svg={addIcon} />
                     </div>
                 </div>
-                <div className="Logo" onClick={nav.navigate.bind(this, '/')}>
+                <div className="Logo" onClick={this.logoClick.bind(this)}>
                     <img src={taskboxIcon} />
                 </div>
             </div>
         )
+    }
+    logoClick() {
+        this.props.emitter.trigger('logoclick')
     }
 }
