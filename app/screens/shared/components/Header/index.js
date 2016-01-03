@@ -10,16 +10,24 @@ export default class Header extends React.Component {
         return (
             <div className="Header">
                 <style>{style}</style>
-                <div className="screenLinks">
-                    <div className="adder screenLink">
-                        <Svg svg={addIcon} />
-                    </div>
-                </div>
-                <div className="Logo" onClick={this.logoClick.bind(this)}>
+                <div className="logo" onClick={this.logoClick.bind(this)}>
                     <img src={taskboxIcon} />
+                </div>
+                <div className="screentitle">
+                    {this.getScreenTitleFromPath()}
+                </div>
+                <div className="adder" onClick={this.addClick.bind(this)}>
+                    <Svg svg={addIcon} />
                 </div>
             </div>
         )
+    }
+    getScreenTitleFromPath() {
+        // TODO: Change title depending on window.location.hash
+        return 'Taskbox'
+    }
+    addClick() {
+        this.props.emitter.trigger('addclick')
     }
     logoClick() {
         this.props.emitter.trigger('logoclick')

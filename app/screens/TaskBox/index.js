@@ -22,6 +22,7 @@ class TaskBox extends React.Component {
             groupFilter : undefined
         }
         this.keyDownHandler = this.keyDown.bind(this)
+        this.onAddClickHandler = this.onAddClick.bind(this)
         this.onLogoClickHandler = this.onLogoClick.bind(this)
     }
     render() {
@@ -196,10 +197,12 @@ class TaskBox extends React.Component {
     }
     componentDidMount() {
         this.props.emitter.on('logoclick', this.onLogoClickHandler)
+        this.props.emitter.on('addclick', this.onAddClickHandler)
         window.addEventListener('keydown', this.keyDownHandler)
     }
     componentWillUnmount() {
         this.props.emitter.off('logoclick', this.onLogoClickHandler)
+        this.props.emitter.off('addclick', this.onAddClickHandler)
         window.removeEventListener('keydown', this.keyDownHandler)
     }
 }
