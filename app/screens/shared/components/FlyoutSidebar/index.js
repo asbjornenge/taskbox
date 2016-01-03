@@ -52,11 +52,12 @@ class FlyoutSidebarAnimated extends React.Component {
     }
     getSidebar(interpolatedStyles) {
         let shaderStyle = {
-            right : interpolatedStyles.shader.right+'px'
+            left : interpolatedStyles.shader.left+'px'
         }
         let contentStyle = {
-            left : interpolatedStyles.content.left+'px'
+            right : interpolatedStyles.content.right+'px'
         }
+        console.log(contentStyle)
         return (
             <div className="innerAnimated">
                 <div className="shader" style={shaderStyle}></div>
@@ -68,31 +69,30 @@ class FlyoutSidebarAnimated extends React.Component {
     }
     getStyles() {
         if (!this.props.show) return {}
-        let right = 300
-        let left  = this.fullwidth - 300
+        let width = 250
         return {
             shader : {
-                right : spring(right)
+                left : spring(width)
             },
             content : {
-                left : spring(left)
+                right : spring(this.fullwidth - width)
             }
         }
     }
     getWillEnter(key) {
         if (key == 'shader') return {
-            right : spring(this.fullwidth)
+            left : spring(this.fullwidth)
         }
         if (key == 'content') return {
-            left : spring(this.fullwidth)
+            right : spring(this.fullwidth)
         }
     }
     getWillLeave(key, style) {
         if (key == 'shader') return {
-            right : spring(this.fullwidth)
+            left : spring(this.fullwidth)
         }
         if (key == 'content') return {
-            left : spring(this.fullwidth)
+            right : spring(this.fullwidth)
         }
     }
     handleResize() {
