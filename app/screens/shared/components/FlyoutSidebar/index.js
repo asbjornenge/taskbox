@@ -57,7 +57,6 @@ class FlyoutSidebarAnimated extends React.Component {
         let contentStyle = {
             right : interpolatedStyles.content.right+'px'
         }
-        console.log(contentStyle)
         return (
             <div className="innerAnimated">
                 <div className="shader" style={shaderStyle}></div>
