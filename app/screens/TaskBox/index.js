@@ -3,7 +3,7 @@ import { connect }  from 'react-redux'
 import assign       from 'object.assign'
 import { firebase } from '../../loops'
 import nav          from '../shared/utils/nav'
-import Sidebar      from '../shared/components/FlyoutSidebar'
+import Sidebar      from './components/Sidebar'
 import TaskBoxItem  from './components/TaskBoxItem'
 import TaskForm     from './components/TaskForm'
 import Postponer    from './components/Postponer'
@@ -35,38 +35,16 @@ class TaskBox extends React.Component {
                             handleSwipeLeft={this.handleSwipeLeft.bind(this)}
                             selected={this.state.showSelectedTaskIndex && index == this.props.selectedTaskIndex} />
             })
-//        tasks.push(
-//            <TaskBoxItem key="test" task={{id:1,name:'test'}} /> 
-//        )
-        let groups = this.props.tasks.reduce((groups, task) => { // TODO: Move to some utils or class function? 
-            let taskgroup = task.group ? [task.group] : []
-            if (taskgroup.length == 0) return groups
-            if (groups.indexOf(taskgroup[0]) >= 0) return groups
-            return groups.concat(taskgroup)
-        },[])
-        let groupTabs = groups.map((group, index) => {
-            let classes = "groupTab"
-            if (this.state.groupFilter == group) classes += ' selected'
-            return (
-                <span 
-                    key={group+index} 
-                    className={classes}
-                    onClick={this.setGroupFilter.bind(this, group)}>{group}</span>
-            )
-        })
-        groupTabs.push(
-            <span 
-                key="nofilter" 
-                className={"groupTab "+(this.state.groupFilter == undefined ? 'selected' : '')} 
-                onClick={this.setGroupFilter.bind(this, undefined)}>TODO</span>
-        )
         let form
-        if (this.state.adding) form = <TaskForm ref="form" addTask={this.addTask.bind(this)} />
+        if (this.state.adding) form = (
+            <TaskForm ref="form" addTask={this.addTask.bind(this)} />
+        )
         let grouper
         if (this.state.showGrouper) grouper = (
             <Grouper 
                 task={this.getSelectedTask()} 
-                groups={groups} 
+                groups={[]} 
+                dispatch_db={this.props.dispatch_db}
                 stateSetter={this.setState.bind(this)} />
         )
         let postponer
@@ -80,9 +58,10 @@ class TaskBox extends React.Component {
                 <style>{taskBoxStyle}</style>
                 {postponer}
                 {grouper}
-                <Sidebar show={this.state.showSidebar} animate={true}>
-                    <div>Sidebar!!</div>
-                </Sidebar>
+                <Sidebar 
+                    show={this.state.showSidebar} 
+                    tasks={this.props.tasks}
+                    setGroupFilter={this.setGroupFilter.bind(this)} />
                 <div className="form">
                    {form} 
                 </div>
@@ -103,7 +82,10 @@ class TaskBox extends React.Component {
         this.setState({ adding : false })
     }
     setGroupFilter(filter) {
-        this.setState({ groupFilter : filter })
+        this.setState({ 
+            groupFilter : filter,
+            showSidebar : false 
+        })
     }
     handleSwipeLeft(task, index) {
         this.props.dispatch({

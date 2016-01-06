@@ -1,6 +1,5 @@
-import React from 'react'
+import React  from 'react'
 import moment from 'moment'
-import { firebase } from '../../../loops'
 
 export default class Grouper extends React.Component {
     constructor(props) {
@@ -57,8 +56,11 @@ export default class Grouper extends React.Component {
     }
     group(name) {
         if (!name) return
-        firebase.child('/taskbox').child(this.props.task.id).child('group').set(name, (err) => {
-            if (err) return console.error(err)
+        this.props.dispatch_db({
+            type  : 'DB_UPDATE_TASK',
+            task  : this.props.task,
+            value : { group : name } 
+        }).then((res) => {
             this.props.stateSetter({ showGrouper : false })
         })
     }
@@ -69,3 +71,5 @@ export default class Grouper extends React.Component {
         document.body.removeEventListener('keydown', this.onKeyDown)
     }
 }
+
+
