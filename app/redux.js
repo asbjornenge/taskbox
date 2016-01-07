@@ -27,14 +27,15 @@ let db_handlers = (action) => {
 // Initial state
 
 let initialState = {
-    config : JSON.parse(localStorage.getItem('taskbox-config')),
-    tasks  : [],
-    tweets : [],
-    email  : [],
+    config             : JSON.parse(localStorage.getItem('taskbox-config')),
+    tasks              : [],
+    tweets             : [],
+    email              : [],
     selectedEmailIndex : -1,
-    selectedTaskIndex : -1,
-    dispatch_db : db_handlers,
-    emitter : emitter
+    selectedTaskIndex  : -1,
+    groupFilter        : undefined,
+    dispatch_db        : db_handlers,
+    emitter            : emitter
 }
 
 // State reducers
@@ -80,6 +81,10 @@ let reducers = (state = initialState, action) => {
         case 'SET_SELECTED_TASK_INDEX':
             return assign({}, state, {
                 selectedTaskIndex : action.index 
+            })
+        case 'SET_GROUP_FILTER':
+            return assign({}, state, {
+                groupFilter : action.filter 
             })
         default:
             return state

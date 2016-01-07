@@ -50,8 +50,8 @@ class TaskBox extends React.Component {
                 stateSetter={this.setState.bind(this)} />
         )
         let groupFilterBox
-        if (this.state.groupFilter) groupFilterBox = (
-            <div className="groupFilterBox" onClick={this.setGroupFilter.bind(this, undefined)}>{this.state.groupFilter}</div>
+        if (this.props.groupFilter) groupFilterBox = (
+            <div className="groupFilterBox" onClick={this.setGroupFilter.bind(this, undefined)}>{this.props.groupFilter}</div>
         )
         return (
             <div className="TaskBox">
@@ -104,8 +104,11 @@ class TaskBox extends React.Component {
         })
     }
     setGroupFilter(filter) {
+        this.props.dispatch({
+            type : 'SET_GROUP_FILTER',
+            filter : filter
+        })
         this.setState({ 
-            groupFilter : filter,
             showSidebar : false 
         })
     }
@@ -184,7 +187,7 @@ class TaskBox extends React.Component {
     }
     getVisibleTasks() {
         return this.props.tasks.filter(task => {
-            if (task.group != this.state.groupFilter) return false
+            if (task.group != this.props.groupFilter) return false
             return task.name.toLowerCase().indexOf(this.state.searchFilter.toLowerCase()) >= 0
         })
     }
@@ -218,6 +221,7 @@ export default connect(state => {
         tasks : state.tasks,
         emitter : state.emitter,
         dispatch_db : state.dispatch_db,
+        groupFilter : state.groupFilter,
         selectedTaskIndex : state.selectedTaskIndex
     }
 })(TaskBox)
