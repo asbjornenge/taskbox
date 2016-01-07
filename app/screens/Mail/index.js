@@ -43,7 +43,6 @@ class Mail extends React.Component {
     getFullThread(email) {
         if (this.querying) return
         this.querying = true
-        console.log('getting full thread')
         nanoxhr(`${this.props.config.nylasUrl}/messages`)
             .query({
                 thread_id : email.id

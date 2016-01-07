@@ -94,7 +94,6 @@ class TaskBox extends React.Component {
         })
     }
     postponeTask(task, until) {
-        console.log('postponing', until)
         this.props.dispatch_db({
             type  : 'DB_UPDATE_TASK',
             task  : task,
