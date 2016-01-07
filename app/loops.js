@@ -35,24 +35,21 @@ let emailSync = (store) => {
         }) 
 }
 
-
 let laterSyncTimeout
 let laterSync = (store) => {
-    if (firebase == undefined) return
-    firebase.child('/later').once('value', snap => {
-        let lateObj = snap.val()
-        if (!lateObj) return
-        let tasks = Object.keys(lateObj).map(id => {
-            return lateObj[id]
-        })
-        tasks.forEach(task => {
+    let state = store.getState()
+    let tasks = state.tasks
+    tasks
+        .filter(task => task.postpone != undefined)
+        .forEach(task => {
             if (moment(task.postpone).isAfter(moment())) return
             delete task.postpone
-            firebase.child('/taskbox').child(task.id).set(task, (err) => {
-                if (err) return console.error(err)
-                firebase.child('/later').child(task.id).remove()
+            delete task.group
+            state.dispatch_db({
+                type  : 'DB_UPDATE_TASK',
+                task  : task,
+                value : {}
             })
-        })
     })
 }
 
@@ -94,8 +91,8 @@ let taskListener = (store) => {
 let init = (store) => {
     emailSync(store)
     setInterval(emailSync.bind(undefined, store), 10000)
-//    laterSync(store)
-//    setInterval(laterSync.bind(undefined, store), 10000)
+    laterSync(store)
+    setInterval(laterSync.bind(undefined, store), 10000)
 //    taskListener(store)
 //    setInterval(taskListener.bind(undefined, store), 10000)
 }
