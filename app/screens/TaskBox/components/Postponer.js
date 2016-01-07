@@ -55,6 +55,7 @@ export default class Postponer extends React.Component {
             if (this.state.selectedIndex == index) classes += ' selected'
             return <div onClick={this.setIndexAndPostpone.bind(this,index)} className={classes} key={opt.id}>{opt.label}</div>
         })
+        let taskname = this.props.task ? this.props.task.name : '' // Soon to be removed
         return (
             <div className="Postponer">
                 <div className="shader"></div>
