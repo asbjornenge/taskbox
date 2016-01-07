@@ -89,8 +89,8 @@ export default class Postponer extends React.Component {
         })
         return (
             <div className="Postponer">
-                <div onClick={this.closePostponer.bind(this)} className="shader"></div>
-                <div className="PostponerInner">
+                <div className="shader"></div>
+                <div className="PostponerInner" ref="postponerInner" onClick={this.closePostponer.bind(this)}>
                     <div className="centerbox">
                         <div className="info">Postpone {this.props.task.name}</div>
                         <div className="selectorbox">
@@ -132,8 +132,9 @@ export default class Postponer extends React.Component {
         }
 
     }
-    closePostponer() {
-        this.props.stateSetter({ showPostponer : false })
+    closePostponer(e) {
+        if (e.target == this.refs.postponerInner)
+            return this.props.stateSetter({ showPostponer : false })
     }
     setIndexAndPostpone(index) {
         this.setState({ selectedIndex : index }, () => {

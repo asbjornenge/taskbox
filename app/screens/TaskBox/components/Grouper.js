@@ -16,7 +16,7 @@ export default class Grouper extends React.Component {
         return (
             <div className="Grouper">
                 <div className="shader"></div>
-                <div className="GrouperInner">
+                <div className="GrouperInner" ref="grouperInner" onClick={this.closeGrouper.bind(this)}>
                     <div className="centerbox">
                         <div className="info">Group {this.props.task.name}</div>
                         <div className="add">
@@ -50,6 +50,10 @@ export default class Grouper extends React.Component {
                 this.group()
                 break
         }
+    }
+    closeGrouper(e) {
+        if (e.target == this.refs.grouperInner)
+            return this.props.stateSetter({ showGrouper :  false })
     }
     groupFromInput() {
         this.group(this.refs.newgroup.value)
