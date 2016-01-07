@@ -1,11 +1,10 @@
 import React        from 'react'
+import ReactDOM     from 'react-dom'
 import { connect }  from 'react-redux'
 import assign       from 'object.assign'
-import { firebase } from '../../loops'
 import nav          from '../shared/utils/nav'
 import Sidebar      from './components/Sidebar'
 import TaskBoxItem  from './components/TaskBoxItem'
-import TaskForm     from './components/TaskForm'
 import Postponer    from './components/Postponer'
 import Grouper      from './components/Grouper'
 import taskBoxStyle from './taskbox.styl'
@@ -14,7 +13,6 @@ class TaskBox extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            adding : false,
             showSidebar : false,
             showGrouper : false,
             showPostponer : false,
@@ -35,10 +33,6 @@ class TaskBox extends React.Component {
                             handleSwipeLeft={this.handleSwipeLeft.bind(this)}
                             selected={this.state.showSelectedTaskIndex && index == this.props.selectedTaskIndex} />
             })
-        let form
-        if (this.state.adding) form = (
-            <TaskForm ref="form" addTask={this.addTask.bind(this)} />
-        )
         let grouper
         if (this.state.showGrouper) grouper = (
             <Grouper 
@@ -53,6 +47,10 @@ class TaskBox extends React.Component {
                 task={this.getSelectedTask()} 
                 stateSetter={this.setState.bind(this)} />
         )
+        let groupFilterBox
+        if (this.state.groupFilter) groupFilterBox = (
+            <div className="groupFilterBox" onClick={this.setGroupFilter.bind(this, undefined)}>{this.state.groupFilter}</div>
+        )
         return (
             <div className="TaskBox">
                 <style>{taskBoxStyle}</style>
@@ -63,7 +61,8 @@ class TaskBox extends React.Component {
                     tasks={this.props.tasks}
                     setGroupFilter={this.setGroupFilter.bind(this)} />
                 <div className="form">
-                   {form} 
+                    <input ref="omnibar" type="text" placeholder="Search..." onChange={this.onInputChange.bind(this)} />
+                    {groupFilterBox}
                 </div>
                 <div className="list">
                     {tasks}
@@ -72,14 +71,24 @@ class TaskBox extends React.Component {
         )
     }
     onAddClick() {
-        this.setState({ adding : !this.state.adding })
+        let value = this.refs.omnibar.value
+        if (!value) return this.refs.omnibar.focus()
+        this.addTask(value)
+        this.refs.omnibar.value = ""
     }
-    addTask(task) {
+    addTask(name) {
+        let task = {
+            name : name,
+            type : 'task',
+            date : new Date().getTime()
+        }
         this.props.dispatch_db({
             type : 'DB_ADD_TASK',
             task : task
         })
-        this.setState({ adding : false })
+    }
+    onInputChange(e) {
+        console.log(e.target.value)
     }
     setGroupFilter(filter) {
         this.setState({ 
@@ -127,27 +136,19 @@ class TaskBox extends React.Component {
             case 27:
                 // ESC
                 if (this.state.showPostponer || this.state.showGrouper) return this.setState({ showPostponer : false, showGrouper : false })
-                if (this.state.adding) return this.setState({ adding : false })
                 showSelectedTaskIndex = false
                 break
             case 13:
                 // ENTER
-                if (this.state.adding) {
-                    let value = this.refs.form.refs.form.getValue()
+                if (!this.state.showSelectedTaskIndex) {
+                    let value = this.refs.omnibar.value
                     if (!value) return
-                    let task = assign({}, value, {
-                        type : 'task',
-                        date : new Date().getTime()
-                    })
-                    this.addTask(task)
+                    this.addTask(value)
+                    this.refs.omnibar.value = ""
                 }
                 else if (this.state.showSelectedTaskIndex && this.props.selectedTaskIndex >= 0) {
                    nav.navigate(`/taskbox/${this.getSelectedTask().id}`)
                 }
-                break
-            case 187:
-                // +
-                this.setState({ adding : true })
                 break
         }
         if (selectedIndex != undefined) {
@@ -169,9 +170,10 @@ class TaskBox extends React.Component {
         return this.getVisibleTasks()[this.props.selectedTaskIndex]
     }
     completeTask(task) {
-        firebase.child('done').child(task.id).set(task, (err) => {
-            if (err) return console.error(err)
-            firebase.child('taskbox').child(task.id).remove()
+        this.props.dispatch_db({
+            type  : 'DB_UPDATE_TASK',
+            task  : task,
+            value : { group : 'done' }
         })
     }
     onLogoClick() {
