@@ -1,0 +1,20 @@
+CACHE MANIFEST
+# 30.12.2015:v2
+
+# Explicitly cached 'master entries'.
+CACHE:
+index.html
+app.js
+graphics/taskbox.png
+graphics/taskbox.ico
+
+# Resources that require the user to be online.
+NETWORK:
+*
+
+# static.html will be served if main.py is inaccessible
+# offline.jpg will be served in place of all images in images/large/
+# offline.html will be served in place of all other .html files
+#FALLBACK:
+#/main.py /static.html
+#images/large/ images/offline.jpg
