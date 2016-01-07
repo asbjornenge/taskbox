@@ -8,6 +8,7 @@ let utils = {
                 return groups.concat(taskgroup)
             },[])
             .filter(group => ['later','done'].indexOf(group) < 0)
+            .sort()
     }
 }
 
