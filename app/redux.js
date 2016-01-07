@@ -114,7 +114,6 @@ let bindChanges = () => {
         live: true,
         include_docs: true
     }).on('change', function(change) {
-        console.log('change', change)
         if (change.deleted) {
             let task = { id : change.doc._id }
             return store.dispatch({
