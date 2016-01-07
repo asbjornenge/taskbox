@@ -79,7 +79,8 @@ class TaskBox extends React.Component {
         let value = this.refs.omnibar.value
         if (!value) return this.refs.omnibar.focus()
         this.addTask(value)
-        this.refs.omnibar.value = ""
+        this.refs.omnibar.value = ''
+        this.setState({ searchFilter : '' })
     }
     addTask(name) {
         let task = {
@@ -157,7 +158,8 @@ class TaskBox extends React.Component {
                     let value = this.refs.omnibar.value
                     if (!value) return
                     this.addTask(value)
-                    this.refs.omnibar.value = ""
+                    this.refs.omnibar.value = ''
+                    this.setState({ searchFilter : '' })
                 }
                 else if (this.state.showSelectedTaskIndex && this.props.selectedTaskIndex >= 0) {
                    nav.navigate(`/taskbox/${this.getSelectedTask().id}`)
