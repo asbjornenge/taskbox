@@ -1,5 +1,6 @@
-import React  from 'react'
-import moment from 'moment'
+import React     from 'react'
+import moment    from 'moment'
+import taskUtils from '../../shared/utils/task'
 
 export default class Grouper extends React.Component {
     constructor(props) {
@@ -10,7 +11,7 @@ export default class Grouper extends React.Component {
         }
     }
     render() {
-        let cgroups = this.props.groups.map((group,index) => {
+        let cgroups = taskUtils.getUserDefinedGroups(this.props.tasks).map((group,index) => {
             return <div key={group+index} className="group" onClick={this.group.bind(this, group)}>{group}</div>
         })
         return (

@@ -38,7 +38,7 @@ class TaskBox extends React.Component {
         if (this.state.showGrouper) grouper = (
             <Grouper 
                 task={this.getSelectedTask()} 
-                groups={[]} 
+                tasks={this.props.tasks}
                 dispatch_db={this.props.dispatch_db}
                 stateSetter={this.setState.bind(this)} />
         )
