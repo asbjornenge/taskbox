@@ -5,6 +5,7 @@ import mailIcon      from '../../graphics/svg/letter121.svg'
 import tweetIcon     from '../../graphics/svg/twitter42.svg'
 import taskboxIcon   from '../../graphics/svg/check66.svg'
 import nav           from '../../utils/nav'
+import pkg           from '../../../../../package.json'
 
 export default class Footer extends React.Component {
     render() {
@@ -22,6 +23,7 @@ export default class Footer extends React.Component {
                         <Svg svg={mailIcon} />
                     </div>
                 </div>
+                <div className="version">{pkg.version}</div>
             </div>
         )
     }
