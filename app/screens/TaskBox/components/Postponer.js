@@ -4,67 +4,36 @@ import { firebase } from '../../../loops'
 
 let options = {
     daytime : [
-        { label : 'Later Today',  id : 'later_today', handler : (task) => {
-            task.postpone = parseInt(moment().add(2, 'hours').format('x'))
-            firebase.child('later').child(task.id).set(task, (err) => {
-                if (err) return console.error(err)
-                firebase.child('taskbox').child(task.id).remove()
-            })
+        { label : 'Later Today',  id : 'later_today', handler : (task, props) => {
+            let latertoday = parseInt(moment().add(2, 'hours').format('x'))
+            props.postponeTask(task, latertoday) 
         }},
-        { label : 'This Evening', id : 'this_evening', handler : (task) => {
-            task.postpone = parseInt(moment().endOf('day').subtract(4, 'hours').format('x'))
-            if (moment(task.postpone).isBefore(moment()))
-                task.postpone = parseInt(moment().add(1, 'hours').format('x'))
-//            let test = moment(task.postpone).format('YYYY-MM-DD HH:mm')
-//            console.log(test)
-            firebase.child('later').child(task.id).set(task, (err) => {
-                if (err) return console.error(err)
-                firebase.child('taskbox').child(task.id).remove()
-            })
+        { label : 'This Evening', id : 'this_evening', handler : (task, props) => {
+            let evening = parseInt(moment().endOf('day').subtract(4, 'hours').format('x'))
+            if (moment(evening).isBefore(moment()))
+                evening = parseInt(moment().add(1, 'hours').format('x'))
+            props.postponeTask(task, evening)
         }},
-        { label : 'Tomorrow',     id : 'tomorrow', handler : (task) => {
-            task.postpone = parseInt(moment().add(1,'day').startOf('day').add(7,'hours').format('x'))
-            firebase.child('later').child(task.id).set(task, (err) => {
-                if (err) return console.error(err)
-                firebase.child('taskbox').child(task.id).remove()
-            })
+        { label : 'Tomorrow',     id : 'tomorrow', handler : (task, props) => {
+            let tomorrow = parseInt(moment().add(1,'day').startOf('day').add(7,'hours').format('x'))
+            props.postponeTask(task, tomorrow)
         }},
-        { label : 'This Weekend', id : 'this_weekend', handler : (task) => {
-            task.postpone = parseInt(moment().endOf('week').startOf('day').add(9, 'hours').format('x'))
-//            let test = moment(task.postpone).format('YYYY-MM-DD HH:mm')
-//            console.log(test)
-            firebase.child('later').child(task.id).set(task, (err) => {
-                if (err) return console.error(err)
-                firebase.child('taskbox').child(task.id).remove()
-            })
+        { label : 'This Weekend', id : 'this_weekend', handler : (task, props) => {
+            let weekend = parseInt(moment().endOf('week').startOf('day').add(9, 'hours').format('x'))
+            props.postponeTask(task, weekend)
         }},
-        { label : 'Next Week',    id : 'next_week', handler : (task) => {
-            task.postpone = parseInt(moment().endOf('week').add(2, 'days').startOf('day').add(7, 'hours').format('x'))
-//            let test = moment(task.postpone).format('YYYY-MM-DD HH:mm')
-//            console.log(test)
-            firebase.child('later').child(task.id).set(task, (err) => {
-                if (err) return console.error(err)
-                firebase.child('taskbox').child(task.id).remove()
-            })
+        { label : 'Next Week',    id : 'next_week', handler : (task, props) => {
+            let nextweek = parseInt(moment().endOf('week').add(2, 'days').startOf('day').add(7, 'hours').format('x'))
+            props.postponeTask(task, nextweek)
         }},
-        { label : 'In a month',   id : 'in_a_month', handler : (task) => {
-            task.postpone = parseInt(moment().add(1, 'month').startOf('day').add(9, 'hours').format('x'))
-//            let test = moment(task.postpone).format('YYYY-MM-DD HH:mm')
-//            return console.log(test)
-            firebase.child('later').child(task.id).set(task, (err) => {
-                if (err) return console.error(err)
-                firebase.child('taskbox').child(task.id).remove()
-            })
+        { label : 'In a month',   id : 'in_a_month', handler : (task, props) => {
+            let month = parseInt(moment().add(1, 'month').startOf('day').add(9, 'hours').format('x'))
+            props.postponeTask(task, month)
         }},
-        { label : 'Someday',      id : 'someday', handler : (task) => {
+        { label : 'Someday',      id : 'someday', handler : (task, props) => {
             let days = Math.floor(Math.random() * 60) + 10
-            task.postpone = parseInt(moment().add(days, 'days').startOf('day').add(9, 'hours').format('x'))
-//            let test = moment(task.postpone).format('YYYY-MM-DD HH:mm')
-//            return console.log(test)
-            firebase.child('later').child(task.id).set(task, (err) => {
-                if (err) return console.error(err)
-                firebase.child('taskbox').child(task.id).remove()
-            })
+            let someday = parseInt(moment().add(days, 'days').startOf('day').add(9, 'hours').format('x'))
+            props.postponeTask(task, someday)
         }},
         { label : 'Pick date',    id : 'date'         },
         { label : 'Group',        id : 'group', handler : (task, props) => {

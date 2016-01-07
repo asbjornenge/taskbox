@@ -45,6 +45,7 @@ class TaskBox extends React.Component {
         if (this.state.showPostponer) postponer = (
             <Postponer 
                 task={this.getSelectedTask()} 
+                postponeTask={this.postponeTask.bind(this)}
                 stateSetter={this.setState.bind(this)} />
         )
         let groupFilterBox
@@ -70,6 +71,9 @@ class TaskBox extends React.Component {
             </div>
         )
     }
+    onInputChange(e) {
+        console.log(e.target.value)
+    }
     onAddClick() {
         let value = this.refs.omnibar.value
         if (!value) return this.refs.omnibar.focus()
@@ -87,8 +91,16 @@ class TaskBox extends React.Component {
             task : task
         })
     }
-    onInputChange(e) {
-        console.log(e.target.value)
+    postponeTask(task, until) {
+        console.log('postponing', until)
+        this.props.dispatch_db({
+            type  : 'DB_UPDATE_TASK',
+            task  : task,
+            value : { 
+                group : 'later',
+                postpone : until 
+            }
+        })
     }
     setGroupFilter(filter) {
         this.setState({ 
@@ -149,6 +161,13 @@ class TaskBox extends React.Component {
                 else if (this.state.showSelectedTaskIndex && this.props.selectedTaskIndex >= 0) {
                    nav.navigate(`/taskbox/${this.getSelectedTask().id}`)
                 }
+                break
+            case 187:
+                // +
+                if (!(this.refs.omnibar == document.activeElement))
+                    setTimeout(() => {
+                        this.refs.omnibar.focus()
+                    }, 100)
                 break
         }
         if (selectedIndex != undefined) {
