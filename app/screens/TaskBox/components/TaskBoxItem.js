@@ -13,9 +13,8 @@ export default class TaskBoxItem extends React.Component {
         var classes = 'TaskBoxItem'
         if (this.props.selected) classes += ' selected'
         let date = moment(this.props.task.date).format('MMM Do')
-//        let style = {}
-        let x = this.state.x == 0 ? 'none' : this.state.x+'px'
-        let style = { 'transform' : 'translateX('+x+')' }
+        let x = this.state.x == 0 ? 'none' : 'translateX('+this.state.x+'px)'
+        let style = { 'transform' : x }
         return (
             <div className={classes} ref="node"
                 onTouchStart={this.onTouchStart.bind(this)}
