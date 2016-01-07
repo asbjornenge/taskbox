@@ -5,7 +5,7 @@ import assign       from 'object.assign'
 import settingStyle from './settings.styl'
 
 let Form = t.form.Form
-let FirebaseForm = t.struct({
+let ReplicationForm = t.struct({
     replicationUrl    : t.Str,
 })
 let NylasForm = t.struct({
@@ -19,7 +19,7 @@ class Settings extends React.Component {
             <div className="Settings">
                 <style>{settingStyle}</style>
                 <div className="ContentView">
-                    <Form ref="firebaseform" type={FirebaseForm} value={this.props.config} />
+                    <Form ref="replicationform" type={ReplicationForm} value={this.props.config} />
                     <Form ref="nylasform" type={NylasForm} value={this.props.config} />
                     <button onClick={this.onSave.bind(this)}>Save</button>
                 </div>
@@ -27,7 +27,7 @@ class Settings extends React.Component {
         )
     }
     onSave() {
-        let fbvalue = this.refs.firebaseform.getValue()
+        let fbvalue = this.refs.replicationform.getValue()
         let nylasvalue = this.refs.nylasform.getValue()
         let value = assign({}, fbvalue, nylasvalue)
         this.props.dispatch({
