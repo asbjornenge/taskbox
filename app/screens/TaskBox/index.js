@@ -13,11 +13,12 @@ class TaskBox extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            showSidebar : false,
-            showGrouper : false,
-            showPostponer : false,
+            showSidebar           : false,
+            showGrouper           : false,
+            showPostponer         : false,
             showSelectedTaskIndex : false,
-            groupFilter : undefined
+            searchFilter          : '',
+            groupFilter           : undefined
         }
         this.keyDownHandler = this.keyDown.bind(this)
         this.onAddClickHandler = this.onAddClick.bind(this)
@@ -72,7 +73,7 @@ class TaskBox extends React.Component {
         )
     }
     onInputChange(e) {
-        console.log(e.target.value)
+        this.setState({ searchFilter : e.target.value })
     }
     onAddClick() {
         let value = this.refs.omnibar.value
@@ -182,7 +183,8 @@ class TaskBox extends React.Component {
     }
     getVisibleTasks() {
         return this.props.tasks.filter(task => {
-            return task.group == this.state.groupFilter
+            if (task.group != this.state.groupFilter) return false
+            return task.name.toLowerCase().indexOf(this.state.searchFilter.toLowerCase()) >= 0
         })
     }
     getSelectedTask() {
