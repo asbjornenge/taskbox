@@ -1,10 +1,10 @@
 {
   "name": "taskbox",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Turn your emails and tweets into tasks",
   "main": "app/index.html",
   "scripts": {
-    "start": "raistlin start --hot --stylus --images",
+    "start": "raistlin start --hot --stylus --images --host 0.0.0.0",
     "build": "raistlin build --stylus --images",
     "bundle": "NODE_ENV=production raistlin bundle",
     "deploy": "gh-pages -d dist",
