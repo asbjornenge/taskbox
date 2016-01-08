@@ -20,9 +20,6 @@ class TaskBox extends React.Component {
             searchFilter          : '',
             groupFilter           : undefined
         }
-        this.keyDownHandler = this.keyDown.bind(this)
-        this.onAddClickHandler = this.onAddClick.bind(this)
-        this.onLogoClickHandler = this.onLogoClick.bind(this)
     }
     render() {
         let tasks = this.getVisibleTasks()
@@ -76,13 +73,6 @@ class TaskBox extends React.Component {
     onInputChange(e) {
         this.setState({ searchFilter : e.target.value })
     }
-    onAddClick() {
-        let value = this.refs.omnibar.value
-        if (!value) return this.refs.omnibar.focus()
-        this.addTask(value)
-        this.refs.omnibar.value = ''
-        this.setState({ searchFilter : '' })
-    }
     addTask(name) {
         let task = {
             name : name,
@@ -126,69 +116,6 @@ class TaskBox extends React.Component {
     handleSwipeRight(task) {
         this.completeTask(task)
     }
-    keyDown(e) {
-        let selectedIndex, showSelectedTaskIndex 
-        switch(e.which) {
-            case 40:
-                // DOWN
-                if (this.state.showSelectedTaskIndex)
-                    selectedIndex = this.props.selectedTaskIndex < this.getVisibleTasks().length-1 ? this.props.selectedTaskIndex+1 : this.getVisibleTasks().length-1
-                showSelectedTaskIndex = true
-                break
-            case 38:
-                // UP 
-                if (this.state.showSelectedTaskIndex)
-                    selectedIndex = this.props.selectedTaskIndex > -1 ? this.props.selectedTaskIndex-1 : -1
-                showSelectedTaskIndex = true
-                break
-            case 37:
-                // LEFT
-                if (this.state.showSelectedTaskIndex)
-                    this.setState({ showPostponer : true })
-                showSelectedTaskIndex = true
-                break
-            case 39:
-                // RIGHT
-                if (this.state.showSelectedTaskIndex)
-                    this.completeTask(this.getSelectedTask())
-                showSelectedTaskIndex = true
-                break
-            case 27:
-                // ESC
-                if (this.state.showPostponer || this.state.showGrouper) return this.setState({ showPostponer : false, showGrouper : false })
-                showSelectedTaskIndex = false
-                break
-            case 13:
-                // ENTER
-                if (!this.state.showSelectedTaskIndex) {
-                    let value = this.refs.omnibar.value
-                    if (!value) return
-                    this.addTask(value)
-                    this.refs.omnibar.value = ''
-                    this.setState({ searchFilter : '' })
-                }
-                else if (this.state.showSelectedTaskIndex && this.props.selectedTaskIndex >= 0) {
-                   nav.navigate(`/taskbox/${this.getSelectedTask().id}`)
-                }
-                break
-            case 187:
-                // +
-                if (!(this.refs.omnibar == document.activeElement))
-                    setTimeout(() => {
-                        this.refs.omnibar.focus()
-                    }, 100)
-                break
-        }
-        if (selectedIndex != undefined) {
-            this.props.dispatch({
-                type  : 'SET_SELECTED_TASK_INDEX',
-                index : selectedIndex
-            })
-        }
-        let state = {}
-        if (showSelectedTaskIndex != undefined) state.showSelectedTaskIndex = showSelectedTaskIndex
-        if (Object.keys(state).length > 0) this.setState(state)
-    }
     getVisibleTasks() {
         return this.props.tasks.filter(task => {
             if (task.group != this.props.groupFilter) return false
@@ -208,7 +135,17 @@ class TaskBox extends React.Component {
     onLogoClick() {
         this.setState({ showSidebar : !this.state.showSidebar })
     }
+    onAddClick() {
+        let value = this.refs.omnibar.value
+        if (!value) return this.refs.omnibar.focus()
+        this.addTask(value)
+        this.refs.omnibar.value = ''
+        this.setState({ searchFilter : '' })
+    }
     componentDidMount() {
+        this.keyDownHandler = keyDown.bind(this)
+        this.onAddClickHandler = this.onAddClick.bind(this)
+        this.onLogoClickHandler = this.onLogoClick.bind(this)
         this.props.emitter.on('logoclick', this.onLogoClickHandler)
         this.props.emitter.on('addclick', this.onAddClickHandler)
         window.addEventListener('keydown', this.keyDownHandler)
@@ -218,6 +155,77 @@ class TaskBox extends React.Component {
         this.props.emitter.off('addclick', this.onAddClickHandler)
         window.removeEventListener('keydown', this.keyDownHandler)
     }
+}
+
+function keyDown(e) {
+    let selectedIndex, showSelectedTaskIndex 
+    switch(e.which) {
+        case 40:
+            // DOWN
+            if (this.state.showSelectedTaskIndex)
+                selectedIndex = this.props.selectedTaskIndex < this.getVisibleTasks().length-1 ? this.props.selectedTaskIndex+1 : this.getVisibleTasks().length-1
+            showSelectedTaskIndex = true
+            break
+        case 38:
+            // UP 
+            if (this.state.showSelectedTaskIndex)
+                selectedIndex = this.props.selectedTaskIndex > -1 ? this.props.selectedTaskIndex-1 : -1
+            showSelectedTaskIndex = true
+            break
+        case 37:
+            // LEFT
+            if (this.state.showSelectedTaskIndex)
+                this.setState({ showPostponer : true })
+            showSelectedTaskIndex = true
+            break
+        case 39:
+            // RIGHT
+            if (this.state.showSelectedTaskIndex)
+                this.completeTask(this.getSelectedTask())
+            showSelectedTaskIndex = true
+            break
+        case 27:
+            // ESC
+            if (this.state.showPostponer || this.state.showGrouper) return this.setState({ showPostponer : false, showGrouper : false })
+            showSelectedTaskIndex = false
+            break
+        case 13:
+            // ENTER
+            if (!this.state.showSelectedTaskIndex) {
+                let value = this.refs.omnibar.value
+                if (!value) return
+                this.addTask(value)
+                this.refs.omnibar.value = ''
+                this.setState({ searchFilter : '' })
+            }
+            else if (this.state.showSelectedTaskIndex && this.props.selectedTaskIndex >= 0) {
+                nav.navigate(`/taskbox/${this.getSelectedTask().id}`)
+            }
+            break
+        case 187:
+            // +
+            if (!(this.refs.omnibar == document.activeElement))
+                setTimeout(() => {
+                    this.refs.omnibar.focus()
+                }, 100)
+            break
+        case 90:
+            // z for ctrl+z
+            if (!e.ctrlKey) return
+            this.props.dispatch_db({
+                type : 'DB_UNDO'
+            })
+            break
+    }
+    if (selectedIndex != undefined) {
+        this.props.dispatch({
+            type  : 'SET_SELECTED_TASK_INDEX',
+            index : selectedIndex
+        })
+    }
+    let state = {}
+    if (showSelectedTaskIndex != undefined) state.showSelectedTaskIndex = showSelectedTaskIndex
+    if (Object.keys(state).length > 0) this.setState(state)
 }
 
 export default connect(state => {
