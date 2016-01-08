@@ -2,7 +2,6 @@ import React        from 'react'
 import { connect }  from 'react-redux'
 import nanoxhr      from 'nanoxhr'
 import token        from 'basic-auth-token'
-import { firebase } from '../../loops'
 import nav          from '../shared/utils/nav'
 import MailBoxItem  from './components/MailBoxItem'
 import mailBoxStyle from './mailbox.styl'
@@ -106,9 +105,11 @@ class MailBox extends React.Component {
             email   : email,
             date    : new Date().getTime()
         }
-        firebase.child('/taskbox').push(task, () => {
-            this.archiveEmail(email)
+        this.props.dispatch_db({
+            type : 'DB_ADD_TASK',
+            task : task
         })
+        this.archiveEmail(email)
     }
     componentDidMount() {
         window.addEventListener('keydown', this.keyDownHandler)
@@ -122,6 +123,7 @@ export default connect(state => {
     return {
         email : state.email,
         config : state.config,
+        dispatch_db :  state.dispatch_db,
         selectedEmailIndex : state.selectedEmailIndex
     }
 })(MailBox)

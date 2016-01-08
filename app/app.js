@@ -1,6 +1,5 @@
 import React           from 'react'
 import ReactDOM        from 'react-dom'
-import { createStore } from 'redux'
 import { Provider }    from 'react-redux'
 import Router          from 'tiny-react-router'
 import FastClick       from 'fastclick'
@@ -12,11 +11,11 @@ import Settings        from './screens/Settings'
 import Task            from './screens/Task'
 import Mail            from './screens/Mail'
 import Header          from './screens/shared/components/Header'
-import reducers        from './redux'
+import Footer          from './screens/shared/components/Footer'
+import store           from './redux'
+import { emitter }     from './redux'
 import loops           from './loops'
 import taskboxStyle    from './app.styl'
-
-let store = createStore(reducers)
 
 let routes = {
     '/'            : TaskBox,
@@ -33,10 +32,11 @@ class TaskBoxApp extends React.Component {
         return (
             <div className="TaskBoxApp">
                 <Style style={taskboxStyle} />
-                <Header />
+                <Header emitter={emitter} />
                 <Provider store={store}>
                     <Router routes={routes} />
                 </Provider>
+                <Footer />
             </div>
         )
     }

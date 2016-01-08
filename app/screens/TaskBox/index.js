@@ -1,10 +1,10 @@
 import React        from 'react'
+import ReactDOM     from 'react-dom'
 import { connect }  from 'react-redux'
 import assign       from 'object.assign'
-import { firebase } from '../../loops'
 import nav          from '../shared/utils/nav'
+import Sidebar      from './components/Sidebar'
 import TaskBoxItem  from './components/TaskBoxItem'
-import TaskForm     from './components/TaskForm'
 import Postponer    from './components/Postponer'
 import Grouper      from './components/Grouper'
 import taskBoxStyle from './taskbox.styl'
@@ -13,13 +13,16 @@ class TaskBox extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            adding : false,
-            showGrouper : false,
-            showPostponer : false,
+            showSidebar           : false,
+            showGrouper           : false,
+            showPostponer         : false,
             showSelectedTaskIndex : false,
-            groupFilter : undefined
+            searchFilter          : '',
+            groupFilter           : undefined
         }
         this.keyDownHandler = this.keyDown.bind(this)
+        this.onAddClickHandler = this.onAddClick.bind(this)
+        this.onLogoClickHandler = this.onLogoClick.bind(this)
     }
     render() {
         let tasks = this.getVisibleTasks()
@@ -31,57 +34,37 @@ class TaskBox extends React.Component {
                             handleSwipeLeft={this.handleSwipeLeft.bind(this)}
                             selected={this.state.showSelectedTaskIndex && index == this.props.selectedTaskIndex} />
             })
-//        tasks.push(
-//            <TaskBoxItem key="test" task={{id:1,name:'test'}} /> 
-//        )
-        let groups = this.props.tasks.reduce((groups, task) => { // TODO: Move to some utils or class function? 
-            let taskgroup = task.group ? [task.group] : []
-            if (taskgroup.length == 0) return groups
-            if (groups.indexOf(taskgroup[0]) >= 0) return groups
-            return groups.concat(taskgroup)
-        },[])
-        let groupTabs = groups.map((group, index) => {
-            let classes = "groupTab"
-            if (this.state.groupFilter == group) classes += ' selected'
-            return (
-                <span 
-                    key={group+index} 
-                    className={classes}
-                    onClick={this.setGroupFilter.bind(this, group)}>{group}</span>
-            )
-        })
-        groupTabs.push(
-            <span 
-                key="nofilter" 
-                className={"groupTab "+(this.state.groupFilter == undefined ? 'selected' : '')} 
-                onClick={this.setGroupFilter.bind(this, undefined)}>TODO</span>
-        )
-        let form
-        if (this.state.adding) form = <TaskForm ref="form" addTask={this.addTask.bind(this)} />
         let grouper
         if (this.state.showGrouper) grouper = (
             <Grouper 
                 task={this.getSelectedTask()} 
-                groups={groups} 
+                tasks={this.props.tasks}
+                dispatch_db={this.props.dispatch_db}
                 stateSetter={this.setState.bind(this)} />
         )
         let postponer
         if (this.state.showPostponer) postponer = (
             <Postponer 
                 task={this.getSelectedTask()} 
+                postponeTask={this.postponeTask.bind(this)}
                 stateSetter={this.setState.bind(this)} />
+        )
+        let groupFilterBox
+        if (this.props.groupFilter) groupFilterBox = (
+            <div className="groupFilterBox" onClick={this.setGroupFilter.bind(this, undefined)}>{this.props.groupFilter}</div>
         )
         return (
             <div className="TaskBox">
                 <style>{taskBoxStyle}</style>
                 {postponer}
                 {grouper}
-                <div className="actions">
-                    {groupTabs}
-                    <button onClick={this.onAddClick.bind(this)}>+</button>
-                </div>
+                <Sidebar 
+                    show={this.state.showSidebar} 
+                    tasks={this.props.tasks}
+                    setGroupFilter={this.setGroupFilter.bind(this)} />
                 <div className="form">
-                   {form} 
+                    <input ref="omnibar" type="text" placeholder="Search..." onChange={this.onInputChange.bind(this)} />
+                    {groupFilterBox}
                 </div>
                 <div className="list">
                     {tasks}
@@ -89,15 +72,45 @@ class TaskBox extends React.Component {
             </div>
         )
     }
-    onAddClick() {
-        this.setState({ adding : !this.state.adding })
+    onInputChange(e) {
+        this.setState({ searchFilter : e.target.value })
     }
-    addTask(task) {
-        firebase.child('/taskbox').push(task)
-        this.setState({ adding : false })
+    onAddClick() {
+        let value = this.refs.omnibar.value
+        if (!value) return this.refs.omnibar.focus()
+        this.addTask(value)
+        this.refs.omnibar.value = ''
+        this.setState({ searchFilter : '' })
+    }
+    addTask(name) {
+        let task = {
+            name : name,
+            type : 'task',
+            date : new Date().getTime()
+        }
+        this.props.dispatch_db({
+            type : 'DB_ADD_TASK',
+            task : task
+        })
+    }
+    postponeTask(task, until) {
+        this.props.dispatch_db({
+            type  : 'DB_UPDATE_TASK',
+            task  : task,
+            value : { 
+                group : 'later',
+                postpone : until 
+            }
+        })
     }
     setGroupFilter(filter) {
-        this.setState({ groupFilter : filter })
+        this.props.dispatch({
+            type : 'SET_GROUP_FILTER',
+            filter : filter
+        })
+        this.setState({ 
+            showSidebar : false 
+        })
     }
     handleSwipeLeft(task, index) {
         this.props.dispatch({
@@ -139,19 +152,16 @@ class TaskBox extends React.Component {
             case 27:
                 // ESC
                 if (this.state.showPostponer || this.state.showGrouper) return this.setState({ showPostponer : false, showGrouper : false })
-                if (this.state.adding) return this.setState({ adding : false })
                 showSelectedTaskIndex = false
                 break
             case 13:
                 // ENTER
-                if (this.state.adding) {
-                    let value = this.refs.form.refs.form.getValue()
+                if (!this.state.showSelectedTaskIndex) {
+                    let value = this.refs.omnibar.value
                     if (!value) return
-                    let task = assign({}, value, {
-                        type : 'task',
-                        date : new Date().getTime()
-                    })
-                    this.addTask(task)
+                    this.addTask(value)
+                    this.refs.omnibar.value = ''
+                    this.setState({ searchFilter : '' })
                 }
                 else if (this.state.showSelectedTaskIndex && this.props.selectedTaskIndex >= 0) {
                    nav.navigate(`/taskbox/${this.getSelectedTask().id}`)
@@ -159,7 +169,10 @@ class TaskBox extends React.Component {
                 break
             case 187:
                 // +
-                this.setState({ adding : true })
+                if (!(this.refs.omnibar == document.activeElement))
+                    setTimeout(() => {
+                        this.refs.omnibar.focus()
+                    }, 100)
                 break
         }
         if (selectedIndex != undefined) {
@@ -174,22 +187,31 @@ class TaskBox extends React.Component {
     }
     getVisibleTasks() {
         return this.props.tasks.filter(task => {
-            return task.group == this.state.groupFilter
+            if (task.group != this.props.groupFilter) return false
+            return task.name.toLowerCase().indexOf(this.state.searchFilter.toLowerCase()) >= 0
         })
     }
     getSelectedTask() {
         return this.getVisibleTasks()[this.props.selectedTaskIndex]
     }
     completeTask(task) {
-        firebase.child('done').child(task.id).set(task, (err) => {
-            if (err) return console.error(err)
-            firebase.child('taskbox').child(task.id).remove()
+        this.props.dispatch_db({
+            type  : 'DB_UPDATE_TASK',
+            task  : task,
+            value : { group : 'done' }
         })
     }
+    onLogoClick() {
+        this.setState({ showSidebar : !this.state.showSidebar })
+    }
     componentDidMount() {
+        this.props.emitter.on('logoclick', this.onLogoClickHandler)
+        this.props.emitter.on('addclick', this.onAddClickHandler)
         window.addEventListener('keydown', this.keyDownHandler)
     }
     componentWillUnmount() {
+        this.props.emitter.off('logoclick', this.onLogoClickHandler)
+        this.props.emitter.off('addclick', this.onAddClickHandler)
         window.removeEventListener('keydown', this.keyDownHandler)
     }
 }
@@ -197,6 +219,9 @@ class TaskBox extends React.Component {
 export default connect(state => {
     return {
         tasks : state.tasks,
+        emitter : state.emitter,
+        dispatch_db : state.dispatch_db,
+        groupFilter : state.groupFilter,
         selectedTaskIndex : state.selectedTaskIndex
     }
 })(TaskBox)

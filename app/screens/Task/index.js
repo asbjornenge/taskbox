@@ -3,7 +3,6 @@ import { connect }   from 'react-redux'
 import t             from 'tcomb-form'
 import assign        from 'object.assign'
 import ReactMarkdown from 'react-markdown'
-import { firebase }  from '../../loops'
 import nav           from '../shared/utils/nav'
 import taskStyle     from './task.styl'
 
@@ -84,10 +83,17 @@ class Task extends React.Component {
     saveTask() {
         let value = this.refs.form.refs.form.getValue()
         if (!value) return
-        firebase.child(`/taskbox/${this.props.id}`).update(value)
+        this.props.dispatch_db({
+            type  : 'DB_UPDATE_TASK',
+            task  : this.pickTask(),
+            value : assign({}, value)
+        })
     }
     removeTask() {
-        firebase.child(`/taskbox/${this.props.id}`).remove()
+        this.props.dispatch_db({
+            type : 'DB_REMOVE_TASK',
+            task : this.pickTask()
+        })
         nav.navigate('/')
     }
     pickTask() {
@@ -101,6 +107,7 @@ class Task extends React.Component {
 
 export default connect(state => {
     return {
-        tasks : state.tasks
+        tasks : state.tasks,
+        dispatch_db : state.dispatch_db
     }
 })(Task)

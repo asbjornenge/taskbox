@@ -1,9 +1,6 @@
 import nanoxhr  from 'nanoxhr'
 import moment   from 'moment'
 import token    from 'basic-auth-token'
-import Firebase from 'firebase/lib/firebase-web'
-
-let firebase;
 
 let emailSyncTimeout;
 let emailSync = (store) => {
@@ -35,59 +32,21 @@ let emailSync = (store) => {
         }) 
 }
 
-
 let laterSyncTimeout
 let laterSync = (store) => {
-    if (firebase == undefined) return
-    firebase.child('/later').once('value', snap => {
-        let lateObj = snap.val()
-        if (!lateObj) return
-        let tasks = Object.keys(lateObj).map(id => {
-            return lateObj[id]
-        })
-        tasks.forEach(task => {
+    let state = store.getState()
+    let tasks = state.tasks
+    tasks
+        .filter(task => task.postpone != undefined)
+        .forEach(task => {
             if (moment(task.postpone).isAfter(moment())) return
             delete task.postpone
-            firebase.child('/taskbox').child(task.id).set(task, (err) => {
-                if (err) return console.error(err)
-                firebase.child('/later').child(task.id).remove()
+            delete task.group
+            state.dispatch_db({
+                type  : 'DB_UPDATE_TASK',
+                task  : task,
+                value : {}
             })
-        })
-    })
-}
-
-let taskListenerTimeout
-let taskListener = (store) => {
-    // Bind and unbind to the firebase depending on if settings exist
-    let state = store.getState()
-    if (!state.config || !state.config.firebaseUrl || !state.config.firebaseSecret) return
-    // TODO: Check if firebase is online ??
-    if (firebase != undefined) return
-    firebase = new Firebase(state.config.firebaseUrl)
-    firebase.authWithCustomToken(state.config.firebaseSecret, () => {})
-    firebase.child('/taskbox').on('child_added', (snap) => {
-        let task = snap.val()
-        task.id  = snap.key()
-        store.dispatch({
-            type : 'ADD_TASK',
-            task : task 
-        })        
-    })
-    firebase.child('/taskbox').on('child_removed', (snap) => {
-        let task = snap.val()
-        task.id  = snap.key()
-        store.dispatch({
-            type : 'REMOVE_TASK',
-            task : task 
-        }) 
-    })
-    firebase.child('/taskbox').on('child_changed', (snap) => {
-        let task = snap.val()
-        task.id  = snap.key()
-        store.dispatch({
-            type : 'UPDATE_TASK',
-            task : task 
-        }) 
     })
 }
 
@@ -96,11 +55,6 @@ let init = (store) => {
     setInterval(emailSync.bind(undefined, store), 10000)
     laterSync(store)
     setInterval(laterSync.bind(undefined, store), 10000)
-    taskListener(store)
-    setInterval(taskListener.bind(undefined, store), 10000)
 }
 
-export { 
-    init as default, 
-    firebase 
-}
+export { init as default }

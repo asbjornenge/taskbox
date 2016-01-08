@@ -1,6 +1,6 @@
-import React from 'react'
-import moment from 'moment'
-import { firebase } from '../../../loops'
+import React     from 'react'
+import moment    from 'moment'
+import taskUtils from '../../shared/utils/task'
 
 export default class Grouper extends React.Component {
     constructor(props) {
@@ -11,13 +11,13 @@ export default class Grouper extends React.Component {
         }
     }
     render() {
-        let cgroups = this.props.groups.map((group,index) => {
+        let cgroups = taskUtils.getUserDefinedGroups(this.props.tasks).map((group,index) => {
             return <div key={group+index} className="group" onClick={this.group.bind(this, group)}>{group}</div>
         })
         return (
             <div className="Grouper">
                 <div className="shader"></div>
-                <div className="GrouperInner">
+                <div className="GrouperInner" ref="grouperInner" onClick={this.closeGrouper.bind(this)}>
                     <div className="centerbox">
                         <div className="info">Group {this.props.task.name}</div>
                         <div className="add">
@@ -52,13 +52,20 @@ export default class Grouper extends React.Component {
                 break
         }
     }
+    closeGrouper(e) {
+        if (e.target == this.refs.grouperInner)
+            return this.props.stateSetter({ showGrouper :  false })
+    }
     groupFromInput() {
         this.group(this.refs.newgroup.value)
     }
     group(name) {
         if (!name) return
-        firebase.child('/taskbox').child(this.props.task.id).child('group').set(name, (err) => {
-            if (err) return console.error(err)
+        this.props.dispatch_db({
+            type  : 'DB_UPDATE_TASK',
+            task  : this.props.task,
+            value : { group : name } 
+        }).then((res) => {
             this.props.stateSetter({ showGrouper : false })
         })
     }
@@ -69,3 +76,5 @@ export default class Grouper extends React.Component {
         document.body.removeEventListener('keydown', this.onKeyDown)
     }
 }
+
+

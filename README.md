@@ -24,7 +24,6 @@ Anything I put here is **HELP WANTED** :wink:
 * VISUAL DESIGN (please)
 * UNDO
 * Twitter support
-* Move away from firebase
 * Gesture support
 * Documentation - Getting started
 * Documentation - Helping out
@@ -35,11 +34,12 @@ Anything I put here is **HELP WANTED** :wink:
 
 ## Design (technical)
 
-TaskBox is a webapp. It works on both mobile phones (add-to-homescreen) and desktops. I want it to be offline-first. It's not right now (keep reading), but it could and will eventually.
+TaskBox is a webapp. It works on both mobile phones (add-to-homescreen) and desktops. It works offline and can also sync to multiple devices. 
 
 It uses the [nylas-sync-engine](https://github.com/nylas/sync-engine) as the email API. It's an open source imap sync engine. I actually tried making something similar to TaskBox once before, but writing the imap sync engine was just too much work. So I was super happy when [nylas](https://www.nylas.com/) came along. To get started you can just sign up to their hosted version, but you can also host your own if you want to. 
 
-Instead of using *labels* or *folders* in imap, TaskBox stores tasks separately. For various reasons; offline-first, adding metadata, markdown support. For now, TaskBox is using [Firebase](https://www.firebase.com/) for storing tasks. Mostly because I knew it and it's really easy to get started with. But it breaks my rule of depending on a service (ironically enough), so we are looking to replace it with IndexDB with an options sync engine maybe...? Ideas are welcome. 
+Instead of using *labels* or *folders* in imap, TaskBox stores tasks separately. For various reasons; offline-first, adding metadata, markdown support. 
+TaskBox uses [puchdb](http://pouchdb.com/) for storing tasks. PouchDB is offline-first and can replicate to any couchdb.
 
 It's a single page app built using [React](https://facebook.github.io/react/) and bundled with [browserify](http://browserify.org/).
 
@@ -54,10 +54,19 @@ I do like and use a lot of terminal apps. I considered using [react-blessed](htt
 
 ## Getting Started 
 
-This part is on purpose a little sparse atm.
+Just head over to [taskbox.email](http://taskbox.email) and start adding some tasks. For mobile you can use the `add-to-homescreen` functionality to get an app icon etc. 
 
-* Set up a firebase. 
+### Email integration
+
 * Set up a nylas account.
-* Take your urls and secrets and head over to [taskbox.email](http://taskbox.email/#/settings)
+* Take your urls and secrets and head over to [settings](http://taskbox.email/#/settings)
+* Restart the app
+
+### Task sync
+
+* Set up a couchdb somewhere.
+* Create a database
+* Take the url to the database over to [settings](http://taskbox.email/#/settings)
+* Restart the app
 
 enjoy.
