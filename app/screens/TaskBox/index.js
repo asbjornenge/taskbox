@@ -32,6 +32,7 @@ class TaskBox extends React.Component {
                             task={task} 
                             index={index}
                             handleSwipeLeft={this.handleSwipeLeft.bind(this)}
+                            handleSwipeRight={this.handleSwipeRight.bind(this)}
                             selected={this.state.showSelectedTaskIndex && index == this.props.selectedTaskIndex} />
             })
         let grouper
@@ -121,6 +122,9 @@ class TaskBox extends React.Component {
         setTimeout(() => {
             this.setState({ showPostponer : true })
         },10)
+    }
+    handleSwipeRight(task) {
+        this.completeTask(task)
     }
     keyDown(e) {
         let selectedIndex, showSelectedTaskIndex 

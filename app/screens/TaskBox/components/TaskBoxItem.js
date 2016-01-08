@@ -40,6 +40,7 @@ export default class TaskBoxItem extends React.Component {
     }
     onTouchEnd(e) {
         if (this.state.x < -130) this.props.handleSwipeLeft(this.props.task, this.props.index)
+        if (this.state.x >  130) this.props.handleSwipeRight(this.props.task) 
         this.startX = 0
         this.setState({ x : 0 })
     }
