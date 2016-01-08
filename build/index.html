@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html manifest="taskbox.appcache">
     <head>
         <meta charset="utf-8">
         <title>TaskBox</title>
@@ -8,7 +8,20 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="apple-touch-icon" href="graphics/taskbox.png">
-        <!--<link rel="apple-touch-startup-image" href="graphics/nyancat.gif">-->
+
+        <!-- iPhone < 5 non-retina startup image -->
+        <link href="graphics/taskbox-splash-320x480.png"
+              media="(device-width: 320px) and (device-height: 480px)
+                     and (-webkit-device-pixel-ratio: 1)"
+              rel="apple-touch-startup-image">
+
+        <!-- iPhone 6 startup image -->
+        <link href="graphics/taskbox-splash-750x1294.png"
+              media="(device-width: 375px) and (device-height: 667px)
+                     and (-webkit-device-pixel-ratio: 2)"
+              rel="apple-touch-startup-image">
+
+
         <link rel="shortcut icon" href="graphics/taskbox.ico">
         <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
     </head>
