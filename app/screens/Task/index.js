@@ -38,7 +38,7 @@ class TaskEdit extends React.Component {
 class TaskView extends React.Component {
     render() {
         return (
-            <div className="TaskView">
+            <div className="TaskView contentselectable">
                 <h1>{this.props.task.name}</h1>
                 <ReactMarkdown source={this.props.task.summary || ''} />
             </div>
