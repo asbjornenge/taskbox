@@ -8,6 +8,7 @@ import TaskBoxItem  from './components/TaskBoxItem'
 import Postponer    from './components/Postponer'
 import Grouper      from './components/Grouper'
 import taskBoxStyle from './taskbox.styl'
+import noUserSelect from '../shared/styles/no-user-select.styl'
 
 class TaskBox extends React.Component {
     constructor(props) {
@@ -56,6 +57,7 @@ class TaskBox extends React.Component {
         return (
             <div className="TaskBox" ref="TaskBox">
                 <style>{taskBoxStyle}</style>
+                <style>{noUserSelect}</style>
                 {postponer}
                 {grouper}
                 <Sidebar 

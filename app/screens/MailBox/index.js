@@ -5,6 +5,7 @@ import token        from 'basic-auth-token'
 import nav          from '../shared/utils/nav'
 import MailBoxItem  from './components/MailBoxItem'
 import mailBoxStyle from './mailbox.styl'
+import noUserSelect from '../shared/styles/no-user-select.styl'
 
 class MailBox extends React.Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class MailBox extends React.Component {
         return (
             <div className="MailBox" ref="MailBox">
                 <style>{mailBoxStyle}</style>
+                <style>{noUserSelect}</style>
                 {email}
             </div>
         )
