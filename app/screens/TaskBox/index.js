@@ -92,6 +92,8 @@ class TaskBox extends React.Component {
                 group : 'later',
                 postpone : until 
             }
+        }).then(() => {
+            this.setState({ showPostponer : false })
         })
     }
     setGroupFilter(filter) {
