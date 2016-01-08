@@ -30,11 +30,14 @@ export default class TaskBoxItem extends React.Component {
         )
     }
     onTouchMove(e) {
+        if (this.props.scrolling) return
         let touch = e.targetTouches[0]
         let offset = touch.clientX - this.startX
+        if (Math.abs(offset) < 15) return
         this.setState({ x : offset })
     }
     onTouchStart(e) {
+        if (this.props.scrolling) return
         let touch = e.targetTouches[0]
         this.startX = touch.clientX
     }

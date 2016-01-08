@@ -13,6 +13,7 @@ class TaskBox extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            scrolling             : false,
             showSidebar           : false,
             showGrouper           : false,
             showPostponer         : false,
@@ -28,6 +29,7 @@ class TaskBox extends React.Component {
                             key={task.id} 
                             task={task} 
                             index={index}
+                            scrolling={this.state.scrolling}
                             handleSwipeLeft={this.handleSwipeLeft.bind(this)}
                             handleSwipeRight={this.handleSwipeRight.bind(this)}
                             selected={this.state.showSelectedTaskIndex && index == this.props.selectedTaskIndex} />
@@ -52,7 +54,7 @@ class TaskBox extends React.Component {
             <div className="groupFilterBox" onClick={this.setGroupFilter.bind(this, undefined)}>{this.props.groupFilter}</div>
         )
         return (
-            <div className="TaskBox">
+            <div className="TaskBox" ref="TaskBox">
                 <style>{taskBoxStyle}</style>
                 {postponer}
                 {grouper}
@@ -144,17 +146,27 @@ class TaskBox extends React.Component {
         this.refs.omnibar.value = ''
         this.setState({ searchFilter : '' })
     }
+    onScroll() {
+        if (!this.state.scrolling) this.setState({ scrolling : true })
+        clearTimeout(this.scrollTimeout)
+        this.scrollTimeout = setTimeout(() => {
+            this.setState({ scrolling : false })
+        },100)
+    }
     componentDidMount() {
         this.keyDownHandler = keyDown.bind(this)
+        this.onScrollHandler = this.onScroll.bind(this) 
         this.onAddClickHandler = this.onAddClick.bind(this)
         this.onLogoClickHandler = this.onLogoClick.bind(this)
         this.props.emitter.on('logoclick', this.onLogoClickHandler)
         this.props.emitter.on('addclick', this.onAddClickHandler)
+        this.refs.TaskBox.addEventListener('scroll', this.onScrollHandler)
         window.addEventListener('keydown', this.keyDownHandler)
     }
     componentWillUnmount() {
         this.props.emitter.off('logoclick', this.onLogoClickHandler)
         this.props.emitter.off('addclick', this.onAddClickHandler)
+        this.refs.TaskBox.removeEventListener('scroll', this.onScrollHandler)
         window.removeEventListener('keydown', this.keyDownHandler)
     }
 }
