@@ -22,10 +22,10 @@ let routes = {
     '/'            : TaskBox,
     '/taskbox'     : TaskBox,
     '/taskbox/:id' : Task,
-    '/mailbox'     : MailBox, 
+    '/mailbox'     : MailBox,
     '/mailbox/:id' : Mail,
     '/tweetbox'    : TweetBox,
-    '/settings'    : Settings 
+    '/settings'    : Settings
 }
 
 class TaskBoxApp extends React.Component {
