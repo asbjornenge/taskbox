@@ -88,6 +88,9 @@ class Task extends React.Component {
             task  : this.pickTask(),
             value : assign({}, value)
         })
+        this.setState({
+            editing: false
+        })
     }
     removeTask() {
         this.props.dispatch_db({
