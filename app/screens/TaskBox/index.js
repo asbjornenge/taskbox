@@ -151,7 +151,7 @@ class TaskBox extends React.Component {
         clearTimeout(this.scrollTimeout)
         this.scrollTimeout = setTimeout(() => {
             this.setState({ scrolling : false })
-        },100)
+        },200)
     }
     componentDidMount() {
         this.keyDownHandler = keyDown.bind(this)

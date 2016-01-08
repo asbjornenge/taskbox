@@ -10,9 +10,9 @@ class MailBox extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            scrolling : false,
             showSelectedEmailIndex : false
         }
-        this.keyDownHandler = this.handleKey.bind(this)
     }
     render() {
         let email = this.props.email.map((email, index) => {
@@ -20,64 +20,20 @@ class MailBox extends React.Component {
                 <MailBoxItem 
                     key={email.id} 
                     email={email}
+                    index={index}
+                    scrolling={this.state.scrolling}
                     onClick={nav.navigate.bind(undefined,`/mailbox/${email.id}`)}
+                    handleSwipeLeft={this.taskifyEmail.bind(this)}
+                    handleSwipeRight={this.archiveEmail.bind(this)}
                     selected={this.state.showSelectedEmailIndex && (index == this.props.selectedEmailIndex)} />
             )
         })
         return (
-            <div className="MailBox">
+            <div className="MailBox" ref="MailBox">
                 <style>{mailBoxStyle}</style>
                 {email}
             </div>
         )
-    }
-    handleKey(e) {
-        let selectedIndex, showSelectedEmailIndex
-        switch(e.which) {
-            case 40:
-                // DOWN
-                if (this.state.showSelectedEmailIndex)
-                    selectedIndex = this.props.selectedEmailIndex < this.props.email.length-1 ? this.props.selectedEmailIndex+1 : this.props.email.length-1
-                showSelectedEmailIndex = true
-                break
-            case 38:
-                // UP 
-                if (this.state.showSelectedEmailIndex)
-                    selectedIndex = this.props.selectedEmailIndex > -1 ? this.props.selectedEmailIndex-1 : -1
-                showSelectedEmailIndex = true
-                break
-            case 27:
-                // ESC
-                showSelectedEmailIndex = false
-                break
-            case 13:
-                // ENTER
-                if (this.state.showSelectedEmailIndex && this.props.selectedEmailIndex >= 0) {
-                   nav.navigate(`/mailbox/${this.props.email[this.props.selectedEmailIndex].id}`)
-                }
-                break
-            case 39:
-                // RIGHT
-                if (this.state.showSelectedEmailIndex && this.props.selectedEmailIndex >= 0) {
-                    this.archiveEmail(this.props.email[this.props.selectedEmailIndex])
-                }
-                break
-            case 37:
-                // LEFT
-                if (this.state.showSelectedEmailIndex && this.props.selectedEmailIndex >= 0) {
-                    this.taskifyEmail(this.props.email[this.props.selectedEmailIndex])
-                }
-                break
-        }
-        if (selectedIndex != undefined) {
-            this.props.dispatch({
-                type  : 'SET_SELECTED_EMAIL_INDEX',
-                index : selectedIndex
-            })
-        }
-        let state = {}
-        if (showSelectedEmailIndex != undefined) state.showSelectedEmailIndex = showSelectedEmailIndex
-        this.setState(state)
     }
     archiveEmail(email) {
         let new_labels = email.labels
@@ -111,12 +67,72 @@ class MailBox extends React.Component {
         })
         this.archiveEmail(email)
     }
+    onScroll() {
+        if (!this.state.scrolling) this.setState({ scrolling : true })
+        clearTimeout(this.scrollTimeout)
+        this.scrollTimeout = setTimeout(() => {
+            this.setState({ scrolling : false })
+        },200)
+    }
     componentDidMount() {
+        this.keyDownHandler = handleKey.bind(this)
+        this.onScrollHandler = this.onScroll.bind(this)
+        this.refs.MailBox.addEventListener('scroll', this.onScrollHandler)
         window.addEventListener('keydown', this.keyDownHandler)
     }
     componentWillUnmount() {
+        this.refs.MailBox.removeEventListener('scroll', this.onScrollHandler)
         window.removeEventListener('keydown', this.keyDownHandler)
     }
+}
+
+function handleKey(e) {
+    let selectedIndex, showSelectedEmailIndex
+    switch(e.which) {
+        case 40:
+            // DOWN
+            if (this.state.showSelectedEmailIndex)
+                selectedIndex = this.props.selectedEmailIndex < this.props.email.length-1 ? this.props.selectedEmailIndex+1 : this.props.email.length-1
+            showSelectedEmailIndex = true
+            break
+        case 38:
+            // UP 
+            if (this.state.showSelectedEmailIndex)
+                selectedIndex = this.props.selectedEmailIndex > -1 ? this.props.selectedEmailIndex-1 : -1
+            showSelectedEmailIndex = true
+            break
+        case 27:
+            // ESC
+            showSelectedEmailIndex = false
+            break
+        case 13:
+            // ENTER
+            if (this.state.showSelectedEmailIndex && this.props.selectedEmailIndex >= 0) {
+               nav.navigate(`/mailbox/${this.props.email[this.props.selectedEmailIndex].id}`)
+            }
+            break
+        case 39:
+            // RIGHT
+            if (this.state.showSelectedEmailIndex && this.props.selectedEmailIndex >= 0) {
+                this.archiveEmail(this.props.email[this.props.selectedEmailIndex])
+            }
+            break
+        case 37:
+            // LEFT
+            if (this.state.showSelectedEmailIndex && this.props.selectedEmailIndex >= 0) {
+                this.taskifyEmail(this.props.email[this.props.selectedEmailIndex])
+            }
+            break
+    }
+    if (selectedIndex != undefined) {
+        this.props.dispatch({
+            type  : 'SET_SELECTED_EMAIL_INDEX',
+            index : selectedIndex
+        })
+    }
+    let state = {}
+    if (showSelectedEmailIndex != undefined) state.showSelectedEmailIndex = showSelectedEmailIndex
+    this.setState(state)
 }
 
 export default connect(state => {
