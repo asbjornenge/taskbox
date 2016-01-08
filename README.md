@@ -34,12 +34,12 @@ Anything I put here is **HELP WANTED** :wink:
 
 ## Design (technical)
 
-TaskBox is a webapp. It works on both mobile phones (add-to-homescreen) and desktops. It works offline and can also sync to multiple devices. 
+TaskBox is a webapp. It works on both mobile phones (`add-to-homescreen`) and desktops. It works offline and can also sync to multiple devices. 
 
 It uses the [nylas-sync-engine](https://github.com/nylas/sync-engine) as the email API. It's an open source imap sync engine. I actually tried making something similar to TaskBox once before, but writing the imap sync engine was just too much work. So I was super happy when [nylas](https://www.nylas.com/) came along. To get started you can just sign up to their hosted version, but you can also host your own if you want to. 
 
 Instead of using *labels* or *folders* in imap, TaskBox stores tasks separately. For various reasons; offline-first, adding metadata, markdown support. 
-TaskBox uses [puchdb](http://pouchdb.com/) for storing tasks. PouchDB is offline-first and can replicate to any couchdb.
+TaskBox uses [PouchDB](http://pouchdb.com/) for storing tasks. PouchDB is offline-first and can replicate to any [couchdb](http://couchdb.apache.org/).
 
 It's a single page app built using [React](https://facebook.github.io/react/) and bundled with [browserify](http://browserify.org/).
 
