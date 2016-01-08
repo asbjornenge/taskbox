@@ -1,6 +1,6 @@
 {
   "name": "taskbox",
-  "version": "2.4.1",
+  "version": "2.4.3",
   "description": "Turn your emails and tweets into tasks",
   "main": "app/index.html",
   "scripts": {
@@ -36,6 +36,7 @@
     "nanoxhr": "^1.0.2",
     "object.assign": "^4.0.3",
     "pouchdb": "^5.1.0",
+    "pouchdb-undo": "^0.1.3",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-markdown": "^1.2.0",
