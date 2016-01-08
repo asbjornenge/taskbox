@@ -13,18 +13,31 @@
         &.selected
             border 1px solid red
 
-        .date
-            float right
+        .firstrow
+            display flex
+            height 30px
+            line-height 30px
+            
+            .date
+                width 80px
+                text-align right
+                flex-grow 0
+                flex-shrink 0
+
+            .subject
+                flex auto
+                color white
+                font-weight bold
+                overflow hidden
 
         .participants
+            height 20px
+            line-height 20px
+            font-size 0.8em
+            margin-bottom 2px
+            overflow hidden
             span
                 margin-right 10px
-
-        .subject
-            color white
-            font-weight bold
-            margin-top 5px
-            margin-bottom 5px
 
         .summary
             opacity 0.5
