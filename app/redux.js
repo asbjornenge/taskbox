@@ -2,14 +2,18 @@ import uid             from 'uid'
 import nanoemitter     from 'nanoemitter'
 import assign          from 'object.assign'
 import PouchDB         from 'pouchdb'
+import PouchDBUndo     from 'pouchdb-undo'
 import { createStore } from 'redux'
 
+PouchDB.plugin(PouchDBUndo)
 let db = new PouchDB('taskbox')
+db.enableUndo({ limit : 10 })
 let emitter = nanoemitter()
 
 // DB action handlers
 
-let db_handlers = (action) => {
+let db_undo_ids = []
+let db_handlers = (action, callback) => {
     switch(action.type) {
         case 'DB_ADD_TASK':
             let task = action.task
@@ -17,10 +21,19 @@ let db_handlers = (action) => {
             task._id = task.id 
             return db.put(action.task)
         case 'DB_REMOVE_TASK':
-            return db.remove(action.task)
+            return db.remove(action.task).then((res) => {
+                db_undo_ids.push(res.undoId)
+            })
         case 'DB_UPDATE_TASK':
             let updatedTask = assign(action.task, action.value)
-            return db.put(updatedTask)
+            return db.put(updatedTask).then((res) => {
+                db_undo_ids.push(res.undoId)
+            })
+        case 'DB_UNDO':
+            let lastUndoId = db_undo_ids.pop()
+            if (!lastUndoId) return
+            db.undo(lastUndoId)
+            break
     }
 }
 

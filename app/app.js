@@ -65,5 +65,8 @@ let undoShake = new Shake({
 undoShake.start()
 window.addEventListener('shake', () => {
     let a = confirm('Undo last action?')
+    if (a) store.getState().dispatch_db({
+        type : 'DB_UNDO'
+    })
 })
 
