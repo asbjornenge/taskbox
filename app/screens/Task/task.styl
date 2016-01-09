@@ -1,5 +1,7 @@
 .Task
+    display flex
     flex auto
+    flex-direction column
 
     h1
         color white
@@ -8,12 +10,18 @@
         margin-top 10px
 
     .buttons
+        flex auto
         margin-top 20px
 
     .TaskEditForm
-        label
-            display block
+        flex auto
+        display flex
+        flex-direction column
+        fieldset
+            flex auto
+            label
+                display block
 
-        textarea
-            width 400px
-            height 400px
+            textarea
+                width 100%
+                height 450px
