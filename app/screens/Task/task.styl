@@ -1,23 +1,22 @@
 .Task
-    display flex
     flex auto
+    display flex
     flex-direction column
 
-    h1
-        color white
-
-    .summary
-        margin-top 10px
-
-    .buttons
+    .TaskView
         flex auto
-        margin-top 20px
+        overflow-y scroll
+
+        h1
+            color white
 
     .TaskEditForm
         flex auto
+        overflow-y scroll
         display flex
         flex-direction column
         fieldset
+            border 0
             flex auto
             label
                 display block
@@ -25,3 +24,10 @@
             textarea
                 width 100%
                 height 450px
+
+    .buttons
+        position absolute
+        top 80px
+        right 0px
+        margin 10px
+        margin-right 20px
