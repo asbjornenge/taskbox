@@ -123,10 +123,14 @@ class TaskBox extends React.Component {
         this.completeTask(task)
     }
     getVisibleTasks() {
-        return this.props.tasks.filter(task => {
-            if (task.group != this.props.groupFilter) return false
-            return task.name.toLowerCase().indexOf(this.state.searchFilter.toLowerCase()) >= 0
-        })
+        return this.props.tasks
+            .filter(task => {
+                if (task.group != this.props.groupFilter) return false
+                return task.name.toLowerCase().indexOf(this.state.searchFilter.toLowerCase()) >= 0
+            })
+            .sort((a,b) => {
+                return b.date - a.date 
+            })
     }
     getSelectedTask() {
         return this.getVisibleTasks()[this.props.selectedTaskIndex]
