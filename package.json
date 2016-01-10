@@ -1,6 +1,6 @@
 {
   "name": "taskbox",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Turn your emails and tweets into tasks",
   "main": "app/index.html",
   "scripts": {
