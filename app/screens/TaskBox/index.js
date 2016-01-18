@@ -2,6 +2,7 @@ import React           from 'react'
 import ReactDOM        from 'react-dom'
 import { connect }     from 'react-redux'
 import assign          from 'object.assign'
+import Style           from '@asbjornenge/react-style'
 import nav             from '../shared/utils/nav'
 import Sidebar         from './components/Sidebar'
 import TaskBoxItem     from './components/TaskBoxItem'
@@ -68,7 +69,7 @@ class TaskBox extends React.Component {
             <div className="TaskBox" ref="TaskBox">
                 <style>{taskBoxStyle}</style>
                 <style>{noUserSelect}</style>
-                <style>{datePickerStyle}</style>
+                <Style style={datePickerStyle} />
                 {datepicker}
                 {postponer}
                 {grouper}

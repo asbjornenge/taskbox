@@ -37,19 +37,20 @@
     .DayPicker-NavButton--prev {
       left: 1rem;
     }
-    .DayPicker-NavButton--prev:after {
+    .DayPicker-NavButton--prev::after {
         content: "<"
-        font-size 1.2em
+        font-size: 1.2em
+        left: 1rem;
     }
 
     .DayPicker-NavButton--next {
       right: 1rem;
     }
-    .DayPicker-NavButton--next:before {
+    .DayPicker-NavButton--next::before {
         content: ">"
-        font-size 1.2em
+        font-size: 1.2em
+        left: 1rem;
     }
-
 
   .DayPicker-Caption {
     display: table-caption;
@@ -67,7 +68,7 @@
 
       .DayPicker-Weekday {
         display: table-cell;
-        padding: .5rem;
+        padding: 0.8rem;
         font-size: .875em;
         text-align: center;
         color: #8b9898;
