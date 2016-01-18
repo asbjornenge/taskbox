@@ -34,7 +34,9 @@ let options = {
             let someday = parseInt(moment().add(days, 'days').startOf('day').add(9, 'hours').format('x'))
             props.postponeTask(task, someday)
         }},
-        { label : 'Pick date',    id : 'date'         },
+        { label : 'Pick date',    id : 'date', handler: (task, props) => {
+            props.stateSetter({ showPostponer : false, showDatePicker : true })
+        }},
         { label : 'Group',        id : 'group', handler : (task, props) => {
             props.stateSetter({ showPostponer : false, showGrouper : true })
         }}

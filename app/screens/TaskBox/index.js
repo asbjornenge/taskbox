@@ -1,14 +1,16 @@
-import React        from 'react'
-import ReactDOM     from 'react-dom'
-import { connect }  from 'react-redux'
-import assign       from 'object.assign'
-import nav          from '../shared/utils/nav'
-import Sidebar      from './components/Sidebar'
-import TaskBoxItem  from './components/TaskBoxItem'
-import Postponer    from './components/Postponer'
-import Grouper      from './components/Grouper'
-import taskBoxStyle from './taskbox.styl'
-import noUserSelect from '../shared/styles/no-user-select.styl'
+import React           from 'react'
+import ReactDOM        from 'react-dom'
+import { connect }     from 'react-redux'
+import assign          from 'object.assign'
+import nav             from '../shared/utils/nav'
+import Sidebar         from './components/Sidebar'
+import TaskBoxItem     from './components/TaskBoxItem'
+import Postponer       from './components/Postponer'
+import Grouper         from './components/Grouper'
+import DatePicker      from './components/DatePicker'
+import taskBoxStyle    from './taskbox.styl'
+import datePickerStyle from './datepicker.styl'
+import noUserSelect    from '../shared/styles/no-user-select.styl'
 
 class TaskBox extends React.Component {
     constructor(props) {
@@ -17,6 +19,7 @@ class TaskBox extends React.Component {
             scrolling             : false,
             showSidebar           : false,
             showGrouper           : false,
+            showDatePicker        : false,
             showPostponer         : false,
             showSelectedTaskIndex : false,
             searchFilter          : '',
@@ -50,6 +53,13 @@ class TaskBox extends React.Component {
                 postponeTask={this.postponeTask.bind(this)}
                 stateSetter={this.setState.bind(this)} />
         )
+        let datepicker
+        if (this.state.showDatePicker) datepicker = (
+            <DatePicker
+                task={this.getSelectedTask()}
+                postponeTask={this.postponeTask.bind(this)}
+                stateSetter={this.setState.bind(this)} />
+        )
         let groupFilterBox
         if (this.props.groupFilter) groupFilterBox = (
             <div className="groupFilterBox" onClick={this.setGroupFilter.bind(this, undefined)}>{this.props.groupFilter}</div>
@@ -58,6 +68,8 @@ class TaskBox extends React.Component {
             <div className="TaskBox" ref="TaskBox">
                 <style>{taskBoxStyle}</style>
                 <style>{noUserSelect}</style>
+                <style>{datePickerStyle}</style>
+                {datepicker}
                 {postponer}
                 {grouper}
                 <Sidebar 
@@ -97,7 +109,10 @@ class TaskBox extends React.Component {
                 postpone : until 
             }
         }).then(() => {
-            this.setState({ showPostponer : false })
+            this.setState({ 
+                showPostponer  : false,
+                showDatePicker : false
+            })
         })
     }
     setGroupFilter(filter) {
@@ -206,7 +221,8 @@ function keyDown(e) {
             break
         case 27:
             // ESC
-            if (this.state.showPostponer || this.state.showGrouper) return this.setState({ showPostponer : false, showGrouper : false })
+            if (this.state.showPostponer || this.state.showGrouper || this.state.showDatePicker) 
+                return this.setState({ showPostponer : false, showGrouper : false, showDatePicker : false })
             showSelectedTaskIndex = false
             break
         case 13:
