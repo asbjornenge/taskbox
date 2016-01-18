@@ -15,9 +15,9 @@ export default class Grouper extends React.Component {
             return <div key={group+index} className="group" onClick={this.group.bind(this, group)}>{group}</div>
         })
         return (
-            <div className="Grouper">
+            <div className="Grouper OverlayMenu">
                 <div className="shader"></div>
-                <div className="GrouperInner" ref="grouperInner" onClick={this.closeGrouper.bind(this)}>
+                <div className="GrouperInner inner" ref="grouperInner" onClick={this.closeGrouper.bind(this)}>
                     <div className="centerbox">
                         <div className="info">Group {this.props.task.name}</div>
                         <div className="add">

@@ -59,9 +59,9 @@ export default class Postponer extends React.Component {
         })
         let taskname = this.props.task ? this.props.task.name : '' // Soon to be removed
         return (
-            <div className="Postponer">
+            <div className="Postponer OverlayMenu">
                 <div className="shader"></div>
-                <div className="PostponerInner" ref="postponerInner" onClick={this.closePostponer.bind(this)}>
+                <div className="PostponerInner inner" ref="postponerInner" onClick={this.closePostponer.bind(this)}>
                     <div className="centerbox">
                         <div className="info">Postpone {this.props.task.name}</div>
                         <div className="selectorbox">
