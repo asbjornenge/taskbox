@@ -5,31 +5,46 @@ import token    from 'basic-auth-token'
 let emailSyncTimeout;
 let emailSync = (store) => {
     let state = store.getState()
-    if (!state.config || !state.config.nylasToken || !state.config.nylasUrl) return
+    if (!state.config || !state.config.nylasForms) return
 
-    nanoxhr(state.config.nylasUrl+'/threads')
-        .query({ 
-            in    : 'inbox',
-            limit : 100 
-        })
-        .set('Authorization', `Basic ${token(state.config.nylasToken,'')}`)
-        .call(res => {
-            if (res.status != 200) return console.error(res) 
-            let freshEmail = JSON.parse(res.response)
-            let freshEmailIds = freshEmail.map(email => email.id)
-            let currentEmailIds = state.email.map(email => email.id)
+    state.config.nylasForms.forEach(form => {
+      nanoxhr(form.nylasUrl+'/threads')
+          .query({ 
+              in    : 'inbox',
+              limit : 100 
+          })
+          .set('Authorization', `Basic ${token(form.nylasToken,'')}`)
+          .call(res => {
+              if (res.status != 200) return console.error(res) 
+              let freshEmail = JSON.parse(res.response).map(email => {
+                email.form = form
+                return email
+              })
 
-            let newEmail = freshEmail.filter(email => currentEmailIds.indexOf(email.id) < 0)
+              let currentEmailState = store.getState().email
 
-            let email = state.email
-                .filter(email => freshEmailIds.indexOf(email.id) >= 0) // Remove what is no longer in inbox
-                .concat(newEmail) // Add new
+              let currentAccountEmail = currentEmailState
+                .filter(email => email.form.nylasToken == form.nylasToken) // Only relevant for current
 
-            store.dispatch({
-                type  : 'SET_EMAIL',
-                email : email 
-            })
-        }) 
+              let email = currentEmailState 
+                .filter(email => email.form.nylasToken != form.nylasToken) // Remove all for current account 
+                .concat(freshEmail) // Add the fresh fetch for this account
+                .map(email => { // Replace the fresh with the current - because it might have messages
+                  currentAccountEmail.forEach(currentEmail => {
+                    if (currentEmail.id == email.id) email = currentEmail
+                  })
+                  return email
+                })
+                .sort((a,b) => {
+                  return b.last_message_timestamp - a.last_message_timestamp
+                })
+
+              store.dispatch({
+                  type  : 'SET_EMAIL',
+                  email : email 
+              })
+          })
+    }) 
 }
 
 let laterSyncTimeout

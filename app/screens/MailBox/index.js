@@ -41,9 +41,9 @@ class MailBox extends React.Component {
         let new_labels = email.labels
             .filter(label => label.display_name.toLowerCase() != 'inbox')
             .map(label => label.id)
-        nanoxhr(`${this.props.config.nylasUrl}/threads/${email.id}`)
+        nanoxhr(`${email.form.nylasUrl}/threads/${email.id}`)
             .method('PUT')
-            .set('Authorization', `Basic ${token(this.props.config.nylasToken,'')}`)
+            .set('Authorization', `Basic ${token(email.form.nylasToken,'')}`)
             .data(JSON.stringify({
                 label_ids : new_labels
             }))

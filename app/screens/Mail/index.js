@@ -43,11 +43,11 @@ class Mail extends React.Component {
     getFullThread(email) {
         if (this.querying) return
         this.querying = true
-        nanoxhr(`${this.props.config.nylasUrl}/messages`)
+        nanoxhr(`${email.form.nylasUrl}/messages`)
             .query({
                 thread_id : email.id
             })
-            .set('Authorization', `Basic ${token(this.props.config.nylasToken,'')}`)
+            .set('Authorization', `Basic ${token(email.form.nylasToken,'')}`)
             .call(res => {
                 if (res.status != 200) return
                 let fullThread = JSON.parse(res.response)
