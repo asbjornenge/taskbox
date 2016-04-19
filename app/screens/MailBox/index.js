@@ -16,7 +16,11 @@ class MailBox extends React.Component {
         }
     }
     render() {
-        let email = this.props.email.map((email, index) => {
+        let email = this.props.email
+          .filter(email => {
+            return this.props.emailUnCache.indexOf(email.id) < 0
+          })
+          .map((email, index) => {
             return (
                 <MailBoxItem 
                     key={email.id} 
@@ -38,6 +42,10 @@ class MailBox extends React.Component {
         )
     }
     archiveEmail(email) {
+        this.props.dispatch({
+            type  : 'UNCACHE_EMAIL',
+            email : email
+        })
         let new_labels = email.labels
             .filter(label => label.display_name.toLowerCase() != 'inbox')
             .map(label => label.id)
@@ -142,6 +150,7 @@ export default connect(state => {
         email : state.email,
         config : state.config,
         dispatch_db :  state.dispatch_db,
+        emailUnCache : state.emailUnCache,
         selectedEmailIndex : state.selectedEmailIndex
     }
 })(MailBox)

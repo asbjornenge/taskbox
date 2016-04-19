@@ -44,6 +44,7 @@ let initialState = {
     tasks              : [],
     tweets             : [],
     email              : [],
+    emailUnCache       : [], // Temporary storage for email while waiting for Nylas
     selectedEmailIndex : -1,
     selectedTaskIndex  : -1,
     groupFilter        : undefined,
@@ -64,9 +65,13 @@ let reducers = (state = initialState, action) => {
             return assign({}, state, { 
                 email : action.email
             })
+        case 'UNCACHE_EMAIL':
+            return assign({}, state, {
+                emailUnCache : [action.email.id].concat(state.emailUnCache)
+            })
         case 'REMOVE_EMAIL':
             return assign({}, state, {
-                email : state.email.filter(email => email.id != action.email.id) 
+                email : state.email.filter(email => email.id != action.email.id)
             })
         case 'SET_TASKS':
             return assign({}, state, {
