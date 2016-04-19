@@ -1,5 +1,5 @@
 $top = 60px
-$bottom = 60px
+$bottom = 70px
 $width = 250px
 
 .FlyoutSidebar
@@ -15,6 +15,7 @@ $width = 250px
             bottom 0
             z-index 999 
             background-color rgba(0,0,0,0.5)
+            margin-bottom $bottom
 
         .content
             overflow hidden
@@ -23,6 +24,7 @@ $width = 250px
             left 0
             bottom 0
             z-index 999 
+            margin-bottom $bottom
             background-color white
             overflow-y scroll
             -webkit-overflow-scrolling touch
@@ -41,10 +43,12 @@ $width = 250px
         .shader
             flex auto
             background-color rgba(0,0,0,0.5)
+            margin-bottom $bottom
 
         .content
             width $width
             background-color white
+            margin-bottom $bottom
             overflow-y scroll
             -webkit-overflow-scrolling touch
             &::-webkit-scrollbar
