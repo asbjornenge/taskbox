@@ -7,7 +7,14 @@ let emailSync = (store) => {
     let state = store.getState()
     if (!state.config || !state.config.nylasForms) return
 
-    state.config.nylasForms.forEach(form => {
+    let accounts = state.config.nylasForms.concat((state.config.nylasAccounts || []).map(account => {
+      return {
+        nylasToken : account.access_token,
+        nylasUrl   : 'https://api.nylas.com'
+      }
+    }))
+
+    accounts.forEach(form => {
       nanoxhr(form.nylasUrl+'/threads')
           .query({ 
               in    : 'inbox',
