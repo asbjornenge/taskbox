@@ -2,6 +2,7 @@ import React        from 'react'
 import { connect }  from 'react-redux'
 import nanoxhr      from 'nanoxhr'
 import token        from 'basic-auth-token'
+import htmlToText   from 'html-to-text'
 import nav          from '../shared/utils/nav'
 import MailBoxItem  from './components/MailBoxItem'
 import mailBoxStyle from './mailbox.styl'
@@ -64,18 +65,25 @@ class MailBox extends React.Component {
             })
     }
     taskifyEmail(email) {
-        let task = {
-            type    : 'email',
-            name    : email.subject,
-            summary : email.snippet,
-            email   : email,
-            date    : new Date().getTime()
-        }
-        this.props.dispatch_db({
-            type : 'DB_ADD_TASK',
-            task : task
-        })
-        this.archiveEmail(email)
+        nanoxhr(`${email.form.nylasUrl}/messages/${email.message_ids[0]}`)
+            .set('Authorization', `Basic ${token(email.form.nylasToken,'')}`)
+            .call(res => {
+                if (res.status != 200) return
+                let message = JSON.parse(res.response)
+                let text = htmlToText.fromString(message.body)
+                let task = {
+                    type    : 'email',
+                    name    : email.subject,
+                    summary : text,
+                    email   : email,
+                    date    : new Date().getTime()
+                }
+                this.props.dispatch_db({
+                    type : 'DB_ADD_TASK',
+                    task : task
+                })
+                this.archiveEmail(email)
+            })
     }
     onScroll() {
         if (!this.state.scrolling) this.setState({ scrolling : true })

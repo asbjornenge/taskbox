@@ -31,6 +31,7 @@
     "basic-auth-token": "^0.4.2",
     "fastclick": "^1.0.6",
     "firebase": "^2.3.2",
+    "html-to-text": "^2.1.3",
     "moment": "^2.10.6",
     "nanoemitter": "0.0.2",
     "nanoxhr": "^1.0.2",
