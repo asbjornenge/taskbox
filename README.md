@@ -20,6 +20,10 @@ This inflamed an itch I've been having for a while; services suck!! Unless they 
 
 ## Changelog
 
+### 2.12.1
+
+* Fixed issues with grouper - added scroll + size + filter
+
 ### 2.12.0
 
 * When taskify emails, full content of initial email message -> task summary (before we used a "snippet" provided by nylas)
