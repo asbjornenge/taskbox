@@ -7,13 +7,19 @@ export default class Grouper extends React.Component {
         super(props)
         this.onKeyDown = this.keyDown.bind(this) 
         this.state = {
-            selectedIndex : 0
+            selectedIndex : 0,
+            filter: ''
         }
     }
     render() {
-        let cgroups = taskUtils.getUserDefinedGroups(this.props.tasks).map((group,index) => {
-            return <div key={group+index} className="group" onClick={this.group.bind(this, group)}>{group}</div>
-        })
+        let cgroups = taskUtils.getUserDefinedGroups(this.props.tasks)
+          .filter((group) => {
+            if (this.state.filter == '') return true
+            return group.toLowerCase().indexOf(this.state.filter.toLowerCase()) >= 0
+          })
+          .map((group,index) => {
+              return <div key={group+index} className="group" onClick={this.group.bind(this, group)}>{group}</div>
+          })
         return (
             <div className="Grouper OverlayMenu">
                 <div className="shader"></div>
@@ -21,7 +27,7 @@ export default class Grouper extends React.Component {
                     <div className="centerbox">
                         <div className="info">Group {this.props.task.name}</div>
                         <div className="add">
-                            <input ref="newgroup" type="text" placeholder="Add to a new group" />
+                            <input ref="newgroup" type="text" placeholder="Add to a new group" onChange={this.changeFilter.bind(this)} />
                             <button onClick={this.groupFromInput.bind(this)}>Add</button>
                         </div>
                         <div className="selectorbox">
@@ -31,6 +37,9 @@ export default class Grouper extends React.Component {
                 </div>
             </div>
         )
+    }
+    changeFilter(e) {
+      this.setState({ filter: e.target.value })
     }
     keyDown(e) {
         if ([37,38,39,40,13].indexOf(e.which) >= 0)
