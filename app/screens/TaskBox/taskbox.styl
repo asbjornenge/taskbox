@@ -1,3 +1,21 @@
+
+$taskbox-input()
+  color white
+  border 1px solid #ccc
+  background-color black
+  display block
+  height 40px
+  line-height 40px
+  font-size 1.15em
+  text-indent 5px
+  -webkit-appearance none
+  margin 0
+  padding 0
+  padding-top 1px
+  padding-bottom 1px
+  border-radius 0
+
+
 .TaskBox
     flex auto
     overflow-y scroll
@@ -113,17 +131,38 @@
 
     .Grouper
         .centerbox
+            .add
+              display flex
+              margin-left 15px
+              margin-right 25px
+              margin-bottom 10px
+              input
+                flex auto
+                $taskbox-input()
+                height 30px
+                line-height 30px
+                font-size 1em
+              button
+                color white
+                background-color black
+                border 1px solid white
+                border-left 0
+
             .selectorbox
                 margin-left 10px
                 margin-right 10px
                 padding-bottom 10px
+                height 350px
+                overflow scroll
 
                 .group
                     display block
                     height 30px
+                    line-height 30px
                     border 1px solid pink
                     flex-shrink 0
                     margin 5px
+                    padding 5px
 
                     &.selected
                         border 1px solid red
